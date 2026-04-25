@@ -16,15 +16,32 @@ import (
 // interacting with the micro API. You should not instantiate this client directly,
 // and instead use the [NewClient] method instead.
 type Client struct {
-	Options       []option.RequestOption
-	Prism         *PrismService
-	Contacts      *ContactService
+	Options []option.RequestOption
+	// The Prism query engine provides generic read/write access to any object type
+	// using a single unified API surface.
+	Prism *PrismService
+	// Contacts represent individual people in Micro. Each contact can have a name,
+	// email, phone, title, and custom properties, and can be linked to an
+	// organization.
+	Contacts *ContactService
+	// Organizations represent companies or teams in Micro. Contacts and deals can be
+	// associated with an organization.
 	Organizations *OrganizationService
-	Identities    *IdentityService
-	Deals         *DealService
-	Actions       *ActionService
-	Events        *EventService
-	Documents     *DocumentService
+	// Identities link multiple contacts together as the same real-world person,
+	// deduplicating people who appear in different contexts.
+	Identities *IdentityService
+	// Deals track opportunities moving through a pipeline — fundraising rounds, sales
+	// opportunities, hiring candidates, or any custom workflow.
+	Deals *DealService
+	// Actions are tasks and to-dos that can be assigned to contacts, organizations, or
+	// deals, with a status, due date, and priority.
+	Actions *ActionService
+	// Events are calendar items — meetings, calls, and appointments — automatically
+	// captured from your connected calendar accounts.
+	Events *EventService
+	// Documents are rich-text notes attached to contacts, organizations, or deals,
+	// used for meeting notes, research, or context.
+	Documents *DocumentService
 }
 
 // DefaultClientOptions read from the environment (MICRO_API_KEY, MICRO_BASE_URL).

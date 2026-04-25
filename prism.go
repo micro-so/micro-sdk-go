@@ -15,6 +15,9 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
+// The Prism query engine provides generic read/write access to any object type
+// using a single unified API surface.
+//
 // PrismService contains methods and other services that help with interacting with
 // the micro API.
 //
@@ -22,9 +25,15 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewPrismService] method instead.
 type PrismService struct {
-	Options  []option.RequestOption
-	Grant    *PrismGrantService
-	Query    *PrismQueryService
+	Options []option.RequestOption
+	// The Prism query engine provides generic read/write access to any object type
+	// using a single unified API surface.
+	Grant *PrismGrantService
+	// The Prism query engine provides generic read/write access to any object type
+	// using a single unified API surface.
+	Query *PrismQueryService
+	// The Prism query engine provides generic read/write access to any object type
+	// using a single unified API surface.
 	Metadata *PrismMetadataService
 }
 

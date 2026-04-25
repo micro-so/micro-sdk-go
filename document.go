@@ -15,6 +15,9 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
+// Documents are rich-text notes attached to contacts, organizations, or deals,
+// used for meeting notes, research, or context.
+//
 // DocumentService contains methods and other services that help with interacting
 // with the micro API.
 //

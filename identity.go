@@ -15,6 +15,9 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
+// Identities link multiple contacts together as the same real-world person,
+// deduplicating people who appear in different contexts.
+//
 // IdentityService contains methods and other services that help with interacting
 // with the micro API.
 //

@@ -15,6 +15,10 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
+// Contacts represent individual people in Micro. Each contact can have a name,
+// email, phone, title, and custom properties, and can be linked to an
+// organization.
+//
 // ContactService contains methods and other services that help with interacting
 // with the micro API.
 //

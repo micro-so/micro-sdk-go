@@ -15,6 +15,9 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
+// Organizations represent companies or teams in Micro. Contacts and deals can be
+// associated with an organization.
+//
 // OrganizationService contains methods and other services that help with
 // interacting with the micro API.
 //

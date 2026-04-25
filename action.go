@@ -15,6 +15,9 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
+// Actions are tasks and to-dos that can be assigned to contacts, organizations, or
+// deals, with a status, due date, and priority.
+//
 // ActionService contains methods and other services that help with interacting
 // with the micro API.
 //
