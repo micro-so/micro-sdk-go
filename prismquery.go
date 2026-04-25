@@ -101,12 +101,11 @@ const (
 	PrismQueryExecuteParamsObjectTypeOrganization  PrismQueryExecuteParamsObjectType = "organization"
 	PrismQueryExecuteParamsObjectTypeContact       PrismQueryExecuteParamsObjectType = "contact"
 	PrismQueryExecuteParamsObjectTypeAction        PrismQueryExecuteParamsObjectType = "action"
-	PrismQueryExecuteParamsObjectTypeEvent         PrismQueryExecuteParamsObjectType = "event"
 )
 
 func (r PrismQueryExecuteParamsObjectType) IsKnown() bool {
 	switch r {
-	case PrismQueryExecuteParamsObjectTypeDeal, PrismQueryExecuteParamsObjectTypeIdentity, PrismQueryExecuteParamsObjectTypeAIChatThread, PrismQueryExecuteParamsObjectTypeAIChatMessage, PrismQueryExecuteParamsObjectTypeDocument, PrismQueryExecuteParamsObjectTypeOrganization, PrismQueryExecuteParamsObjectTypeContact, PrismQueryExecuteParamsObjectTypeAction, PrismQueryExecuteParamsObjectTypeEvent:
+	case PrismQueryExecuteParamsObjectTypeDeal, PrismQueryExecuteParamsObjectTypeIdentity, PrismQueryExecuteParamsObjectTypeAIChatThread, PrismQueryExecuteParamsObjectTypeAIChatMessage, PrismQueryExecuteParamsObjectTypeDocument, PrismQueryExecuteParamsObjectTypeOrganization, PrismQueryExecuteParamsObjectTypeContact, PrismQueryExecuteParamsObjectTypeAction:
 		return true
 	}
 	return false
@@ -119,8 +118,7 @@ type PrismQueryExecuteParamsQuery struct {
 	// Logical operator for combining filters
 	Combinator param.Field[PrismQueryExecuteParamsQueryCombinator] `json:"combinator"`
 	CRMID      param.Field[string]                                 `json:"crm_id" format:"uuid"`
-	// Filters as [{ slug: { operator: value } }]. For select/multiselect properties,
-	// values must be option slugs
+	// Filters as [{ slug: { operator: value } }]
 	Filter param.Field[[]map[string]map[string]PrismQueryExecuteParamsQueryFilterUnion] `json:"filter"`
 	Limit  param.Field[int64]                                                           `json:"limit"`
 	Page   param.Field[int64]                                                           `json:"page"`
