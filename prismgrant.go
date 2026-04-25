@@ -15,6 +15,9 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
+// The Prism query engine provides generic read/write access to any object type
+// using a single unified API surface.
+//
 // PrismGrantService contains methods and other services that help with interacting
 // with the micro API.
 //

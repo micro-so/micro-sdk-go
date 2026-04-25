@@ -15,6 +15,9 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
+// Events are calendar items — meetings, calls, and appointments — automatically
+// captured from your connected calendar accounts.
+//
 // EventService contains methods and other services that help with interacting with
 // the micro API.
 //

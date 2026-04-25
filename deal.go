@@ -15,6 +15,9 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
+// Deals track opportunities moving through a pipeline — fundraising rounds, sales
+// opportunities, hiring candidates, or any custom workflow.
+//
 // DealService contains methods and other services that help with interacting with
 // the micro API.
 //
