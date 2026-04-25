@@ -97,7 +97,8 @@ type EventListParamsQuery struct {
 	// Logical operator for combining filters
 	Combinator param.Field[EventListParamsQueryCombinator] `json:"combinator"`
 	CRMID      param.Field[string]                         `json:"crm_id" format:"uuid"`
-	// Filters as [{ slug: { operator: value } }]
+	// Filters as [{ slug: { operator: value } }]. For select/multiselect properties,
+	// values must be option slugs
 	Filter param.Field[[]map[string]map[string]EventListParamsQueryFilterUnion] `json:"filter"`
 	Limit  param.Field[int64]                                                   `json:"limit"`
 	Page   param.Field[int64]                                                   `json:"page"`

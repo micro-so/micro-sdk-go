@@ -11,10 +11,9 @@ import (
 	"github.com/stainless-sdks/micro-go"
 	"github.com/stainless-sdks/micro-go/internal/testutil"
 	"github.com/stainless-sdks/micro-go/option"
-	"github.com/stainless-sdks/micro-go/shared"
 )
 
-func TestIdentityNewWithOptionalParams(t *testing.T) {
+func TestPrismNewObjectWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -28,43 +27,10 @@ func TestIdentityNewWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Identities.New(context.TODO(), micro.IdentityNewParams{
-		PrismObjectProperties: micro.PrismObjectPropertiesParam{
-			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			CRM: micro.F[any](map[string]interface{}{}),
-			Default: micro.F(map[string]interface{}{
-				"foo": "bar",
-			}),
-			Extended: micro.F[any](map[string]interface{}{}),
-		},
-	})
-	if err != nil {
-		var apierr *micro.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestIdentityUpdateWithOptionalParams(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := micro.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-		option.WithTeamID("My Team ID"),
-	)
-	err := client.Identities.Update(
+	err := client.Prism.NewObject(
 		context.TODO(),
-		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.IdentityUpdateParams{
+		micro.ObjectTypeDeal,
+		micro.PrismNewObjectParams{
 			PrismObjectProperties: micro.PrismObjectPropertiesParam{
 				ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 				CRM: micro.F[any](map[string]interface{}{}),
@@ -84,7 +50,7 @@ func TestIdentityUpdateWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestIdentityListWithOptionalParams(t *testing.T) {
+func TestPrismDeleteObject(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -98,54 +64,11 @@ func TestIdentityListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Identities.List(context.TODO(), micro.IdentityListParams{
-		Query: micro.F(micro.IdentityListParamsQuery{
-			Select:     micro.F([]string{"string"}),
-			Combinator: micro.F(micro.IdentityListParamsQueryCombinatorAnd),
-			CRMID:      micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			Filter: micro.F([]map[string]map[string]micro.IdentityListParamsQueryFilterUnion{{
-				"foo": {
-					"foo": shared.UnionString("string"),
-				},
-			}}),
-			Limit: micro.F(int64(0)),
-			Page:  micro.F(int64(0)),
-			Sort: micro.F([]map[string]micro.IdentityListParamsQuerySort{{
-				"foo": micro.IdentityListParamsQuerySortAsc,
-			}}),
-		}),
-		ID:      micro.F[micro.IdentityListParamsIDUnion](shared.UnionString("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")),
-		Boxes:   micro.F([]string{"string"}),
-		Deleted: micro.F(true),
-		Sources: micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
-	})
-	if err != nil {
-		var apierr *micro.Error
-		if errors.As(err, &apierr) {
-			t.Log(string(apierr.DumpRequest(true)))
-		}
-		t.Fatalf("err should be nil: %s", err.Error())
-	}
-}
-
-func TestIdentityDelete(t *testing.T) {
-	t.Skip("Mock server tests are disabled")
-	baseURL := "http://localhost:4010"
-	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
-		baseURL = envURL
-	}
-	if !testutil.CheckTestServer(t, baseURL) {
-		return
-	}
-	client := micro.NewClient(
-		option.WithBaseURL(baseURL),
-		option.WithAPIKey("My API Key"),
-		option.WithTeamID("My Team ID"),
-	)
-	err := client.Identities.Delete(
+	err := client.Prism.DeleteObject(
 		context.TODO(),
+		micro.ObjectTypeDeal,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.IdentityDeleteParams{},
+		micro.PrismDeleteObjectParams{},
 	)
 	if err != nil {
 		var apierr *micro.Error
@@ -156,7 +79,7 @@ func TestIdentityDelete(t *testing.T) {
 	}
 }
 
-func TestIdentityImportWithOptionalParams(t *testing.T) {
+func TestPrismDuplicateObject(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -170,21 +93,121 @@ func TestIdentityImportWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Identities.Import(context.TODO(), micro.IdentityImportParams{
-		Objects: micro.F([]micro.PrismObjectPropertiesParam{{
-			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			CRM: micro.F[any](map[string]interface{}{}),
-			Default: micro.F(map[string]interface{}{
-				"foo": "bar",
+	_, err := client.Prism.DuplicateObject(
+		context.TODO(),
+		micro.ObjectTypeDeal,
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		micro.PrismDuplicateObjectParams{},
+	)
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismImportObjectsWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.ImportObjects(
+		context.TODO(),
+		micro.PrismImportObjectsParamsObjectTypeIdentity,
+		micro.PrismImportObjectsParams{
+			Objects: micro.F([]micro.PrismObjectPropertiesParam{{
+				ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+				CRM: micro.F[any](map[string]interface{}{}),
+				Default: micro.F(map[string]interface{}{
+					"foo": "bar",
+				}),
+				Extended: micro.F[any](map[string]interface{}{}),
+			}}),
+			Options: micro.F(micro.PrismImportObjectsParamsOptions{
+				CaseInsensitive: micro.F(true),
+				CRMID:           micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+				DedupeBy:        micro.F("dedupe_by"),
 			}),
-			Extended: micro.F[any](map[string]interface{}{}),
-		}}),
-		Options: micro.F(micro.IdentityImportParamsOptions{
-			CaseInsensitive: micro.F(true),
-			CRMID:           micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			DedupeBy:        micro.F("dedupe_by"),
-		}),
-	})
+		},
+	)
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismPatchObjectWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	err := client.Prism.PatchObject(
+		context.TODO(),
+		micro.ObjectTypeDeal,
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		micro.PrismPatchObjectParams{
+			PrismObjectProperties: micro.PrismObjectPropertiesParam{
+				ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+				CRM: micro.F[any](map[string]interface{}{}),
+				Default: micro.F(map[string]interface{}{
+					"foo": "bar",
+				}),
+				Extended: micro.F[any](map[string]interface{}{}),
+			},
+		},
+	)
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismRestoreObject(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	err := client.Prism.RestoreObject(
+		context.TODO(),
+		micro.ObjectTypeDeal,
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		micro.PrismRestoreObjectParams{},
+	)
 	if err != nil {
 		var apierr *micro.Error
 		if errors.As(err, &apierr) {
