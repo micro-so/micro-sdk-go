@@ -30,9 +30,11 @@ func TestDealNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Deals.New(context.TODO(), micro.DealNewParams{
 		PrismObjectProperties: micro.PrismObjectPropertiesParam{
-			ID:       micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			CRM:      micro.F[any](map[string]interface{}{}),
-			Default:  micro.F[any](map[string]interface{}{}),
+			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			CRM: micro.F[any](map[string]interface{}{}),
+			Default: micro.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 			Extended: micro.F[any](map[string]interface{}{}),
 		},
 	})
@@ -64,9 +66,11 @@ func TestDealUpdateWithOptionalParams(t *testing.T) {
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.DealUpdateParams{
 			PrismObjectProperties: micro.PrismObjectPropertiesParam{
-				ID:       micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-				CRM:      micro.F[any](map[string]interface{}{}),
-				Default:  micro.F[any](map[string]interface{}{}),
+				ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+				CRM: micro.F[any](map[string]interface{}{}),
+				Default: micro.F(map[string]interface{}{
+					"foo": "bar",
+				}),
 				Extended: micro.F[any](map[string]interface{}{}),
 			},
 		},
@@ -168,16 +172,17 @@ func TestDealImportWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Deals.Import(context.TODO(), micro.DealImportParams{
 		Objects: micro.F([]micro.PrismObjectPropertiesParam{{
-			ID:       micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			CRM:      micro.F[any](map[string]interface{}{}),
-			Default:  micro.F[any](map[string]interface{}{}),
+			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			CRM: micro.F[any](map[string]interface{}{}),
+			Default: micro.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 			Extended: micro.F[any](map[string]interface{}{}),
 		}}),
 		Options: micro.F(micro.DealImportParamsOptions{
 			CaseInsensitive: micro.F(true),
 			CRMID:           micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			DedupeBy:        micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			DedupeType:      micro.F(micro.DealImportParamsOptionsDedupeTypeStr),
+			DedupeBy:        micro.F("dedupe_by"),
 		}),
 	})
 	if err != nil {

@@ -308,7 +308,8 @@ type DealListParamsQuery struct {
 	// Logical operator for combining filters
 	Combinator param.Field[DealListParamsQueryCombinator] `json:"combinator"`
 	CRMID      param.Field[string]                        `json:"crm_id" format:"uuid"`
-	// Filters as [{ slug: { operator: value } }]
+	// Filters as [{ slug: { operator: value } }]. For select/multiselect properties,
+	// values must be option slugs
 	Filter param.Field[[]map[string]map[string]DealListParamsQueryFilterUnion] `json:"filter"`
 	Limit  param.Field[int64]                                                  `json:"limit"`
 	Page   param.Field[int64]                                                  `json:"page"`
@@ -378,7 +379,7 @@ type DealDeleteParams struct {
 type DealImportParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
-	// Array of objects to import with their property values
+	// Array of objects to import with property values keyed by slug
 	Objects param.Field[[]PrismObjectPropertiesParam] `json:"objects" api:"required"`
 	Options param.Field[DealImportParamsOptions]      `json:"options"`
 }
@@ -392,29 +393,10 @@ type DealImportParamsOptions struct {
 	CaseInsensitive param.Field[bool] `json:"caseInsensitive"`
 	// App/CRM ID for context (optional)
 	CRMID param.Field[string] `json:"crm_id" format:"uuid"`
-	// Property definition ID to deduplicate on
-	DedupeBy param.Field[string] `json:"dedupe_by" format:"uuid"`
-	// Type of the deduplication property
-	DedupeType param.Field[DealImportParamsOptionsDedupeType] `json:"dedupe_type"`
+	// Property slug to deduplicate on
+	DedupeBy param.Field[string] `json:"dedupe_by"`
 }
 
 func (r DealImportParamsOptions) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
-}
-
-// Type of the deduplication property
-type DealImportParamsOptionsDedupeType string
-
-const (
-	DealImportParamsOptionsDedupeTypeStr             DealImportParamsOptionsDedupeType = "str"
-	DealImportParamsOptionsDedupeTypeMultiStr        DealImportParamsOptionsDedupeType = "multi_str"
-	DealImportParamsOptionsDedupeTypeMultirefContact DealImportParamsOptionsDedupeType = "multiref_contact"
-)
-
-func (r DealImportParamsOptionsDedupeType) IsKnown() bool {
-	switch r {
-	case DealImportParamsOptionsDedupeTypeStr, DealImportParamsOptionsDedupeTypeMultiStr, DealImportParamsOptionsDedupeTypeMultirefContact:
-		return true
-	}
-	return false
 }

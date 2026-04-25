@@ -30,9 +30,11 @@ func TestOrganizationNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Organizations.New(context.TODO(), micro.OrganizationNewParams{
 		PrismObjectProperties: micro.PrismObjectPropertiesParam{
-			ID:       micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			CRM:      micro.F[any](map[string]interface{}{}),
-			Default:  micro.F[any](map[string]interface{}{}),
+			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			CRM: micro.F[any](map[string]interface{}{}),
+			Default: micro.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 			Extended: micro.F[any](map[string]interface{}{}),
 		},
 	})
@@ -64,9 +66,11 @@ func TestOrganizationUpdateWithOptionalParams(t *testing.T) {
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.OrganizationUpdateParams{
 			PrismObjectProperties: micro.PrismObjectPropertiesParam{
-				ID:       micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-				CRM:      micro.F[any](map[string]interface{}{}),
-				Default:  micro.F[any](map[string]interface{}{}),
+				ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+				CRM: micro.F[any](map[string]interface{}{}),
+				Default: micro.F(map[string]interface{}{
+					"foo": "bar",
+				}),
 				Extended: micro.F[any](map[string]interface{}{}),
 			},
 		},
@@ -168,16 +172,17 @@ func TestOrganizationImportWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Organizations.Import(context.TODO(), micro.OrganizationImportParams{
 		Objects: micro.F([]micro.PrismObjectPropertiesParam{{
-			ID:       micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			CRM:      micro.F[any](map[string]interface{}{}),
-			Default:  micro.F[any](map[string]interface{}{}),
+			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			CRM: micro.F[any](map[string]interface{}{}),
+			Default: micro.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 			Extended: micro.F[any](map[string]interface{}{}),
 		}}),
 		Options: micro.F(micro.OrganizationImportParamsOptions{
 			CaseInsensitive: micro.F(true),
 			CRMID:           micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			DedupeBy:        micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			DedupeType:      micro.F(micro.OrganizationImportParamsOptionsDedupeTypeStr),
+			DedupeBy:        micro.F("dedupe_by"),
 		}),
 	})
 	if err != nil {

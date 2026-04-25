@@ -30,9 +30,11 @@ func TestActionNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Actions.New(context.TODO(), micro.ActionNewParams{
 		PrismObjectProperties: micro.PrismObjectPropertiesParam{
-			ID:       micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			CRM:      micro.F[any](map[string]interface{}{}),
-			Default:  micro.F[any](map[string]interface{}{}),
+			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			CRM: micro.F[any](map[string]interface{}{}),
+			Default: micro.F(map[string]interface{}{
+				"foo": "bar",
+			}),
 			Extended: micro.F[any](map[string]interface{}{}),
 		},
 	})
@@ -64,9 +66,11 @@ func TestActionUpdateWithOptionalParams(t *testing.T) {
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ActionUpdateParams{
 			PrismObjectProperties: micro.PrismObjectPropertiesParam{
-				ID:       micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-				CRM:      micro.F[any](map[string]interface{}{}),
-				Default:  micro.F[any](map[string]interface{}{}),
+				ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+				CRM: micro.F[any](map[string]interface{}{}),
+				Default: micro.F(map[string]interface{}{
+					"foo": "bar",
+				}),
 				Extended: micro.F[any](map[string]interface{}{}),
 			},
 		},
