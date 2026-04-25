@@ -39,12 +39,11 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	client.Prism.RestoreObject(
-		context.Background(),
-		micro.ObjectTypeDeal,
-		"REPLACE_ME",
-		micro.PrismRestoreObjectParams{},
-	)
+	_, _ = client.Contacts.List(context.Background(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if userAgent != fmt.Sprintf("Micro/Go %s", internal.PackageVersion) {
 		t.Errorf("Expected User-Agent to be correct, but got: %#v", userAgent)
 	}
@@ -69,12 +68,11 @@ func TestRetryAfter(t *testing.T) {
 			},
 		}),
 	)
-	err := client.Prism.RestoreObject(
-		context.Background(),
-		micro.ObjectTypeDeal,
-		"REPLACE_ME",
-		micro.PrismRestoreObjectParams{},
-	)
+	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -110,12 +108,11 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeaderDel("X-Stainless-Retry-Count"),
 	)
-	err := client.Prism.RestoreObject(
-		context.Background(),
-		micro.ObjectTypeDeal,
-		"REPLACE_ME",
-		micro.PrismRestoreObjectParams{},
-	)
+	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -146,12 +143,11 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeader("X-Stainless-Retry-Count", "42"),
 	)
-	err := client.Prism.RestoreObject(
-		context.Background(),
-		micro.ObjectTypeDeal,
-		"REPLACE_ME",
-		micro.PrismRestoreObjectParams{},
-	)
+	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -181,12 +177,11 @@ func TestRetryAfterMs(t *testing.T) {
 			},
 		}),
 	)
-	err := client.Prism.RestoreObject(
-		context.Background(),
-		micro.ObjectTypeDeal,
-		"REPLACE_ME",
-		micro.PrismRestoreObjectParams{},
-	)
+	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -210,12 +205,11 @@ func TestContextCancel(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithCancel(context.Background())
 	cancel()
-	err := client.Prism.RestoreObject(
-		cancelCtx,
-		micro.ObjectTypeDeal,
-		"REPLACE_ME",
-		micro.PrismRestoreObjectParams{},
-	)
+	_, err := client.Contacts.List(cancelCtx, micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -236,12 +230,11 @@ func TestContextCancelDelay(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithTimeout(context.Background(), 2*time.Millisecond)
 	defer cancel()
-	err := client.Prism.RestoreObject(
-		cancelCtx,
-		micro.ObjectTypeDeal,
-		"REPLACE_ME",
-		micro.PrismRestoreObjectParams{},
-	)
+	_, err := client.Contacts.List(cancelCtx, micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("expected there to be a cancel error")
 	}
@@ -268,12 +261,11 @@ func TestContextDeadline(t *testing.T) {
 				},
 			}),
 		)
-		err := client.Prism.RestoreObject(
-			deadlineCtx,
-			micro.ObjectTypeDeal,
-			"REPLACE_ME",
-			micro.PrismRestoreObjectParams{},
-		)
+		_, err := client.Contacts.List(deadlineCtx, micro.ContactListParams{
+			Query: micro.F(micro.ContactListParamsQuery{
+				Select: micro.F([]string{"full_name", "email"}),
+			}),
+		})
 		if err == nil {
 			t.Error("expected there to be a deadline error")
 		}

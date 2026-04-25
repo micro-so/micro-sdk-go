@@ -26,14 +26,14 @@ func TestUsage(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	err := client.Prism.RestoreObject(
-		context.TODO(),
-		micro.ObjectTypeDeal,
-		"REPLACE_ME",
-		micro.PrismRestoreObjectParams{},
-	)
+	contacts, err := client.Contacts.List(context.TODO(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err != nil {
 		t.Error(err)
 		return
 	}
+	t.Logf("%+v\n", contacts.Data)
 }
