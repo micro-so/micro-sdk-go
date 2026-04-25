@@ -73,7 +73,7 @@ func (r *IdentityService) Update(ctx context.Context, identityID string, params 
 	return err
 }
 
-// List Identitys
+// List Identities
 func (r *IdentityService) List(ctx context.Context, params IdentityListParams, opts ...option.RequestOption) (res *IdentityListResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
@@ -112,7 +112,7 @@ func (r *IdentityService) Delete(ctx context.Context, identityID string, body Id
 	return err
 }
 
-// Import Identitys
+// Import Identities
 func (r *IdentityService) Import(ctx context.Context, params IdentityImportParams, opts ...option.RequestOption) (res *IdentityImportResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
