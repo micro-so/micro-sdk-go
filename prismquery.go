@@ -15,9 +15,6 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
-// The Prism query engine provides generic read/write access to any object type
-// using a single unified API surface.
-//
 // PrismQueryService contains methods and other services that help with interacting
 // with the micro API.
 //
@@ -55,17 +52,15 @@ func (r *PrismQueryService) Execute(ctx context.Context, objectType PrismQueryEx
 }
 
 type PrismQueryExecuteResponse struct {
-	Data       []interface{}                 `json:"data"`
-	NextCursor string                        `json:"next_cursor" api:"nullable"`
-	Total      int64                         `json:"total"`
-	JSON       prismQueryExecuteResponseJSON `json:"-"`
+	Data  []interface{}                 `json:"data"`
+	Total int64                         `json:"total"`
+	JSON  prismQueryExecuteResponseJSON `json:"-"`
 }
 
 // prismQueryExecuteResponseJSON contains the JSON metadata for the struct
 // [PrismQueryExecuteResponse]
 type prismQueryExecuteResponseJSON struct {
 	Data        apijson.Field
-	NextCursor  apijson.Field
 	Total       apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field

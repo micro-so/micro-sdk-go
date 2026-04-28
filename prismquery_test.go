@@ -41,7 +41,7 @@ func TestPrismQueryExecuteWithOptionalParams(t *testing.T) {
 						"foo": shared.UnionString("string"),
 					},
 				}}),
-				Limit: micro.F(int64(0)),
+				Limit: micro.F(int64(1)),
 				Page:  micro.F(int64(0)),
 				Sort: micro.F([]map[string]micro.PrismQueryExecuteParamsQuerySort{{
 					"foo": micro.PrismQueryExecuteParamsQuerySortAsc,

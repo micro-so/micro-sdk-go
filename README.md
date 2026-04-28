@@ -54,15 +54,17 @@ func main() {
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("MICRO_API_KEY")
 		option.WithTeamID("My Team ID"),
 	)
-	contacts, err := client.Contacts.List(context.TODO(), micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
-		}),
-	})
+	prismObjectProperties, err := client.Prism.NewObject(
+		context.TODO(),
+		micro.ObjectTypeDeal,
+		micro.PrismNewObjectParams{
+			PrismObjectProperties: micro.PrismObjectPropertiesParam{},
+		},
+	)
 	if err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("%+v\n", contacts.Data)
+	fmt.Printf("%+v\n", prismObjectProperties.ID)
 }
 
 ```
@@ -151,7 +153,7 @@ client := micro.NewClient(
 	option.WithHeader("X-Some-Header", "custom_header_info"),
 )
 
-client.Contacts.List(context.TODO(), ...,
+client.Prism.NewObject(context.TODO(), ...,
 	// Override the header
 	option.WithHeader("X-Some-Header", "some_other_custom_header_info"),
 	// Add an undocumented field to the request body, using sjson syntax
@@ -180,18 +182,20 @@ When the API returns a non-success status code, we return an error with type
 To handle errors, we recommend that you use the `errors.As` pattern:
 
 ```go
-_, err := client.Contacts.List(context.TODO(), micro.ContactListParams{
-	Query: micro.F(micro.ContactListParamsQuery{
-		Select: micro.F([]string{"full_name", "email"}),
-	}),
-})
+_, err := client.Prism.NewObject(
+	context.TODO(),
+	micro.ObjectTypeDeal,
+	micro.PrismNewObjectParams{
+		PrismObjectProperties: micro.PrismObjectPropertiesParam{},
+	},
+)
 if err != nil {
 	var apierr *micro.Error
 	if errors.As(err, &apierr) {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/v2/prism/query/{teamId}/contact": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/v2/prism/{teamId}/{objectType}": 400 Bad Request { ... }
 }
 ```
 
@@ -209,12 +213,11 @@ To set a per-retry timeout, use `option.WithRequestTimeout()`.
 // This sets the timeout for the request, including all the retries.
 ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
 defer cancel()
-client.Contacts.List(
+client.Prism.NewObject(
 	ctx,
-	micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
-		}),
+	micro.ObjectTypeDeal,
+	micro.PrismNewObjectParams{
+		PrismObjectProperties: micro.PrismObjectPropertiesParam{},
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
@@ -249,12 +252,11 @@ client := micro.NewClient(
 )
 
 // Override per-request:
-client.Contacts.List(
+client.Prism.NewObject(
 	context.TODO(),
-	micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
-		}),
+	micro.ObjectTypeDeal,
+	micro.PrismNewObjectParams{
+		PrismObjectProperties: micro.PrismObjectPropertiesParam{},
 	},
 	option.WithMaxRetries(5),
 )
@@ -268,19 +270,18 @@ you need to examine response headers, status codes, or other details.
 ```go
 // Create a variable to store the HTTP response
 var response *http.Response
-contacts, err := client.Contacts.List(
+prismObjectProperties, err := client.Prism.NewObject(
 	context.TODO(),
-	micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
-		}),
+	micro.ObjectTypeDeal,
+	micro.PrismNewObjectParams{
+		PrismObjectProperties: micro.PrismObjectPropertiesParam{},
 	},
 	option.WithResponseInto(&response),
 )
 if err != nil {
 	// handle error
 }
-fmt.Printf("%+v\n", contacts)
+fmt.Printf("%+v\n", prismObjectProperties)
 
 fmt.Printf("Status Code: %d\n", response.StatusCode)
 fmt.Printf("Headers: %+#v\n", response.Header)

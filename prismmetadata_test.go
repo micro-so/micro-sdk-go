@@ -27,7 +27,7 @@ func TestPrismMetadataPropertiesWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	err := client.Prism.Metadata.Properties(
+	_, err := client.Prism.Metadata.Properties(
 		context.TODO(),
 		micro.ObjectTypeDeal,
 		micro.PrismMetadataPropertiesParams{

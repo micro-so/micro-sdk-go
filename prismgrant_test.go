@@ -27,7 +27,7 @@ func TestPrismGrantGetGrant(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	err := client.Prism.Grant.GetGrant(
+	_, err := client.Prism.Grant.GetGrant(
 		context.TODO(),
 		micro.ObjectTypeDeal,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -56,7 +56,7 @@ func TestPrismGrantUpdateGrantWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	err := client.Prism.Grant.UpdateGrant(
+	_, err := client.Prism.Grant.UpdateGrant(
 		context.TODO(),
 		micro.ObjectTypeDeal,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
