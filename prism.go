@@ -15,9 +15,6 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
-// The Prism query engine provides generic read/write access to any object type
-// using a single unified API surface.
-//
 // PrismService contains methods and other services that help with interacting with
 // the micro API.
 //
@@ -25,15 +22,9 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewPrismService] method instead.
 type PrismService struct {
-	Options []option.RequestOption
-	// The Prism query engine provides generic read/write access to any object type
-	// using a single unified API surface.
-	Grant *PrismGrantService
-	// The Prism query engine provides generic read/write access to any object type
-	// using a single unified API surface.
-	Query *PrismQueryService
-	// The Prism query engine provides generic read/write access to any object type
-	// using a single unified API surface.
+	Options  []option.RequestOption
+	Grant    *PrismGrantService
+	Query    *PrismQueryService
 	Metadata *PrismMetadataService
 }
 
@@ -50,21 +41,20 @@ func NewPrismService(opts ...option.RequestOption) (r *PrismService) {
 }
 
 // Create object
-func (r *PrismService) NewObject(ctx context.Context, objectType ObjectType, params PrismNewObjectParams, opts ...option.RequestOption) (err error) {
+func (r *PrismService) NewObject(ctx context.Context, objectType ObjectType, params PrismNewObjectParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
 	if params.TeamID.Value == "" {
 		err = errors.New("missing required teamId parameter")
-		return err
+		return nil, err
 	}
 	path := fmt.Sprintf("v2/prism/%s/%v", params.TeamID, objectType)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, nil, opts...)
-	return err
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	return res, err
 }
 
 // Delete object
@@ -130,47 +120,45 @@ func (r *PrismService) ImportObjects(ctx context.Context, objectType PrismImport
 }
 
 // Patch object
-func (r *PrismService) PatchObject(ctx context.Context, objectType ObjectType, objectID string, params PrismPatchObjectParams, opts ...option.RequestOption) (err error) {
+func (r *PrismService) PatchObject(ctx context.Context, objectType ObjectType, objectID string, params PrismPatchObjectParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
 	if params.TeamID.Value == "" {
 		err = errors.New("missing required teamId parameter")
-		return err
+		return nil, err
 	}
 	if objectID == "" {
 		err = errors.New("missing required objectId parameter")
-		return err
+		return nil, err
 	}
 	path := fmt.Sprintf("v2/prism/%s/%v/%s", params.TeamID, objectType, objectID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, params, nil, opts...)
-	return err
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, params, &res, opts...)
+	return res, err
 }
 
 // Restore object
-func (r *PrismService) RestoreObject(ctx context.Context, objectType ObjectType, objectID string, body PrismRestoreObjectParams, opts ...option.RequestOption) (err error) {
+func (r *PrismService) RestoreObject(ctx context.Context, objectType ObjectType, objectID string, body PrismRestoreObjectParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	requestconfig.UseDefaultParam(&body.TeamID, precfg.TeamID)
 	if body.TeamID.Value == "" {
 		err = errors.New("missing required teamId parameter")
-		return err
+		return nil, err
 	}
 	if objectID == "" {
 		err = errors.New("missing required objectId parameter")
-		return err
+		return nil, err
 	}
 	path := fmt.Sprintf("v2/prism/%s/%v/%s/restore", body.TeamID, objectType, objectID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
-	return err
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
 }
 
 type ObjectType string
@@ -191,6 +179,35 @@ func (r ObjectType) IsKnown() bool {
 		return true
 	}
 	return false
+}
+
+type PrismObjectProperties struct {
+	ID  string      `json:"id" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug. Values can be strings, numbers, booleans,
+	// arrays, or null.
+	Default  map[string]interface{}    `json:"default"`
+	Extended interface{}               `json:"extended"`
+	JSON     prismObjectPropertiesJSON `json:"-"`
+}
+
+// prismObjectPropertiesJSON contains the JSON metadata for the struct
+// [PrismObjectProperties]
+type prismObjectPropertiesJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectProperties) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectPropertiesJSON) RawJSON() string {
+	return r.raw
 }
 
 type PrismObjectPropertiesParam struct {

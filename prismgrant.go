@@ -15,9 +15,6 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
-// The Prism query engine provides generic read/write access to any object type
-// using a single unified API surface.
-//
 // PrismGrantService contains methods and other services that help with interacting
 // with the micro API.
 //
@@ -38,47 +35,191 @@ func NewPrismGrantService(opts ...option.RequestOption) (r *PrismGrantService) {
 }
 
 // Get grant
-func (r *PrismGrantService) GetGrant(ctx context.Context, objectType ObjectType, objectID string, query PrismGrantGetGrantParams, opts ...option.RequestOption) (err error) {
+func (r *PrismGrantService) GetGrant(ctx context.Context, objectType ObjectType, objectID string, query PrismGrantGetGrantParams, opts ...option.RequestOption) (res *PrismGrantGetGrantResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	requestconfig.UseDefaultParam(&query.TeamID, precfg.TeamID)
 	if query.TeamID.Value == "" {
 		err = errors.New("missing required teamId parameter")
-		return err
+		return nil, err
 	}
 	if objectID == "" {
 		err = errors.New("missing required objectId parameter")
-		return err
+		return nil, err
 	}
 	path := fmt.Sprintf("v2/prism/grant/%s/%v/%s", query.TeamID, objectType, objectID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, nil, opts...)
-	return err
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return res, err
 }
 
 // Update grant
-func (r *PrismGrantService) UpdateGrant(ctx context.Context, objectType ObjectType, objectID string, params PrismGrantUpdateGrantParams, opts ...option.RequestOption) (err error) {
+func (r *PrismGrantService) UpdateGrant(ctx context.Context, objectType ObjectType, objectID string, params PrismGrantUpdateGrantParams, opts ...option.RequestOption) (res *PrismGrantUpdateGrantResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
-	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	requestconfig.UseDefaultParam(&params.PathTeamID, precfg.TeamID)
 	if params.PathTeamID.Value == "" {
 		err = errors.New("missing required teamId parameter")
-		return err
+		return nil, err
 	}
 	if objectID == "" {
 		err = errors.New("missing required objectId parameter")
-		return err
+		return nil, err
 	}
 	path := fmt.Sprintf("v2/prism/grant/%s/%v/%s", params.PathTeamID, objectType, objectID)
-	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, params, nil, opts...)
-	return err
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, params, &res, opts...)
+	return res, err
+}
+
+type PrismGrantGetGrantResponse struct {
+	TeamGroupID []map[string]PrismGrantGetGrantResponseTeamGroupID `json:"team_group_id"`
+	TeamID      map[string]PrismGrantGetGrantResponseTeamID        `json:"team_id"`
+	UserID      []map[string]PrismGrantGetGrantResponseUserID      `json:"user_id"`
+	JSON        prismGrantGetGrantResponseJSON                     `json:"-"`
+}
+
+// prismGrantGetGrantResponseJSON contains the JSON metadata for the struct
+// [PrismGrantGetGrantResponse]
+type prismGrantGetGrantResponseJSON struct {
+	TeamGroupID apijson.Field
+	TeamID      apijson.Field
+	UserID      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismGrantGetGrantResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismGrantGetGrantResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type PrismGrantGetGrantResponseTeamGroupID string
+
+const (
+	PrismGrantGetGrantResponseTeamGroupIDA PrismGrantGetGrantResponseTeamGroupID = "a"
+	PrismGrantGetGrantResponseTeamGroupIDR PrismGrantGetGrantResponseTeamGroupID = "r"
+	PrismGrantGetGrantResponseTeamGroupIDW PrismGrantGetGrantResponseTeamGroupID = "w"
+)
+
+func (r PrismGrantGetGrantResponseTeamGroupID) IsKnown() bool {
+	switch r {
+	case PrismGrantGetGrantResponseTeamGroupIDA, PrismGrantGetGrantResponseTeamGroupIDR, PrismGrantGetGrantResponseTeamGroupIDW:
+		return true
+	}
+	return false
+}
+
+type PrismGrantGetGrantResponseTeamID string
+
+const (
+	PrismGrantGetGrantResponseTeamIDA PrismGrantGetGrantResponseTeamID = "a"
+	PrismGrantGetGrantResponseTeamIDR PrismGrantGetGrantResponseTeamID = "r"
+	PrismGrantGetGrantResponseTeamIDW PrismGrantGetGrantResponseTeamID = "w"
+)
+
+func (r PrismGrantGetGrantResponseTeamID) IsKnown() bool {
+	switch r {
+	case PrismGrantGetGrantResponseTeamIDA, PrismGrantGetGrantResponseTeamIDR, PrismGrantGetGrantResponseTeamIDW:
+		return true
+	}
+	return false
+}
+
+type PrismGrantGetGrantResponseUserID string
+
+const (
+	PrismGrantGetGrantResponseUserIDA PrismGrantGetGrantResponseUserID = "a"
+	PrismGrantGetGrantResponseUserIDR PrismGrantGetGrantResponseUserID = "r"
+	PrismGrantGetGrantResponseUserIDW PrismGrantGetGrantResponseUserID = "w"
+)
+
+func (r PrismGrantGetGrantResponseUserID) IsKnown() bool {
+	switch r {
+	case PrismGrantGetGrantResponseUserIDA, PrismGrantGetGrantResponseUserIDR, PrismGrantGetGrantResponseUserIDW:
+		return true
+	}
+	return false
+}
+
+type PrismGrantUpdateGrantResponse struct {
+	TeamGroupID []map[string]PrismGrantUpdateGrantResponseTeamGroupID `json:"team_group_id"`
+	TeamID      map[string]PrismGrantUpdateGrantResponseTeamID        `json:"team_id"`
+	UserID      []map[string]PrismGrantUpdateGrantResponseUserID      `json:"user_id"`
+	JSON        prismGrantUpdateGrantResponseJSON                     `json:"-"`
+}
+
+// prismGrantUpdateGrantResponseJSON contains the JSON metadata for the struct
+// [PrismGrantUpdateGrantResponse]
+type prismGrantUpdateGrantResponseJSON struct {
+	TeamGroupID apijson.Field
+	TeamID      apijson.Field
+	UserID      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismGrantUpdateGrantResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismGrantUpdateGrantResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type PrismGrantUpdateGrantResponseTeamGroupID string
+
+const (
+	PrismGrantUpdateGrantResponseTeamGroupIDA PrismGrantUpdateGrantResponseTeamGroupID = "a"
+	PrismGrantUpdateGrantResponseTeamGroupIDR PrismGrantUpdateGrantResponseTeamGroupID = "r"
+	PrismGrantUpdateGrantResponseTeamGroupIDW PrismGrantUpdateGrantResponseTeamGroupID = "w"
+)
+
+func (r PrismGrantUpdateGrantResponseTeamGroupID) IsKnown() bool {
+	switch r {
+	case PrismGrantUpdateGrantResponseTeamGroupIDA, PrismGrantUpdateGrantResponseTeamGroupIDR, PrismGrantUpdateGrantResponseTeamGroupIDW:
+		return true
+	}
+	return false
+}
+
+type PrismGrantUpdateGrantResponseTeamID string
+
+const (
+	PrismGrantUpdateGrantResponseTeamIDA PrismGrantUpdateGrantResponseTeamID = "a"
+	PrismGrantUpdateGrantResponseTeamIDR PrismGrantUpdateGrantResponseTeamID = "r"
+	PrismGrantUpdateGrantResponseTeamIDW PrismGrantUpdateGrantResponseTeamID = "w"
+)
+
+func (r PrismGrantUpdateGrantResponseTeamID) IsKnown() bool {
+	switch r {
+	case PrismGrantUpdateGrantResponseTeamIDA, PrismGrantUpdateGrantResponseTeamIDR, PrismGrantUpdateGrantResponseTeamIDW:
+		return true
+	}
+	return false
+}
+
+type PrismGrantUpdateGrantResponseUserID string
+
+const (
+	PrismGrantUpdateGrantResponseUserIDA PrismGrantUpdateGrantResponseUserID = "a"
+	PrismGrantUpdateGrantResponseUserIDR PrismGrantUpdateGrantResponseUserID = "r"
+	PrismGrantUpdateGrantResponseUserIDW PrismGrantUpdateGrantResponseUserID = "w"
+)
+
+func (r PrismGrantUpdateGrantResponseUserID) IsKnown() bool {
+	switch r {
+	case PrismGrantUpdateGrantResponseUserIDA, PrismGrantUpdateGrantResponseUserIDR, PrismGrantUpdateGrantResponseUserIDW:
+		return true
+	}
+	return false
 }
 
 type PrismGrantGetGrantParams struct {

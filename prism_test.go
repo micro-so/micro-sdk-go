@@ -27,7 +27,7 @@ func TestPrismNewObjectWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	err := client.Prism.NewObject(
+	_, err := client.Prism.NewObject(
 		context.TODO(),
 		micro.ObjectTypeDeal,
 		micro.PrismNewObjectParams{
@@ -164,7 +164,7 @@ func TestPrismPatchObjectWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	err := client.Prism.PatchObject(
+	_, err := client.Prism.PatchObject(
 		context.TODO(),
 		micro.ObjectTypeDeal,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
@@ -202,7 +202,7 @@ func TestPrismRestoreObject(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	err := client.Prism.RestoreObject(
+	_, err := client.Prism.RestoreObject(
 		context.TODO(),
 		micro.ObjectTypeDeal,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
