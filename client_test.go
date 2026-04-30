@@ -39,13 +39,11 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	_, _ = client.Prism.NewObject(
-		context.Background(),
-		micro.ObjectTypeDeal,
-		micro.PrismNewObjectParams{
-			PrismObjectProperties: micro.PrismObjectPropertiesParam{},
-		},
-	)
+	_, _ = client.Contacts.List(context.Background(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if userAgent != fmt.Sprintf("Micro/Go %s", internal.PackageVersion) {
 		t.Errorf("Expected User-Agent to be correct, but got: %#v", userAgent)
 	}
@@ -70,13 +68,11 @@ func TestRetryAfter(t *testing.T) {
 			},
 		}),
 	)
-	_, err := client.Prism.NewObject(
-		context.Background(),
-		micro.ObjectTypeDeal,
-		micro.PrismNewObjectParams{
-			PrismObjectProperties: micro.PrismObjectPropertiesParam{},
-		},
-	)
+	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -112,13 +108,11 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeaderDel("X-Stainless-Retry-Count"),
 	)
-	_, err := client.Prism.NewObject(
-		context.Background(),
-		micro.ObjectTypeDeal,
-		micro.PrismNewObjectParams{
-			PrismObjectProperties: micro.PrismObjectPropertiesParam{},
-		},
-	)
+	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -149,13 +143,11 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeader("X-Stainless-Retry-Count", "42"),
 	)
-	_, err := client.Prism.NewObject(
-		context.Background(),
-		micro.ObjectTypeDeal,
-		micro.PrismNewObjectParams{
-			PrismObjectProperties: micro.PrismObjectPropertiesParam{},
-		},
-	)
+	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -185,13 +177,11 @@ func TestRetryAfterMs(t *testing.T) {
 			},
 		}),
 	)
-	_, err := client.Prism.NewObject(
-		context.Background(),
-		micro.ObjectTypeDeal,
-		micro.PrismNewObjectParams{
-			PrismObjectProperties: micro.PrismObjectPropertiesParam{},
-		},
-	)
+	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -215,13 +205,11 @@ func TestContextCancel(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithCancel(context.Background())
 	cancel()
-	_, err := client.Prism.NewObject(
-		cancelCtx,
-		micro.ObjectTypeDeal,
-		micro.PrismNewObjectParams{
-			PrismObjectProperties: micro.PrismObjectPropertiesParam{},
-		},
-	)
+	_, err := client.Contacts.List(cancelCtx, micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("Expected there to be a cancel error")
 	}
@@ -242,13 +230,11 @@ func TestContextCancelDelay(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithTimeout(context.Background(), 2*time.Millisecond)
 	defer cancel()
-	_, err := client.Prism.NewObject(
-		cancelCtx,
-		micro.ObjectTypeDeal,
-		micro.PrismNewObjectParams{
-			PrismObjectProperties: micro.PrismObjectPropertiesParam{},
-		},
-	)
+	_, err := client.Contacts.List(cancelCtx, micro.ContactListParams{
+		Query: micro.F(micro.ContactListParamsQuery{
+			Select: micro.F([]string{"full_name", "email"}),
+		}),
+	})
 	if err == nil {
 		t.Error("expected there to be a cancel error")
 	}
@@ -275,13 +261,11 @@ func TestContextDeadline(t *testing.T) {
 				},
 			}),
 		)
-		_, err := client.Prism.NewObject(
-			deadlineCtx,
-			micro.ObjectTypeDeal,
-			micro.PrismNewObjectParams{
-				PrismObjectProperties: micro.PrismObjectPropertiesParam{},
-			},
-		)
+		_, err := client.Contacts.List(deadlineCtx, micro.ContactListParams{
+			Query: micro.F(micro.ContactListParamsQuery{
+				Select: micro.F([]string{"full_name", "email"}),
+			}),
+		})
 		if err == nil {
 			t.Error("expected there to be a deadline error")
 		}
