@@ -11,9 +11,10 @@ import (
 	"github.com/stainless-sdks/micro-go"
 	"github.com/stainless-sdks/micro-go/internal/testutil"
 	"github.com/stainless-sdks/micro-go/option"
+	"github.com/stainless-sdks/micro-go/shared"
 )
 
-func TestPrismGrantGetGrant(t *testing.T) {
+func TestPrismObjectEventGet(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -27,11 +28,10 @@ func TestPrismGrantGetGrant(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Prism.Grant.GetGrant(
+	_, err := client.Prism.Objects.Events.Get(
 		context.TODO(),
-		micro.ObjectTypeDeal,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismGrantGetGrantParams{},
+		micro.PrismObjectEventGetParams{},
 	)
 	if err != nil {
 		var apierr *micro.Error
@@ -42,7 +42,7 @@ func TestPrismGrantGetGrant(t *testing.T) {
 	}
 }
 
-func TestPrismGrantUpdateGrantWithOptionalParams(t *testing.T) {
+func TestPrismObjectEventQueryWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -56,22 +56,27 @@ func TestPrismGrantUpdateGrantWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Prism.Grant.UpdateGrant(
-		context.TODO(),
-		micro.ObjectTypeDeal,
-		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismGrantUpdateGrantParams{
-			TeamGroupID: micro.F([]map[string]micro.PrismGrantUpdateGrantParamsTeamGroupID{{
-				"foo": micro.PrismGrantUpdateGrantParamsTeamGroupIDA,
+	_, err := client.Prism.Objects.Events.Query(context.TODO(), micro.PrismObjectEventQueryParams{
+		Query: micro.F(micro.PrismObjectEventQueryParamsQuery{
+			Select:     micro.F([]string{"string"}),
+			Combinator: micro.F(micro.PrismObjectEventQueryParamsQueryCombinatorAnd),
+			CRMID:      micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			Filter: micro.F([]map[string]map[string]micro.PrismObjectEventQueryParamsQueryFilterUnion{{
+				"foo": {
+					"foo": shared.UnionString("string"),
+				},
 			}}),
-			BodyTeamID: micro.F(map[string]micro.PrismGrantUpdateGrantParamsTeamID{
-				"foo": micro.PrismGrantUpdateGrantParamsTeamIDA,
-			}),
-			UserID: micro.F([]map[string]micro.PrismGrantUpdateGrantParamsUserID{{
-				"foo": micro.PrismGrantUpdateGrantParamsUserIDA,
+			Limit: micro.F(int64(1)),
+			Page:  micro.F(int64(0)),
+			Sort: micro.F([]map[string]micro.PrismObjectEventQueryParamsQuerySort{{
+				"foo": micro.PrismObjectEventQueryParamsQuerySortAsc,
 			}}),
-		},
-	)
+		}),
+		ID:      micro.F[micro.PrismObjectEventQueryParamsIDUnion](shared.UnionString("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")),
+		Boxes:   micro.F([]string{"string"}),
+		Deleted: micro.F(true),
+		Sources: micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
+	})
 	if err != nil {
 		var apierr *micro.Error
 		if errors.As(err, &apierr) {
