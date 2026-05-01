@@ -17,15 +17,9 @@ import (
 // interacting with the micro API. You should not instantiate this client directly,
 // and instead use the [NewClient] method instead.
 type Client struct {
-	Options       []option.RequestOption
-	Prism         *PrismService
-	Contacts      *ContactService
-	Organizations *OrganizationService
-	Identities    *IdentityService
-	Deals         *DealService
-	Actions       *ActionService
-	Events        *EventService
-	Documents     *DocumentService
+	Options []option.RequestOption
+	Prism   *PrismService
+	Views   *ViewService
 }
 
 // DefaultClientOptions read from the environment (MICRO_API_KEY, MICRO_BASE_URL).
@@ -59,13 +53,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r = &Client{Options: opts}
 
 	r.Prism = NewPrismService(opts...)
-	r.Contacts = NewContactService(opts...)
-	r.Organizations = NewOrganizationService(opts...)
-	r.Identities = NewIdentityService(opts...)
-	r.Deals = NewDealService(opts...)
-	r.Actions = NewActionService(opts...)
-	r.Events = NewEventService(opts...)
-	r.Documents = NewDocumentService(opts...)
+	r.Views = NewViewService(opts...)
 
 	return
 }

@@ -39,9 +39,9 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	_, _ = client.Contacts.List(context.Background(), micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
+	_, _ = client.Prism.Objects.Deals.Query(context.Background(), micro.PrismObjectDealQueryParams{
+		Query: micro.F(micro.PrismObjectDealQueryParamsQuery{
+			Select: micro.F([]string{"id", "name"}),
 		}),
 	})
 	if userAgent != fmt.Sprintf("Micro/Go %s", internal.PackageVersion) {
@@ -68,9 +68,9 @@ func TestRetryAfter(t *testing.T) {
 			},
 		}),
 	)
-	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
+	_, err := client.Prism.Objects.Deals.Query(context.Background(), micro.PrismObjectDealQueryParams{
+		Query: micro.F(micro.PrismObjectDealQueryParamsQuery{
+			Select: micro.F([]string{"id", "name"}),
 		}),
 	})
 	if err == nil {
@@ -108,9 +108,9 @@ func TestDeleteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeaderDel("X-Stainless-Retry-Count"),
 	)
-	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
+	_, err := client.Prism.Objects.Deals.Query(context.Background(), micro.PrismObjectDealQueryParams{
+		Query: micro.F(micro.PrismObjectDealQueryParamsQuery{
+			Select: micro.F([]string{"id", "name"}),
 		}),
 	})
 	if err == nil {
@@ -143,9 +143,9 @@ func TestOverwriteRetryCountHeader(t *testing.T) {
 		}),
 		option.WithHeader("X-Stainless-Retry-Count", "42"),
 	)
-	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
+	_, err := client.Prism.Objects.Deals.Query(context.Background(), micro.PrismObjectDealQueryParams{
+		Query: micro.F(micro.PrismObjectDealQueryParamsQuery{
+			Select: micro.F([]string{"id", "name"}),
 		}),
 	})
 	if err == nil {
@@ -177,9 +177,9 @@ func TestRetryAfterMs(t *testing.T) {
 			},
 		}),
 	)
-	_, err := client.Contacts.List(context.Background(), micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
+	_, err := client.Prism.Objects.Deals.Query(context.Background(), micro.PrismObjectDealQueryParams{
+		Query: micro.F(micro.PrismObjectDealQueryParamsQuery{
+			Select: micro.F([]string{"id", "name"}),
 		}),
 	})
 	if err == nil {
@@ -205,9 +205,9 @@ func TestContextCancel(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithCancel(context.Background())
 	cancel()
-	_, err := client.Contacts.List(cancelCtx, micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
+	_, err := client.Prism.Objects.Deals.Query(cancelCtx, micro.PrismObjectDealQueryParams{
+		Query: micro.F(micro.PrismObjectDealQueryParamsQuery{
+			Select: micro.F([]string{"id", "name"}),
 		}),
 	})
 	if err == nil {
@@ -230,9 +230,9 @@ func TestContextCancelDelay(t *testing.T) {
 	)
 	cancelCtx, cancel := context.WithTimeout(context.Background(), 2*time.Millisecond)
 	defer cancel()
-	_, err := client.Contacts.List(cancelCtx, micro.ContactListParams{
-		Query: micro.F(micro.ContactListParamsQuery{
-			Select: micro.F([]string{"full_name", "email"}),
+	_, err := client.Prism.Objects.Deals.Query(cancelCtx, micro.PrismObjectDealQueryParams{
+		Query: micro.F(micro.PrismObjectDealQueryParamsQuery{
+			Select: micro.F([]string{"id", "name"}),
 		}),
 	})
 	if err == nil {
@@ -261,9 +261,9 @@ func TestContextDeadline(t *testing.T) {
 				},
 			}),
 		)
-		_, err := client.Contacts.List(deadlineCtx, micro.ContactListParams{
-			Query: micro.F(micro.ContactListParamsQuery{
-				Select: micro.F([]string{"full_name", "email"}),
+		_, err := client.Prism.Objects.Deals.Query(deadlineCtx, micro.PrismObjectDealQueryParams{
+			Query: micro.F(micro.PrismObjectDealQueryParamsQuery{
+				Select: micro.F([]string{"id", "name"}),
 			}),
 		})
 		if err == nil {

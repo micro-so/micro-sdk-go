@@ -36,7 +36,7 @@ func NewPrismMetadataService(opts ...option.RequestOption) (r *PrismMetadataServ
 }
 
 // Get metadata properties by object type
-func (r *PrismMetadataService) Properties(ctx context.Context, objectType ObjectType, params PrismMetadataPropertiesParams, opts ...option.RequestOption) (res *PrismMetadataPropertiesResponse, err error) {
+func (r *PrismMetadataService) List(ctx context.Context, objectType PrismMetadataListParamsObjectType, params PrismMetadataListParams, opts ...option.RequestOption) (res *PrismMetadataListResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -52,9 +52,9 @@ func (r *PrismMetadataService) Properties(ctx context.Context, objectType Object
 	return res, err
 }
 
-type PrismMetadataPropertiesResponse map[string]interface{}
+type PrismMetadataListResponse map[string]interface{}
 
-type PrismMetadataPropertiesParams struct {
+type PrismMetadataListParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID   param.Field[string] `path:"teamId" api:"required" format:"uuid"`
 	Autofill param.Field[bool]   `query:"autofill"`
@@ -62,11 +62,31 @@ type PrismMetadataPropertiesParams struct {
 	Term     param.Field[string] `query:"term"`
 }
 
-// URLQuery serializes [PrismMetadataPropertiesParams]'s query parameters as
+// URLQuery serializes [PrismMetadataListParams]'s query parameters as
 // `url.Values`.
-func (r PrismMetadataPropertiesParams) URLQuery() (v url.Values) {
+func (r PrismMetadataListParams) URLQuery() (v url.Values) {
 	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type PrismMetadataListParamsObjectType string
+
+const (
+	PrismMetadataListParamsObjectTypeDeal          PrismMetadataListParamsObjectType = "deal"
+	PrismMetadataListParamsObjectTypeIdentity      PrismMetadataListParamsObjectType = "identity"
+	PrismMetadataListParamsObjectTypeAIChatThread  PrismMetadataListParamsObjectType = "ai_chat_thread"
+	PrismMetadataListParamsObjectTypeAIChatMessage PrismMetadataListParamsObjectType = "ai_chat_message"
+	PrismMetadataListParamsObjectTypeDocument      PrismMetadataListParamsObjectType = "document"
+	PrismMetadataListParamsObjectTypeAction        PrismMetadataListParamsObjectType = "action"
+	PrismMetadataListParamsObjectTypeEvent         PrismMetadataListParamsObjectType = "event"
+)
+
+func (r PrismMetadataListParamsObjectType) IsKnown() bool {
+	switch r {
+	case PrismMetadataListParamsObjectTypeDeal, PrismMetadataListParamsObjectTypeIdentity, PrismMetadataListParamsObjectTypeAIChatThread, PrismMetadataListParamsObjectTypeAIChatMessage, PrismMetadataListParamsObjectTypeDocument, PrismMetadataListParamsObjectTypeAction, PrismMetadataListParamsObjectTypeEvent:
+		return true
+	}
+	return false
 }

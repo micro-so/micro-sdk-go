@@ -13,7 +13,7 @@ import (
 	"github.com/stainless-sdks/micro-go/option"
 )
 
-func TestPrismMetadataPropertiesWithOptionalParams(t *testing.T) {
+func TestPrismMetadataListWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -27,10 +27,10 @@ func TestPrismMetadataPropertiesWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Prism.Metadata.Properties(
+	_, err := client.Prism.Metadata.List(
 		context.TODO(),
-		micro.ObjectTypeDeal,
-		micro.PrismMetadataPropertiesParams{
+		micro.PrismMetadataListParamsObjectTypeDeal,
+		micro.PrismMetadataListParams{
 			Autofill: micro.F(true),
 			CRMID:    micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 			Term:     micro.F("term"),

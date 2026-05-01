@@ -14,7 +14,7 @@ import (
 	"github.com/stainless-sdks/micro-go/shared"
 )
 
-func TestEventListWithOptionalParams(t *testing.T) {
+func TestPrismObjectOrganizationQueryWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -28,23 +28,23 @@ func TestEventListWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Events.List(context.TODO(), micro.EventListParams{
-		Query: micro.F(micro.EventListParamsQuery{
+	_, err := client.Prism.Objects.Organizations.Query(context.TODO(), micro.PrismObjectOrganizationQueryParams{
+		Query: micro.F(micro.PrismObjectOrganizationQueryParamsQuery{
 			Select:     micro.F([]string{"string"}),
-			Combinator: micro.F(micro.EventListParamsQueryCombinatorAnd),
+			Combinator: micro.F(micro.PrismObjectOrganizationQueryParamsQueryCombinatorAnd),
 			CRMID:      micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			Filter: micro.F([]map[string]map[string]micro.EventListParamsQueryFilterUnion{{
+			Filter: micro.F([]map[string]map[string]micro.PrismObjectOrganizationQueryParamsQueryFilterUnion{{
 				"foo": {
 					"foo": shared.UnionString("string"),
 				},
 			}}),
 			Limit: micro.F(int64(1)),
 			Page:  micro.F(int64(0)),
-			Sort: micro.F([]map[string]micro.EventListParamsQuerySort{{
-				"foo": micro.EventListParamsQuerySortAsc,
+			Sort: micro.F([]map[string]micro.PrismObjectOrganizationQueryParamsQuerySort{{
+				"foo": micro.PrismObjectOrganizationQueryParamsQuerySortAsc,
 			}}),
 		}),
-		ID:      micro.F[micro.EventListParamsIDUnion](shared.UnionString("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")),
+		ID:      micro.F[micro.PrismObjectOrganizationQueryParamsIDUnion](shared.UnionString("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")),
 		Boxes:   micro.F([]string{"string"}),
 		Deleted: micro.F(true),
 		Sources: micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),

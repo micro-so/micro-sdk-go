@@ -4,30 +4,27 @@ package shared
 
 type UnionString string
 
-func (UnionString) ImplementsPrismQueryExecuteParamsQueryFilterUnion() {}
-func (UnionString) ImplementsPrismQueryExecuteParamsIDUnion()          {}
-func (UnionString) ImplementsContactListParamsQueryFilterUnion()       {}
-func (UnionString) ImplementsContactListParamsIDUnion()                {}
-func (UnionString) ImplementsOrganizationListParamsQueryFilterUnion()  {}
-func (UnionString) ImplementsOrganizationListParamsIDUnion()           {}
-func (UnionString) ImplementsIdentityListParamsQueryFilterUnion()      {}
-func (UnionString) ImplementsIdentityListParamsIDUnion()               {}
-func (UnionString) ImplementsDealListParamsQueryFilterUnion()          {}
-func (UnionString) ImplementsDealListParamsIDUnion()                   {}
-func (UnionString) ImplementsActionListParamsQueryFilterUnion()        {}
-func (UnionString) ImplementsActionListParamsIDUnion()                 {}
-func (UnionString) ImplementsEventListParamsQueryFilterUnion()         {}
-func (UnionString) ImplementsEventListParamsIDUnion()                  {}
-func (UnionString) ImplementsDocumentListParamsQueryFilterUnion()      {}
-func (UnionString) ImplementsDocumentListParamsIDUnion()               {}
+func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterUnion()      {}
+func (UnionString) ImplementsPrismObjectContactQueryParamsIDUnion()               {}
+func (UnionString) ImplementsPrismObjectOrganizationQueryParamsQueryFilterUnion() {}
+func (UnionString) ImplementsPrismObjectOrganizationQueryParamsIDUnion()          {}
+func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterUnion()     {}
+func (UnionString) ImplementsPrismObjectIdentityQueryParamsIDUnion()              {}
+func (UnionString) ImplementsPrismObjectDealQueryParamsQueryFilterUnion()         {}
+func (UnionString) ImplementsPrismObjectDealQueryParamsIDUnion()                  {}
+func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterUnion()       {}
+func (UnionString) ImplementsPrismObjectActionQueryParamsIDUnion()                {}
+func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterUnion()     {}
+func (UnionString) ImplementsPrismObjectDocumentQueryParamsIDUnion()              {}
+func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterUnion()        {}
+func (UnionString) ImplementsPrismObjectEventQueryParamsIDUnion()                 {}
 
 type UnionBool bool
 
-func (UnionBool) ImplementsPrismQueryExecuteParamsQueryFilterUnion() {}
-func (UnionBool) ImplementsContactListParamsQueryFilterUnion()       {}
-func (UnionBool) ImplementsOrganizationListParamsQueryFilterUnion()  {}
-func (UnionBool) ImplementsIdentityListParamsQueryFilterUnion()      {}
-func (UnionBool) ImplementsDealListParamsQueryFilterUnion()          {}
-func (UnionBool) ImplementsActionListParamsQueryFilterUnion()        {}
-func (UnionBool) ImplementsEventListParamsQueryFilterUnion()         {}
-func (UnionBool) ImplementsDocumentListParamsQueryFilterUnion()      {}
+func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterUnion()      {}
+func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterUnion() {}
+func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterUnion()     {}
+func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterUnion()         {}
+func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterUnion()       {}
+func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterUnion()     {}
+func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterUnion()        {}
