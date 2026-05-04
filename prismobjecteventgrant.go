@@ -9,10 +9,10 @@ import (
 	"net/http"
 	"slices"
 
-	"github.com/stainless-sdks/micro-go/internal/apijson"
-	"github.com/stainless-sdks/micro-go/internal/param"
-	"github.com/stainless-sdks/micro-go/internal/requestconfig"
-	"github.com/stainless-sdks/micro-go/option"
+	"github.com/micro-so/micro-sdk-go/internal/apijson"
+	"github.com/micro-so/micro-sdk-go/internal/param"
+	"github.com/micro-so/micro-sdk-go/internal/requestconfig"
+	"github.com/micro-so/micro-sdk-go/option"
 )
 
 // PrismObjectEventGrantService contains methods and other services that help with
