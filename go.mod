@@ -1,4 +1,4 @@
-module github.com/stainless-sdks/micro-go
+module github.com/micro-so/micro-sdk-go
 
 go 1.22
 
