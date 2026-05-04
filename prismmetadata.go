@@ -10,10 +10,10 @@ import (
 	"net/url"
 	"slices"
 
-	"github.com/stainless-sdks/micro-go/internal/apiquery"
-	"github.com/stainless-sdks/micro-go/internal/param"
-	"github.com/stainless-sdks/micro-go/internal/requestconfig"
-	"github.com/stainless-sdks/micro-go/option"
+	"github.com/micro-so/micro-sdk-go/internal/apiquery"
+	"github.com/micro-so/micro-sdk-go/internal/param"
+	"github.com/micro-so/micro-sdk-go/internal/requestconfig"
+	"github.com/micro-so/micro-sdk-go/option"
 )
 
 // PrismMetadataService contains methods and other services that help with

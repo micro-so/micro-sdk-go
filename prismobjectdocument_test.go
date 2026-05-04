@@ -8,10 +8,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stainless-sdks/micro-go"
-	"github.com/stainless-sdks/micro-go/internal/testutil"
-	"github.com/stainless-sdks/micro-go/option"
-	"github.com/stainless-sdks/micro-go/shared"
+	"github.com/micro-so/micro-sdk-go"
+	"github.com/micro-so/micro-sdk-go/internal/testutil"
+	"github.com/micro-so/micro-sdk-go/option"
+	"github.com/micro-so/micro-sdk-go/shared"
 )
 
 func TestPrismObjectDocumentNewWithOptionalParams(t *testing.T) {
