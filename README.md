@@ -1,6 +1,6 @@
 # Micro Go API Library
 
-<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go"><img src="https://pkg.go.dev/badge/github.com/micro-so/micro-sdk-go.svg" alt="Go Reference"></a>
+<a href="https://pkg.go.dev/github.com/stainless-sdks/micro-go"><img src="https://pkg.go.dev/badge/github.com/stainless-sdks/micro-go.svg" alt="Go Reference"></a>
 
 The Micro Go library provides convenient access to the Micro REST API
 from applications written in Go.
@@ -18,25 +18,17 @@ Use the Micro MCP Server to enable AI assistants to interact with this API, allo
 
 ## Installation
 
-<!-- x-release-please-start-version -->
-
 ```go
 import (
-	"github.com/micro-so/micro-sdk-go" // imported as micro
+	"github.com/stainless-sdks/micro-go" // imported as micro
 )
 ```
 
-<!-- x-release-please-end -->
-
 Or to pin the version:
 
-<!-- x-release-please-start-version -->
-
 ```sh
-go get -u 'github.com/micro-so/micro-sdk-go@v0.1.0'
+go get -u 'github.com/stainless-sdks/micro-go@v0.1.0'
 ```
-
-<!-- x-release-please-end -->
 
 ## Requirements
 
@@ -53,8 +45,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/micro-so/micro-sdk-go"
-	"github.com/micro-so/micro-sdk-go/option"
+	"github.com/stainless-sdks/micro-go"
+	"github.com/stainless-sdks/micro-go/option"
 )
 
 func main() {
@@ -167,7 +159,7 @@ client.Prism.Objects.Deals.Query(context.TODO(), ...,
 )
 ```
 
-See the [full list of request options](https://pkg.go.dev/github.com/micro-so/micro-sdk-go/option).
+See the [full list of request options](https://pkg.go.dev/github.com/stainless-sdks/micro-go/option).
 
 ### Pagination
 
@@ -389,7 +381,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/micro-so/micro-sdk-go/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/micro-go/issues) with questions, bugs, or suggestions.
 
 ## Contributing
 

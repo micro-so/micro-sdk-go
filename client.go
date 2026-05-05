@@ -9,8 +9,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/micro-so/micro-sdk-go/internal/requestconfig"
-	"github.com/micro-so/micro-sdk-go/option"
+	"github.com/stainless-sdks/micro-go/internal/requestconfig"
+	"github.com/stainless-sdks/micro-go/option"
 )
 
 // Client creates a struct with services and top level methods that help with

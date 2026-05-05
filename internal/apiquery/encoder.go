@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/micro-so/micro-sdk-go/internal/param"
+	"github.com/stainless-sdks/micro-go/internal/param"
 )
 
 var encoders sync.Map // map[reflect.Type]encoderFunc

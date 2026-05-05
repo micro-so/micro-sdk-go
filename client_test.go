@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/micro-so/micro-sdk-go"
-	"github.com/micro-so/micro-sdk-go/internal"
-	"github.com/micro-so/micro-sdk-go/option"
+	"github.com/stainless-sdks/micro-go"
+	"github.com/stainless-sdks/micro-go/internal"
+	"github.com/stainless-sdks/micro-go/option"
 )
 
 type closureTransport struct {

@@ -3,7 +3,7 @@
 package micro
 
 import (
-	"github.com/micro-so/micro-sdk-go/internal/apierror"
+	"github.com/stainless-sdks/micro-go/internal/apierror"
 )
 
 type Error = apierror.Error
