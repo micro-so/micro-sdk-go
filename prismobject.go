@@ -3,7 +3,7 @@
 package micro
 
 import (
-	"github.com/micro-so/micro-sdk-go/option"
+	"github.com/stainless-sdks/micro-go/option"
 )
 
 // PrismObjectService contains methods and other services that help with

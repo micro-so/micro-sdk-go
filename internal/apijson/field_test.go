@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/micro-so/micro-sdk-go/internal/param"
+	"github.com/stainless-sdks/micro-go/internal/param"
 )
 
 type Struct struct {

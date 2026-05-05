@@ -3,9 +3,9 @@
 package micro
 
 import (
-	"github.com/micro-so/micro-sdk-go/internal/apijson"
-	"github.com/micro-so/micro-sdk-go/internal/param"
-	"github.com/micro-so/micro-sdk-go/option"
+	"github.com/stainless-sdks/micro-go/internal/apijson"
+	"github.com/stainless-sdks/micro-go/internal/param"
+	"github.com/stainless-sdks/micro-go/option"
 )
 
 // PrismService contains methods and other services that help with interacting with

@@ -18,11 +18,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/micro-so/micro-sdk-go/internal"
-	"github.com/micro-so/micro-sdk-go/internal/apierror"
-	"github.com/micro-so/micro-sdk-go/internal/apiform"
-	"github.com/micro-so/micro-sdk-go/internal/apiquery"
-	"github.com/micro-so/micro-sdk-go/internal/param"
+	"github.com/stainless-sdks/micro-go/internal"
+	"github.com/stainless-sdks/micro-go/internal/apierror"
+	"github.com/stainless-sdks/micro-go/internal/apiform"
+	"github.com/stainless-sdks/micro-go/internal/apiquery"
+	"github.com/stainless-sdks/micro-go/internal/param"
 )
 
 func getDefaultHeaders() map[string]string {
