@@ -14,6 +14,77 @@ import (
 	"github.com/stainless-sdks/micro-go/shared"
 )
 
+func TestPrismObjectOrganizationNewWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Organizations.New(context.TODO(), micro.PrismObjectOrganizationNewParams{
+		PrismObjectProperties: micro.PrismObjectPropertiesParam{
+			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			CRM: micro.F[any](map[string]interface{}{}),
+			Default: micro.F(map[string]interface{}{
+				"foo": "bar",
+			}),
+			Extended: micro.F[any](map[string]interface{}{}),
+		},
+	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectOrganizationBulkNewWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Organizations.BulkNew(context.TODO(), micro.PrismObjectOrganizationBulkNewParams{
+		Objects: micro.F([]micro.PrismObjectPropertiesParam{{
+			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			CRM: micro.F[any](map[string]interface{}{}),
+			Default: micro.F(map[string]interface{}{
+				"foo": "bar",
+			}),
+			Extended: micro.F[any](map[string]interface{}{}),
+		}}),
+		Options: micro.F(micro.PrismObjectOrganizationBulkNewParamsOptions{
+			CaseInsensitive: micro.F(true),
+			CRMID:           micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			DedupeBy:        micro.F("dedupe_by"),
+		}),
+	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestPrismObjectOrganizationQueryWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
