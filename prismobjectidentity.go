@@ -23,7 +23,6 @@ import (
 // the [NewPrismObjectIdentityService] method instead.
 type PrismObjectIdentityService struct {
 	Options []option.RequestOption
-	Grant   *PrismObjectIdentityGrantService
 }
 
 // NewPrismObjectIdentityService generates a new service that applies the given
@@ -32,7 +31,6 @@ type PrismObjectIdentityService struct {
 func NewPrismObjectIdentityService(opts ...option.RequestOption) (r *PrismObjectIdentityService) {
 	r = &PrismObjectIdentityService{}
 	r.Options = opts
-	r.Grant = NewPrismObjectIdentityGrantService(opts...)
 	return
 }
 
