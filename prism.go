@@ -31,40 +31,12 @@ func NewPrismService(opts ...option.RequestOption) (r *PrismService) {
 	return
 }
 
-type PrismObjectProperties struct {
-	ID  string      `json:"id" format:"uuid"`
-	CRM interface{} `json:"crm"`
-	// Properties keyed by property slug. Values can be strings, numbers, booleans,
-	// arrays, or null.
-	Default  map[string]interface{}    `json:"default"`
-	Extended interface{}               `json:"extended"`
-	JSON     prismObjectPropertiesJSON `json:"-"`
-}
-
-// prismObjectPropertiesJSON contains the JSON metadata for the struct
-// [PrismObjectProperties]
-type prismObjectPropertiesJSON struct {
-	ID          apijson.Field
-	CRM         apijson.Field
-	Default     apijson.Field
-	Extended    apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
-}
-
-func (r *PrismObjectProperties) UnmarshalJSON(data []byte) (err error) {
-	return apijson.UnmarshalRoot(data, r)
-}
-
-func (r prismObjectPropertiesJSON) RawJSON() string {
-	return r.raw
-}
-
 type PrismObjectPropertiesParam struct {
 	ID  param.Field[string]      `json:"id" format:"uuid"`
 	CRM param.Field[interface{}] `json:"crm"`
 	// Properties keyed by property slug. Values can be strings, numbers, booleans,
-	// arrays, or null.
+	// arrays, or null. For select/multiselect properties, values may be option slugs
+	// or option UUIDs on write; option slugs are returned on read.
 	Default  param.Field[map[string]interface{}] `json:"default"`
 	Extended param.Field[interface{}]            `json:"extended"`
 }
