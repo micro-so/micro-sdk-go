@@ -157,7 +157,7 @@ func (r *PrismObjectDealService) Get(ctx context.Context, dealID string, query P
 	return res, err
 }
 
-// Query v2
+// Query
 func (r *PrismObjectDealService) Query(ctx context.Context, params PrismObjectDealQueryParams, opts ...option.RequestOption) (res *PrismObjectDealQueryResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)

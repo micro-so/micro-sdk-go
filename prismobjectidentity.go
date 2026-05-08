@@ -155,7 +155,7 @@ func (r *PrismObjectIdentityService) Get(ctx context.Context, identityID string,
 	return res, err
 }
 
-// Query v2
+// Query
 func (r *PrismObjectIdentityService) Query(ctx context.Context, params PrismObjectIdentityQueryParams, opts ...option.RequestOption) (res *PrismObjectIdentityQueryResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)

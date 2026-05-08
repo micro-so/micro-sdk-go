@@ -155,7 +155,7 @@ func (r *PrismObjectContactService) Get(ctx context.Context, contactID string, q
 	return res, err
 }
 
-// Query v2
+// Query
 func (r *PrismObjectContactService) Query(ctx context.Context, params PrismObjectContactQueryParams, opts ...option.RequestOption) (res *PrismObjectContactQueryResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
