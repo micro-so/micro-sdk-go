@@ -57,7 +57,7 @@ func (r *PrismObjectEventService) Get(ctx context.Context, eventID string, query
 	return res, err
 }
 
-// Query v2
+// Query
 func (r *PrismObjectEventService) Query(ctx context.Context, params PrismObjectEventQueryParams, opts ...option.RequestOption) (res *PrismObjectEventQueryResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)

@@ -155,7 +155,7 @@ func (r *PrismObjectOrganizationService) Get(ctx context.Context, organizationID
 	return res, err
 }
 
-// Query v2
+// Query
 func (r *PrismObjectOrganizationService) Query(ctx context.Context, params PrismObjectOrganizationQueryParams, opts ...option.RequestOption) (res *PrismObjectOrganizationQueryResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
