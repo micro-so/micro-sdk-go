@@ -259,6 +259,13 @@ func WithRequestTimeout(dur time.Duration) RequestOption {
 	})
 }
 
+// WithEnvironmentStaging returns a RequestOption that sets the current
+// environment to be the "staging" environment. An environment specifies which base URL
+// to use by default.
+func WithEnvironmentStaging() RequestOption {
+	return requestconfig.WithDefaultBaseURL("https://developers.staging.micro.so/")
+}
+
 // WithEnvironmentProduction returns a RequestOption that sets the current
 // environment to be the "production" environment. An environment specifies which base URL
 // to use by default.

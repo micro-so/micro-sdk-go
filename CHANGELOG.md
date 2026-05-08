@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.2.0 (2026-05-08)
+
+Full Changelog: [v0.1.0...v0.2.0](https://github.com/micro-so/micro-sdk-go/compare/v0.1.0...v0.2.0)
+
+### Features
+
+* **api:** api update ([edd0bc9](https://github.com/micro-so/micro-sdk-go/commit/edd0bc9fdb5c7b996348c3215bbe8f6bc739004d))
+* **api:** api update ([791cedf](https://github.com/micro-so/micro-sdk-go/commit/791cedf27d468e96aeb165e58eb8cf5404f286bb))
+* **api:** api update ([6f96db1](https://github.com/micro-so/micro-sdk-go/commit/6f96db1c733122b504f91e55e51380ed0af0d8bf))
+* **api:** api update ([fb1326c](https://github.com/micro-so/micro-sdk-go/commit/fb1326cfc527889536abd93eaff2c12d5444dde1))
+* **api:** api update ([019946b](https://github.com/micro-so/micro-sdk-go/commit/019946bc58b838e7edd7c39e74498bddaf68f537))
+* **api:** api update ([b93b147](https://github.com/micro-so/micro-sdk-go/commit/b93b1476132c88423ecae4b4a6a2168d474399c1))
+* **api:** api update ([49c9384](https://github.com/micro-so/micro-sdk-go/commit/49c93848a83b951378563fc3dd01443781a4b386))
+* **api:** api update ([e98500d](https://github.com/micro-so/micro-sdk-go/commit/e98500d2b9e10776538fa5b19ab3ec10e4dec042))
+
+
+### Bug Fixes
+
+* **go:** avoid panic when http.DefaultTransport is wrapped ([e7ee369](https://github.com/micro-so/micro-sdk-go/commit/e7ee3697977379a2155465634d3880ad8276de54))
+
+
+### Chores
+
+* redact api-key headers in debug logs ([465e897](https://github.com/micro-so/micro-sdk-go/commit/465e89731765bae62f80dd321e3e337af01630e4))
+
 ## 0.1.0 (2026-05-04)
 
 Full Changelog: [v0.0.1...v0.1.0](https://github.com/micro-so/micro-sdk-go/compare/v0.0.1...v0.1.0)

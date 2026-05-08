@@ -37,7 +37,7 @@ func NewPrismObjectDealService(opts ...option.RequestOption) (r *PrismObjectDeal
 }
 
 // Create object
-func (r *PrismObjectDealService) New(ctx context.Context, params PrismObjectDealNewParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
+func (r *PrismObjectDealService) New(ctx context.Context, params PrismObjectDealNewParams, opts ...option.RequestOption) (res *PrismObjectDealNewResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -54,7 +54,7 @@ func (r *PrismObjectDealService) New(ctx context.Context, params PrismObjectDeal
 }
 
 // Patch object
-func (r *PrismObjectDealService) Update(ctx context.Context, dealID string, params PrismObjectDealUpdateParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
+func (r *PrismObjectDealService) Update(ctx context.Context, dealID string, params PrismObjectDealUpdateParams, opts ...option.RequestOption) (res *PrismObjectDealUpdateResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -137,7 +137,7 @@ func (r *PrismObjectDealService) Duplicate(ctx context.Context, dealID string, b
 }
 
 // Get object
-func (r *PrismObjectDealService) Get(ctx context.Context, dealID string, query PrismObjectDealGetParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
+func (r *PrismObjectDealService) Get(ctx context.Context, dealID string, query PrismObjectDealGetParams, opts ...option.RequestOption) (res *PrismObjectDealGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -157,7 +157,7 @@ func (r *PrismObjectDealService) Get(ctx context.Context, dealID string, query P
 	return res, err
 }
 
-// Query v2
+// Query
 func (r *PrismObjectDealService) Query(ctx context.Context, params PrismObjectDealQueryParams, opts ...option.RequestOption) (res *PrismObjectDealQueryResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
@@ -175,7 +175,7 @@ func (r *PrismObjectDealService) Query(ctx context.Context, params PrismObjectDe
 }
 
 // Restore object
-func (r *PrismObjectDealService) Restore(ctx context.Context, dealID string, body PrismObjectDealRestoreParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
+func (r *PrismObjectDealService) Restore(ctx context.Context, dealID string, body PrismObjectDealRestoreParams, opts ...option.RequestOption) (res *PrismObjectDealRestoreResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -193,6 +193,64 @@ func (r *PrismObjectDealService) Restore(ctx context.Context, dealID string, bod
 	path := fmt.Sprintf("v2/prism/%s/deal/%s/restore", body.TeamID, dealID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectDealNewResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}         `json:"default"`
+	Extended interface{}                    `json:"extended"`
+	JSON     prismObjectDealNewResponseJSON `json:"-"`
+}
+
+// prismObjectDealNewResponseJSON contains the JSON metadata for the struct
+// [PrismObjectDealNewResponse]
+type prismObjectDealNewResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectDealNewResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectDealNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectDealUpdateResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}            `json:"default"`
+	Extended interface{}                       `json:"extended"`
+	JSON     prismObjectDealUpdateResponseJSON `json:"-"`
+}
+
+// prismObjectDealUpdateResponseJSON contains the JSON metadata for the struct
+// [PrismObjectDealUpdateResponse]
+type prismObjectDealUpdateResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectDealUpdateResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectDealUpdateResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type PrismObjectDealBulkNewResponse struct {
@@ -309,17 +367,47 @@ func (r prismObjectDealDuplicateResponseJSON) RawJSON() string {
 	return r.raw
 }
 
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectDealGetResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}         `json:"default"`
+	Extended interface{}                    `json:"extended"`
+	JSON     prismObjectDealGetResponseJSON `json:"-"`
+}
+
+// prismObjectDealGetResponseJSON contains the JSON metadata for the struct
+// [PrismObjectDealGetResponse]
+type prismObjectDealGetResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectDealGetResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectDealGetResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type PrismObjectDealQueryResponse struct {
-	Data  []interface{}                    `json:"data"`
-	Total int64                            `json:"total"`
-	JSON  prismObjectDealQueryResponseJSON `json:"-"`
+	Data []PrismObjectDealQueryResponseData `json:"data" api:"required"`
+	// True when the page returned the maximum number of rows; another page may exist.
+	HasMore bool                             `json:"has_more"`
+	JSON    prismObjectDealQueryResponseJSON `json:"-"`
 }
 
 // prismObjectDealQueryResponseJSON contains the JSON metadata for the struct
 // [PrismObjectDealQueryResponse]
 type prismObjectDealQueryResponseJSON struct {
 	Data        apijson.Field
-	Total       apijson.Field
+	HasMore     apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -329,6 +417,64 @@ func (r *PrismObjectDealQueryResponse) UnmarshalJSON(data []byte) (err error) {
 }
 
 func (r prismObjectDealQueryResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectDealQueryResponseData struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}               `json:"default"`
+	Extended interface{}                          `json:"extended"`
+	JSON     prismObjectDealQueryResponseDataJSON `json:"-"`
+}
+
+// prismObjectDealQueryResponseDataJSON contains the JSON metadata for the struct
+// [PrismObjectDealQueryResponseData]
+type prismObjectDealQueryResponseDataJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectDealQueryResponseData) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectDealQueryResponseDataJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectDealRestoreResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}             `json:"default"`
+	Extended interface{}                        `json:"extended"`
+	JSON     prismObjectDealRestoreResponseJSON `json:"-"`
+}
+
+// prismObjectDealRestoreResponseJSON contains the JSON metadata for the struct
+// [PrismObjectDealRestoreResponse]
+type prismObjectDealRestoreResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectDealRestoreResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectDealRestoreResponseJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -414,7 +560,7 @@ type PrismObjectDealQueryParamsQuery struct {
 	Combinator param.Field[PrismObjectDealQueryParamsQueryCombinator] `json:"combinator"`
 	CRMID      param.Field[string]                                    `json:"crm_id" format:"uuid"`
 	// Filters as [{ slug: { operator: value } }]. For select/multiselect properties,
-	// values must be option slugs
+	// values may be option slugs or option UUIDs.
 	Filter param.Field[[]map[string]map[string]PrismObjectDealQueryParamsQueryFilterUnion] `json:"filter"`
 	Limit  param.Field[int64]                                                              `json:"limit"`
 	Page   param.Field[int64]                                                              `json:"page"`

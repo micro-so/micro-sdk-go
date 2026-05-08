@@ -81,11 +81,13 @@ const (
 	PrismMetadataListParamsObjectTypeDocument      PrismMetadataListParamsObjectType = "document"
 	PrismMetadataListParamsObjectTypeAction        PrismMetadataListParamsObjectType = "action"
 	PrismMetadataListParamsObjectTypeEvent         PrismMetadataListParamsObjectType = "event"
+	PrismMetadataListParamsObjectTypeOrganization  PrismMetadataListParamsObjectType = "organization"
+	PrismMetadataListParamsObjectTypeContact       PrismMetadataListParamsObjectType = "contact"
 )
 
 func (r PrismMetadataListParamsObjectType) IsKnown() bool {
 	switch r {
-	case PrismMetadataListParamsObjectTypeDeal, PrismMetadataListParamsObjectTypeIdentity, PrismMetadataListParamsObjectTypeAIChatThread, PrismMetadataListParamsObjectTypeAIChatMessage, PrismMetadataListParamsObjectTypeDocument, PrismMetadataListParamsObjectTypeAction, PrismMetadataListParamsObjectTypeEvent:
+	case PrismMetadataListParamsObjectTypeDeal, PrismMetadataListParamsObjectTypeIdentity, PrismMetadataListParamsObjectTypeAIChatThread, PrismMetadataListParamsObjectTypeAIChatMessage, PrismMetadataListParamsObjectTypeDocument, PrismMetadataListParamsObjectTypeAction, PrismMetadataListParamsObjectTypeEvent, PrismMetadataListParamsObjectTypeOrganization, PrismMetadataListParamsObjectTypeContact:
 		return true
 	}
 	return false

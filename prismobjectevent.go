@@ -37,7 +37,7 @@ func NewPrismObjectEventService(opts ...option.RequestOption) (r *PrismObjectEve
 }
 
 // Get object
-func (r *PrismObjectEventService) Get(ctx context.Context, eventID string, query PrismObjectEventGetParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
+func (r *PrismObjectEventService) Get(ctx context.Context, eventID string, query PrismObjectEventGetParams, opts ...option.RequestOption) (res *PrismObjectEventGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -57,7 +57,7 @@ func (r *PrismObjectEventService) Get(ctx context.Context, eventID string, query
 	return res, err
 }
 
-// Query v2
+// Query
 func (r *PrismObjectEventService) Query(ctx context.Context, params PrismObjectEventQueryParams, opts ...option.RequestOption) (res *PrismObjectEventQueryResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
@@ -74,17 +74,47 @@ func (r *PrismObjectEventService) Query(ctx context.Context, params PrismObjectE
 	return res, err
 }
 
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectEventGetResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}          `json:"default"`
+	Extended interface{}                     `json:"extended"`
+	JSON     prismObjectEventGetResponseJSON `json:"-"`
+}
+
+// prismObjectEventGetResponseJSON contains the JSON metadata for the struct
+// [PrismObjectEventGetResponse]
+type prismObjectEventGetResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectEventGetResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectEventGetResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type PrismObjectEventQueryResponse struct {
-	Data  []interface{}                     `json:"data"`
-	Total int64                             `json:"total"`
-	JSON  prismObjectEventQueryResponseJSON `json:"-"`
+	Data []PrismObjectEventQueryResponseData `json:"data" api:"required"`
+	// True when the page returned the maximum number of rows; another page may exist.
+	HasMore bool                              `json:"has_more"`
+	JSON    prismObjectEventQueryResponseJSON `json:"-"`
 }
 
 // prismObjectEventQueryResponseJSON contains the JSON metadata for the struct
 // [PrismObjectEventQueryResponse]
 type prismObjectEventQueryResponseJSON struct {
 	Data        apijson.Field
-	Total       apijson.Field
+	HasMore     apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -94,6 +124,35 @@ func (r *PrismObjectEventQueryResponse) UnmarshalJSON(data []byte) (err error) {
 }
 
 func (r prismObjectEventQueryResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectEventQueryResponseData struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}                `json:"default"`
+	Extended interface{}                           `json:"extended"`
+	JSON     prismObjectEventQueryResponseDataJSON `json:"-"`
+}
+
+// prismObjectEventQueryResponseDataJSON contains the JSON metadata for the struct
+// [PrismObjectEventQueryResponseData]
+type prismObjectEventQueryResponseDataJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectEventQueryResponseData) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectEventQueryResponseDataJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -124,7 +183,7 @@ type PrismObjectEventQueryParamsQuery struct {
 	Combinator param.Field[PrismObjectEventQueryParamsQueryCombinator] `json:"combinator"`
 	CRMID      param.Field[string]                                     `json:"crm_id" format:"uuid"`
 	// Filters as [{ slug: { operator: value } }]. For select/multiselect properties,
-	// values must be option slugs
+	// values may be option slugs or option UUIDs.
 	Filter param.Field[[]map[string]map[string]PrismObjectEventQueryParamsQueryFilterUnion] `json:"filter"`
 	Limit  param.Field[int64]                                                               `json:"limit"`
 	Page   param.Field[int64]                                                               `json:"page"`

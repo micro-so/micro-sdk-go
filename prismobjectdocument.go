@@ -37,7 +37,7 @@ func NewPrismObjectDocumentService(opts ...option.RequestOption) (r *PrismObject
 }
 
 // Create object
-func (r *PrismObjectDocumentService) New(ctx context.Context, params PrismObjectDocumentNewParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
+func (r *PrismObjectDocumentService) New(ctx context.Context, params PrismObjectDocumentNewParams, opts ...option.RequestOption) (res *PrismObjectDocumentNewResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -54,7 +54,7 @@ func (r *PrismObjectDocumentService) New(ctx context.Context, params PrismObject
 }
 
 // Patch object
-func (r *PrismObjectDocumentService) Update(ctx context.Context, documentID string, params PrismObjectDocumentUpdateParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
+func (r *PrismObjectDocumentService) Update(ctx context.Context, documentID string, params PrismObjectDocumentUpdateParams, opts ...option.RequestOption) (res *PrismObjectDocumentUpdateResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -137,7 +137,7 @@ func (r *PrismObjectDocumentService) Duplicate(ctx context.Context, documentID s
 }
 
 // Get object
-func (r *PrismObjectDocumentService) Get(ctx context.Context, documentID string, query PrismObjectDocumentGetParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
+func (r *PrismObjectDocumentService) Get(ctx context.Context, documentID string, query PrismObjectDocumentGetParams, opts ...option.RequestOption) (res *PrismObjectDocumentGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -157,7 +157,7 @@ func (r *PrismObjectDocumentService) Get(ctx context.Context, documentID string,
 	return res, err
 }
 
-// Query v2
+// Query
 func (r *PrismObjectDocumentService) Query(ctx context.Context, params PrismObjectDocumentQueryParams, opts ...option.RequestOption) (res *PrismObjectDocumentQueryResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
@@ -175,7 +175,7 @@ func (r *PrismObjectDocumentService) Query(ctx context.Context, params PrismObje
 }
 
 // Restore object
-func (r *PrismObjectDocumentService) Restore(ctx context.Context, documentID string, body PrismObjectDocumentRestoreParams, opts ...option.RequestOption) (res *PrismObjectProperties, err error) {
+func (r *PrismObjectDocumentService) Restore(ctx context.Context, documentID string, body PrismObjectDocumentRestoreParams, opts ...option.RequestOption) (res *PrismObjectDocumentRestoreResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -193,6 +193,64 @@ func (r *PrismObjectDocumentService) Restore(ctx context.Context, documentID str
 	path := fmt.Sprintf("v2/prism/%s/document/%s/restore", body.TeamID, documentID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectDocumentNewResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}             `json:"default"`
+	Extended interface{}                        `json:"extended"`
+	JSON     prismObjectDocumentNewResponseJSON `json:"-"`
+}
+
+// prismObjectDocumentNewResponseJSON contains the JSON metadata for the struct
+// [PrismObjectDocumentNewResponse]
+type prismObjectDocumentNewResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectDocumentNewResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectDocumentNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectDocumentUpdateResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}                `json:"default"`
+	Extended interface{}                           `json:"extended"`
+	JSON     prismObjectDocumentUpdateResponseJSON `json:"-"`
+}
+
+// prismObjectDocumentUpdateResponseJSON contains the JSON metadata for the struct
+// [PrismObjectDocumentUpdateResponse]
+type prismObjectDocumentUpdateResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectDocumentUpdateResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectDocumentUpdateResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type PrismObjectDocumentBulkNewResponse struct {
@@ -309,17 +367,47 @@ func (r prismObjectDocumentDuplicateResponseJSON) RawJSON() string {
 	return r.raw
 }
 
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectDocumentGetResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}             `json:"default"`
+	Extended interface{}                        `json:"extended"`
+	JSON     prismObjectDocumentGetResponseJSON `json:"-"`
+}
+
+// prismObjectDocumentGetResponseJSON contains the JSON metadata for the struct
+// [PrismObjectDocumentGetResponse]
+type prismObjectDocumentGetResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectDocumentGetResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectDocumentGetResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type PrismObjectDocumentQueryResponse struct {
-	Data  []interface{}                        `json:"data"`
-	Total int64                                `json:"total"`
-	JSON  prismObjectDocumentQueryResponseJSON `json:"-"`
+	Data []PrismObjectDocumentQueryResponseData `json:"data" api:"required"`
+	// True when the page returned the maximum number of rows; another page may exist.
+	HasMore bool                                 `json:"has_more"`
+	JSON    prismObjectDocumentQueryResponseJSON `json:"-"`
 }
 
 // prismObjectDocumentQueryResponseJSON contains the JSON metadata for the struct
 // [PrismObjectDocumentQueryResponse]
 type prismObjectDocumentQueryResponseJSON struct {
 	Data        apijson.Field
-	Total       apijson.Field
+	HasMore     apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -329,6 +417,64 @@ func (r *PrismObjectDocumentQueryResponse) UnmarshalJSON(data []byte) (err error
 }
 
 func (r prismObjectDocumentQueryResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectDocumentQueryResponseData struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}                   `json:"default"`
+	Extended interface{}                              `json:"extended"`
+	JSON     prismObjectDocumentQueryResponseDataJSON `json:"-"`
+}
+
+// prismObjectDocumentQueryResponseDataJSON contains the JSON metadata for the
+// struct [PrismObjectDocumentQueryResponseData]
+type prismObjectDocumentQueryResponseDataJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectDocumentQueryResponseData) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectDocumentQueryResponseDataJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectDocumentRestoreResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}                 `json:"default"`
+	Extended interface{}                            `json:"extended"`
+	JSON     prismObjectDocumentRestoreResponseJSON `json:"-"`
+}
+
+// prismObjectDocumentRestoreResponseJSON contains the JSON metadata for the struct
+// [PrismObjectDocumentRestoreResponse]
+type prismObjectDocumentRestoreResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectDocumentRestoreResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectDocumentRestoreResponseJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -414,7 +560,7 @@ type PrismObjectDocumentQueryParamsQuery struct {
 	Combinator param.Field[PrismObjectDocumentQueryParamsQueryCombinator] `json:"combinator"`
 	CRMID      param.Field[string]                                        `json:"crm_id" format:"uuid"`
 	// Filters as [{ slug: { operator: value } }]. For select/multiselect properties,
-	// values must be option slugs
+	// values may be option slugs or option UUIDs.
 	Filter param.Field[[]map[string]map[string]PrismObjectDocumentQueryParamsQueryFilterUnion] `json:"filter"`
 	Limit  param.Field[int64]                                                                  `json:"limit"`
 	Page   param.Field[int64]                                                                  `json:"page"`
