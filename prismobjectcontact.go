@@ -51,6 +51,49 @@ func (r *PrismObjectContactService) New(ctx context.Context, params PrismObjectC
 	return res, err
 }
 
+// Patch object
+func (r *PrismObjectContactService) Update(ctx context.Context, contactID string, params PrismObjectContactUpdateParams, opts ...option.RequestOption) (res *PrismObjectContactUpdateResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if contactID == "" {
+		err = errors.New("missing required contactId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/contact/%s", params.TeamID, contactID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, params, &res, opts...)
+	return res, err
+}
+
+// Delete object
+func (r *PrismObjectContactService) Delete(ctx context.Context, contactID string, body PrismObjectContactDeleteParams, opts ...option.RequestOption) (err error) {
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return err
+	}
+	requestconfig.UseDefaultParam(&body.TeamID, precfg.TeamID)
+	if body.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return err
+	}
+	if contactID == "" {
+		err = errors.New("missing required contactId parameter")
+		return err
+	}
+	path := fmt.Sprintf("v2/prism/%s/contact/%s", body.TeamID, contactID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
+	return err
+}
+
 // Import multiple objects in batch. Properties are keyed by slug. Automatically
 // routes based on size: <100 records sync (immediate response), >=100 records
 // async (S3/Lambda with WebSocket progress)
@@ -70,6 +113,48 @@ func (r *PrismObjectContactService) BulkNew(ctx context.Context, params PrismObj
 	return res, err
 }
 
+// Duplicate object
+func (r *PrismObjectContactService) Duplicate(ctx context.Context, contactID string, body PrismObjectContactDuplicateParams, opts ...option.RequestOption) (res *PrismObjectContactDuplicateResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&body.TeamID, precfg.TeamID)
+	if body.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if contactID == "" {
+		err = errors.New("missing required contactId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/contact/%s/duplicate", body.TeamID, contactID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
+// Get object
+func (r *PrismObjectContactService) Get(ctx context.Context, contactID string, query PrismObjectContactGetParams, opts ...option.RequestOption) (res *PrismObjectContactGetResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&query.TeamID, precfg.TeamID)
+	if query.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if contactID == "" {
+		err = errors.New("missing required contactId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/contact/%s", query.TeamID, contactID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return res, err
+}
+
 // Query v2
 func (r *PrismObjectContactService) Query(ctx context.Context, params PrismObjectContactQueryParams, opts ...option.RequestOption) (res *PrismObjectContactQueryResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
@@ -84,6 +169,27 @@ func (r *PrismObjectContactService) Query(ctx context.Context, params PrismObjec
 	}
 	path := fmt.Sprintf("v2/prism/query/%s/contact", params.TeamID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	return res, err
+}
+
+// Restore object
+func (r *PrismObjectContactService) Restore(ctx context.Context, contactID string, body PrismObjectContactRestoreParams, opts ...option.RequestOption) (res *PrismObjectContactRestoreResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&body.TeamID, precfg.TeamID)
+	if body.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if contactID == "" {
+		err = errors.New("missing required contactId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/contact/%s/restore", body.TeamID, contactID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
 
@@ -113,6 +219,35 @@ func (r *PrismObjectContactNewResponse) UnmarshalJSON(data []byte) (err error) {
 }
 
 func (r prismObjectContactNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectContactUpdateResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}               `json:"default"`
+	Extended interface{}                          `json:"extended"`
+	JSON     prismObjectContactUpdateResponseJSON `json:"-"`
+}
+
+// prismObjectContactUpdateResponseJSON contains the JSON metadata for the struct
+// [PrismObjectContactUpdateResponse]
+type prismObjectContactUpdateResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectContactUpdateResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectContactUpdateResponseJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -209,6 +344,56 @@ func (r prismObjectContactBulkNewResponseSummaryJSON) RawJSON() string {
 	return r.raw
 }
 
+type PrismObjectContactDuplicateResponse struct {
+	ID   string                                  `json:"id" format:"uuid"`
+	JSON prismObjectContactDuplicateResponseJSON `json:"-"`
+}
+
+// prismObjectContactDuplicateResponseJSON contains the JSON metadata for the
+// struct [PrismObjectContactDuplicateResponse]
+type prismObjectContactDuplicateResponseJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectContactDuplicateResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectContactDuplicateResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectContactGetResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}            `json:"default"`
+	Extended interface{}                       `json:"extended"`
+	JSON     prismObjectContactGetResponseJSON `json:"-"`
+}
+
+// prismObjectContactGetResponseJSON contains the JSON metadata for the struct
+// [PrismObjectContactGetResponse]
+type prismObjectContactGetResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectContactGetResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectContactGetResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type PrismObjectContactQueryResponse struct {
 	Data []PrismObjectContactQueryResponseData `json:"data" api:"required"`
 	// True when the page returned the maximum number of rows; another page may exist.
@@ -262,6 +447,35 @@ func (r prismObjectContactQueryResponseDataJSON) RawJSON() string {
 	return r.raw
 }
 
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectContactRestoreResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}                `json:"default"`
+	Extended interface{}                           `json:"extended"`
+	JSON     prismObjectContactRestoreResponseJSON `json:"-"`
+}
+
+// prismObjectContactRestoreResponseJSON contains the JSON metadata for the struct
+// [PrismObjectContactRestoreResponse]
+type prismObjectContactRestoreResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectContactRestoreResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectContactRestoreResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type PrismObjectContactNewParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID                param.Field[string]        `path:"teamId" api:"required" format:"uuid"`
@@ -270,6 +484,21 @@ type PrismObjectContactNewParams struct {
 
 func (r PrismObjectContactNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r.PrismObjectProperties)
+}
+
+type PrismObjectContactUpdateParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID                param.Field[string]        `path:"teamId" api:"required" format:"uuid"`
+	PrismObjectProperties PrismObjectPropertiesParam `json:"prism_object_properties" api:"required"`
+}
+
+func (r PrismObjectContactUpdateParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r.PrismObjectProperties)
+}
+
+type PrismObjectContactDeleteParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
 }
 
 type PrismObjectContactBulkNewParams struct {
@@ -295,6 +524,16 @@ type PrismObjectContactBulkNewParamsOptions struct {
 
 func (r PrismObjectContactBulkNewParamsOptions) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+type PrismObjectContactDuplicateParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+}
+
+type PrismObjectContactGetParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
 }
 
 type PrismObjectContactQueryParams struct {
@@ -381,3 +620,8 @@ type PrismObjectContactQueryParamsIDUnion interface {
 type PrismObjectContactQueryParamsIDArray []string
 
 func (r PrismObjectContactQueryParamsIDArray) ImplementsPrismObjectContactQueryParamsIDUnion() {}
+
+type PrismObjectContactRestoreParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+}

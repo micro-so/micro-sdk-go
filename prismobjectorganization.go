@@ -51,6 +51,49 @@ func (r *PrismObjectOrganizationService) New(ctx context.Context, params PrismOb
 	return res, err
 }
 
+// Patch object
+func (r *PrismObjectOrganizationService) Update(ctx context.Context, organizationID string, params PrismObjectOrganizationUpdateParams, opts ...option.RequestOption) (res *PrismObjectOrganizationUpdateResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if organizationID == "" {
+		err = errors.New("missing required organizationId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/organization/%s", params.TeamID, organizationID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, params, &res, opts...)
+	return res, err
+}
+
+// Delete object
+func (r *PrismObjectOrganizationService) Delete(ctx context.Context, organizationID string, body PrismObjectOrganizationDeleteParams, opts ...option.RequestOption) (err error) {
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return err
+	}
+	requestconfig.UseDefaultParam(&body.TeamID, precfg.TeamID)
+	if body.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return err
+	}
+	if organizationID == "" {
+		err = errors.New("missing required organizationId parameter")
+		return err
+	}
+	path := fmt.Sprintf("v2/prism/%s/organization/%s", body.TeamID, organizationID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
+	return err
+}
+
 // Import multiple objects in batch. Properties are keyed by slug. Automatically
 // routes based on size: <100 records sync (immediate response), >=100 records
 // async (S3/Lambda with WebSocket progress)
@@ -70,6 +113,48 @@ func (r *PrismObjectOrganizationService) BulkNew(ctx context.Context, params Pri
 	return res, err
 }
 
+// Duplicate object
+func (r *PrismObjectOrganizationService) Duplicate(ctx context.Context, organizationID string, body PrismObjectOrganizationDuplicateParams, opts ...option.RequestOption) (res *PrismObjectOrganizationDuplicateResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&body.TeamID, precfg.TeamID)
+	if body.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if organizationID == "" {
+		err = errors.New("missing required organizationId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/organization/%s/duplicate", body.TeamID, organizationID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
+// Get object
+func (r *PrismObjectOrganizationService) Get(ctx context.Context, organizationID string, query PrismObjectOrganizationGetParams, opts ...option.RequestOption) (res *PrismObjectOrganizationGetResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&query.TeamID, precfg.TeamID)
+	if query.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if organizationID == "" {
+		err = errors.New("missing required organizationId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/organization/%s", query.TeamID, organizationID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
+	return res, err
+}
+
 // Query v2
 func (r *PrismObjectOrganizationService) Query(ctx context.Context, params PrismObjectOrganizationQueryParams, opts ...option.RequestOption) (res *PrismObjectOrganizationQueryResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
@@ -84,6 +169,27 @@ func (r *PrismObjectOrganizationService) Query(ctx context.Context, params Prism
 	}
 	path := fmt.Sprintf("v2/prism/query/%s/organization", params.TeamID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	return res, err
+}
+
+// Restore object
+func (r *PrismObjectOrganizationService) Restore(ctx context.Context, organizationID string, body PrismObjectOrganizationRestoreParams, opts ...option.RequestOption) (res *PrismObjectOrganizationRestoreResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&body.TeamID, precfg.TeamID)
+	if body.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if organizationID == "" {
+		err = errors.New("missing required organizationId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/organization/%s/restore", body.TeamID, organizationID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
 
@@ -113,6 +219,35 @@ func (r *PrismObjectOrganizationNewResponse) UnmarshalJSON(data []byte) (err err
 }
 
 func (r prismObjectOrganizationNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectOrganizationUpdateResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}                    `json:"default"`
+	Extended interface{}                               `json:"extended"`
+	JSON     prismObjectOrganizationUpdateResponseJSON `json:"-"`
+}
+
+// prismObjectOrganizationUpdateResponseJSON contains the JSON metadata for the
+// struct [PrismObjectOrganizationUpdateResponse]
+type prismObjectOrganizationUpdateResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectOrganizationUpdateResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectOrganizationUpdateResponseJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -209,6 +344,56 @@ func (r prismObjectOrganizationBulkNewResponseSummaryJSON) RawJSON() string {
 	return r.raw
 }
 
+type PrismObjectOrganizationDuplicateResponse struct {
+	ID   string                                       `json:"id" format:"uuid"`
+	JSON prismObjectOrganizationDuplicateResponseJSON `json:"-"`
+}
+
+// prismObjectOrganizationDuplicateResponseJSON contains the JSON metadata for the
+// struct [PrismObjectOrganizationDuplicateResponse]
+type prismObjectOrganizationDuplicateResponseJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectOrganizationDuplicateResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectOrganizationDuplicateResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectOrganizationGetResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}                 `json:"default"`
+	Extended interface{}                            `json:"extended"`
+	JSON     prismObjectOrganizationGetResponseJSON `json:"-"`
+}
+
+// prismObjectOrganizationGetResponseJSON contains the JSON metadata for the struct
+// [PrismObjectOrganizationGetResponse]
+type prismObjectOrganizationGetResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectOrganizationGetResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectOrganizationGetResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type PrismObjectOrganizationQueryResponse struct {
 	Data []PrismObjectOrganizationQueryResponseData `json:"data" api:"required"`
 	// True when the page returned the maximum number of rows; another page may exist.
@@ -262,6 +447,35 @@ func (r prismObjectOrganizationQueryResponseDataJSON) RawJSON() string {
 	return r.raw
 }
 
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectOrganizationRestoreResponse struct {
+	ID  string      `json:"id" api:"required" format:"uuid"`
+	CRM interface{} `json:"crm"`
+	// Properties keyed by property slug.
+	Default  map[string]interface{}                     `json:"default"`
+	Extended interface{}                                `json:"extended"`
+	JSON     prismObjectOrganizationRestoreResponseJSON `json:"-"`
+}
+
+// prismObjectOrganizationRestoreResponseJSON contains the JSON metadata for the
+// struct [PrismObjectOrganizationRestoreResponse]
+type prismObjectOrganizationRestoreResponseJSON struct {
+	ID          apijson.Field
+	CRM         apijson.Field
+	Default     apijson.Field
+	Extended    apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectOrganizationRestoreResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectOrganizationRestoreResponseJSON) RawJSON() string {
+	return r.raw
+}
+
 type PrismObjectOrganizationNewParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID                param.Field[string]        `path:"teamId" api:"required" format:"uuid"`
@@ -270,6 +484,21 @@ type PrismObjectOrganizationNewParams struct {
 
 func (r PrismObjectOrganizationNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r.PrismObjectProperties)
+}
+
+type PrismObjectOrganizationUpdateParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID                param.Field[string]        `path:"teamId" api:"required" format:"uuid"`
+	PrismObjectProperties PrismObjectPropertiesParam `json:"prism_object_properties" api:"required"`
+}
+
+func (r PrismObjectOrganizationUpdateParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r.PrismObjectProperties)
+}
+
+type PrismObjectOrganizationDeleteParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
 }
 
 type PrismObjectOrganizationBulkNewParams struct {
@@ -295,6 +524,16 @@ type PrismObjectOrganizationBulkNewParamsOptions struct {
 
 func (r PrismObjectOrganizationBulkNewParamsOptions) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+type PrismObjectOrganizationDuplicateParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+}
+
+type PrismObjectOrganizationGetParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
 }
 
 type PrismObjectOrganizationQueryParams struct {
@@ -381,4 +620,9 @@ type PrismObjectOrganizationQueryParamsIDUnion interface {
 type PrismObjectOrganizationQueryParamsIDArray []string
 
 func (r PrismObjectOrganizationQueryParamsIDArray) ImplementsPrismObjectOrganizationQueryParamsIDUnion() {
+}
+
+type PrismObjectOrganizationRestoreParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
 }
