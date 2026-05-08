@@ -61,6 +61,7 @@ func main() {
 	client := micro.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("MICRO_API_KEY")
 		option.WithTeamID("My Team ID"),
+		option.WithEnvironmentProduction(), // defaults to option.WithEnvironmentStaging()
 	)
 	response, err := client.Prism.Objects.Deals.Query(context.TODO(), micro.PrismObjectDealQueryParams{
 		Query: micro.F(micro.PrismObjectDealQueryParamsQuery{
