@@ -47,6 +47,71 @@ func TestPrismObjectContactNewWithOptionalParams(t *testing.T) {
 	}
 }
 
+func TestPrismObjectContactUpdateWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Contacts.Update(
+		context.TODO(),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		micro.PrismObjectContactUpdateParams{
+			PrismObjectProperties: micro.PrismObjectPropertiesParam{
+				ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+				CRM: micro.F[any](map[string]interface{}{}),
+				Default: micro.F(map[string]interface{}{
+					"foo": "bar",
+				}),
+				Extended: micro.F[any](map[string]interface{}{}),
+			},
+		},
+	)
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectContactDelete(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	err := client.Prism.Objects.Contacts.Delete(
+		context.TODO(),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		micro.PrismObjectContactDeleteParams{},
+	)
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestPrismObjectContactBulkNewWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
@@ -76,6 +141,62 @@ func TestPrismObjectContactBulkNewWithOptionalParams(t *testing.T) {
 			DedupeBy:        micro.F("dedupe_by"),
 		}),
 	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectContactDuplicate(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Contacts.Duplicate(
+		context.TODO(),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		micro.PrismObjectContactDuplicateParams{},
+	)
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectContactGet(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Contacts.Get(
+		context.TODO(),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		micro.PrismObjectContactGetParams{},
+	)
 	if err != nil {
 		var apierr *micro.Error
 		if errors.As(err, &apierr) {
@@ -120,6 +241,34 @@ func TestPrismObjectContactQueryWithOptionalParams(t *testing.T) {
 		Deleted: micro.F(true),
 		Sources: micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
 	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectContactRestore(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Contacts.Restore(
+		context.TODO(),
+		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+		micro.PrismObjectContactRestoreParams{},
+	)
 	if err != nil {
 		var apierr *micro.Error
 		if errors.As(err, &apierr) {
