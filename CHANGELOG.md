@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 (2026-05-13)
+
+Full Changelog: [v0.2.0...v0.3.0](https://github.com/micro-so/micro-sdk-go/compare/v0.2.0...v0.3.0)
+
+### Features
+
+* **api:** api update ([f2d52be](https://github.com/micro-so/micro-sdk-go/commit/f2d52be938531292c74d1e0be4aea5b70d7c25d0))
+
 ## 0.2.0 (2026-05-08)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/micro-so/micro-sdk-go/compare/v0.1.0...v0.2.0)

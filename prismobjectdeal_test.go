@@ -30,12 +30,10 @@ func TestPrismObjectDealNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Prism.Objects.Deals.New(context.TODO(), micro.PrismObjectDealNewParams{
 		PrismObjectProperties: micro.PrismObjectPropertiesParam{
-			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			CRM: micro.F[any](map[string]interface{}{}),
 			Default: micro.F(map[string]interface{}{
 				"foo": "bar",
 			}),
-			Extended: micro.F[any](map[string]interface{}{}),
+			List: micro.F[any](map[string]interface{}{}),
 		},
 	})
 	if err != nil {
@@ -66,12 +64,10 @@ func TestPrismObjectDealUpdateWithOptionalParams(t *testing.T) {
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.PrismObjectDealUpdateParams{
 			PrismObjectProperties: micro.PrismObjectPropertiesParam{
-				ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-				CRM: micro.F[any](map[string]interface{}{}),
 				Default: micro.F(map[string]interface{}{
 					"foo": "bar",
 				}),
-				Extended: micro.F[any](map[string]interface{}{}),
+				List: micro.F[any](map[string]interface{}{}),
 			},
 		},
 	)
@@ -128,17 +124,15 @@ func TestPrismObjectDealBulkNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Prism.Objects.Deals.BulkNew(context.TODO(), micro.PrismObjectDealBulkNewParams{
 		Objects: micro.F([]micro.PrismObjectPropertiesParam{{
-			ID:  micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			CRM: micro.F[any](map[string]interface{}{}),
 			Default: micro.F(map[string]interface{}{
 				"foo": "bar",
 			}),
-			Extended: micro.F[any](map[string]interface{}{}),
+			List: micro.F[any](map[string]interface{}{}),
 		}}),
 		Options: micro.F(micro.PrismObjectDealBulkNewParamsOptions{
 			CaseInsensitive: micro.F(true),
-			CRMID:           micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 			DedupeBy:        micro.F("dedupe_by"),
+			ListID:          micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 		}),
 	})
 	if err != nil {
@@ -224,14 +218,14 @@ func TestPrismObjectDealQueryWithOptionalParams(t *testing.T) {
 		Query: micro.F(micro.PrismObjectDealQueryParamsQuery{
 			Select:     micro.F([]string{"string"}),
 			Combinator: micro.F(micro.PrismObjectDealQueryParamsQueryCombinatorAnd),
-			CRMID:      micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			Filter: micro.F([]map[string]map[string]micro.PrismObjectDealQueryParamsQueryFilterUnion{{
-				"foo": {
-					"foo": shared.UnionString("string"),
+			Filter: micro.F([]map[string]micro.PrismObjectDealQueryParamsQueryFilterUnion{{
+				"foo": micro.PrismObjectDealQueryParamsQueryFilter{
+					Equals: micro.F[micro.PrismObjectDealQueryParamsQueryFilterUnion](shared.UnionString("string")),
 				},
 			}}),
-			Limit: micro.F(int64(1)),
-			Page:  micro.F(int64(0)),
+			Limit:  micro.F(int64(1)),
+			ListID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			Page:   micro.F(int64(0)),
 			Sort: micro.F([]map[string]micro.PrismObjectDealQueryParamsQuerySort{{
 				"foo": micro.PrismObjectDealQueryParamsQuerySortAsc,
 			}}),

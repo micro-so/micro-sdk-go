@@ -197,21 +197,19 @@ func (r *PrismObjectDealService) Restore(ctx context.Context, dealID string, bod
 
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectDealNewResponse struct {
-	ID  string      `json:"id" api:"required" format:"uuid"`
-	CRM interface{} `json:"crm"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Properties keyed by property slug.
-	Default  map[string]interface{}         `json:"default"`
-	Extended interface{}                    `json:"extended"`
-	JSON     prismObjectDealNewResponseJSON `json:"-"`
+	Default map[string]interface{}         `json:"default"`
+	List    interface{}                    `json:"list"`
+	JSON    prismObjectDealNewResponseJSON `json:"-"`
 }
 
 // prismObjectDealNewResponseJSON contains the JSON metadata for the struct
 // [PrismObjectDealNewResponse]
 type prismObjectDealNewResponseJSON struct {
 	ID          apijson.Field
-	CRM         apijson.Field
 	Default     apijson.Field
-	Extended    apijson.Field
+	List        apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -226,21 +224,19 @@ func (r prismObjectDealNewResponseJSON) RawJSON() string {
 
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectDealUpdateResponse struct {
-	ID  string      `json:"id" api:"required" format:"uuid"`
-	CRM interface{} `json:"crm"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Properties keyed by property slug.
-	Default  map[string]interface{}            `json:"default"`
-	Extended interface{}                       `json:"extended"`
-	JSON     prismObjectDealUpdateResponseJSON `json:"-"`
+	Default map[string]interface{}            `json:"default"`
+	List    interface{}                       `json:"list"`
+	JSON    prismObjectDealUpdateResponseJSON `json:"-"`
 }
 
 // prismObjectDealUpdateResponseJSON contains the JSON metadata for the struct
 // [PrismObjectDealUpdateResponse]
 type prismObjectDealUpdateResponseJSON struct {
 	ID          apijson.Field
-	CRM         apijson.Field
 	Default     apijson.Field
-	Extended    apijson.Field
+	List        apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -369,21 +365,19 @@ func (r prismObjectDealDuplicateResponseJSON) RawJSON() string {
 
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectDealGetResponse struct {
-	ID  string      `json:"id" api:"required" format:"uuid"`
-	CRM interface{} `json:"crm"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Properties keyed by property slug.
-	Default  map[string]interface{}         `json:"default"`
-	Extended interface{}                    `json:"extended"`
-	JSON     prismObjectDealGetResponseJSON `json:"-"`
+	Default map[string]interface{}         `json:"default"`
+	List    interface{}                    `json:"list"`
+	JSON    prismObjectDealGetResponseJSON `json:"-"`
 }
 
 // prismObjectDealGetResponseJSON contains the JSON metadata for the struct
 // [PrismObjectDealGetResponse]
 type prismObjectDealGetResponseJSON struct {
 	ID          apijson.Field
-	CRM         apijson.Field
 	Default     apijson.Field
-	Extended    apijson.Field
+	List        apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -422,21 +416,19 @@ func (r prismObjectDealQueryResponseJSON) RawJSON() string {
 
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectDealQueryResponseData struct {
-	ID  string      `json:"id" api:"required" format:"uuid"`
-	CRM interface{} `json:"crm"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Properties keyed by property slug.
-	Default  map[string]interface{}               `json:"default"`
-	Extended interface{}                          `json:"extended"`
-	JSON     prismObjectDealQueryResponseDataJSON `json:"-"`
+	Default map[string]interface{}               `json:"default"`
+	List    interface{}                          `json:"list"`
+	JSON    prismObjectDealQueryResponseDataJSON `json:"-"`
 }
 
 // prismObjectDealQueryResponseDataJSON contains the JSON metadata for the struct
 // [PrismObjectDealQueryResponseData]
 type prismObjectDealQueryResponseDataJSON struct {
 	ID          apijson.Field
-	CRM         apijson.Field
 	Default     apijson.Field
-	Extended    apijson.Field
+	List        apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -451,21 +443,19 @@ func (r prismObjectDealQueryResponseDataJSON) RawJSON() string {
 
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectDealRestoreResponse struct {
-	ID  string      `json:"id" api:"required" format:"uuid"`
-	CRM interface{} `json:"crm"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Properties keyed by property slug.
-	Default  map[string]interface{}             `json:"default"`
-	Extended interface{}                        `json:"extended"`
-	JSON     prismObjectDealRestoreResponseJSON `json:"-"`
+	Default map[string]interface{}             `json:"default"`
+	List    interface{}                        `json:"list"`
+	JSON    prismObjectDealRestoreResponseJSON `json:"-"`
 }
 
 // prismObjectDealRestoreResponseJSON contains the JSON metadata for the struct
 // [PrismObjectDealRestoreResponse]
 type prismObjectDealRestoreResponseJSON struct {
 	ID          apijson.Field
-	CRM         apijson.Field
 	Default     apijson.Field
-	Extended    apijson.Field
+	List        apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -518,10 +508,10 @@ func (r PrismObjectDealBulkNewParams) MarshalJSON() (data []byte, err error) {
 type PrismObjectDealBulkNewParamsOptions struct {
 	// Whether deduplication should be case insensitive
 	CaseInsensitive param.Field[bool] `json:"caseInsensitive"`
-	// App/CRM ID for context (optional)
-	CRMID param.Field[string] `json:"crm_id" format:"uuid"`
 	// Property slug to deduplicate on
 	DedupeBy param.Field[string] `json:"dedupe_by"`
+	// App/CRM ID for context (optional)
+	ListID param.Field[string] `json:"list_id" format:"uuid"`
 }
 
 func (r PrismObjectDealBulkNewParamsOptions) MarshalJSON() (data []byte, err error) {
@@ -558,12 +548,12 @@ type PrismObjectDealQueryParamsQuery struct {
 	Select param.Field[[]string] `json:"select" api:"required"`
 	// Logical operator for combining filters
 	Combinator param.Field[PrismObjectDealQueryParamsQueryCombinator] `json:"combinator"`
-	CRMID      param.Field[string]                                    `json:"crm_id" format:"uuid"`
 	// Filters as [{ slug: { operator: value } }]. For select/multiselect properties,
 	// values may be option slugs or option UUIDs.
-	Filter param.Field[[]map[string]map[string]PrismObjectDealQueryParamsQueryFilterUnion] `json:"filter"`
-	Limit  param.Field[int64]                                                              `json:"limit"`
-	Page   param.Field[int64]                                                              `json:"page"`
+	Filter param.Field[[]map[string]PrismObjectDealQueryParamsQueryFilterUnion] `json:"filter"`
+	Limit  param.Field[int64]                                                   `json:"limit"`
+	ListID param.Field[string]                                                  `json:"list_id" format:"uuid"`
+	Page   param.Field[int64]                                                   `json:"page"`
 	// Sort order as [{ slug: direction }]. Array order determines sort priority
 	Sort param.Field[[]map[string]PrismObjectDealQueryParamsQuerySort] `json:"sort"`
 }
@@ -588,15 +578,146 @@ func (r PrismObjectDealQueryParamsQueryCombinator) IsKnown() bool {
 	return false
 }
 
-// Satisfied by [shared.UnionString], [shared.UnionBool],
-// [PrismObjectDealQueryParamsQueryFilterArray].
-type PrismObjectDealQueryParamsQueryFilterUnion interface {
-	ImplementsPrismObjectDealQueryParamsQueryFilterUnion()
+type PrismObjectDealQueryParamsQueryFilter struct {
+	NotEquals       param.Field[interface{}] `json:"!="`
+	Less            param.Field[string]      `json:"<"`
+	LessOrEquals    param.Field[string]      `json:"<="`
+	Equals          param.Field[interface{}] `json:"="`
+	Greater         param.Field[string]      `json:">"`
+	GreaterOrEquals param.Field[string]      `json:">="`
+	BeginsWith      param.Field[string]      `json:"begins_with"`
+	EndsWith        param.Field[string]      `json:"ends_with"`
+	Exists          param.Field[bool]        `json:"exists"`
+	In              param.Field[interface{}] `json:"in"`
+	LikeRegex       param.Field[string]      `json:"like_regex"`
+	NotContains     param.Field[string]      `json:"not_contains"`
+	NotExists       param.Field[bool]        `json:"not_exists"`
+	NotIn           param.Field[interface{}] `json:"not_in"`
 }
 
-type PrismObjectDealQueryParamsQueryFilterArray []string
+func (r PrismObjectDealQueryParamsQueryFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
 
-func (r PrismObjectDealQueryParamsQueryFilterArray) ImplementsPrismObjectDealQueryParamsQueryFilterUnion() {
+func (r PrismObjectDealQueryParamsQueryFilter) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+// Satisfied by [PrismObjectDealQueryParamsQueryFilter],
+// [PrismObjectDealQueryParamsQueryFilter],
+// [PrismObjectDealQueryParamsQueryFilter],
+// [PrismObjectDealQueryParamsQueryFilter],
+// [PrismObjectDealQueryParamsQueryFilter],
+// [PrismObjectDealQueryParamsQueryFilter],
+// [PrismObjectDealQueryParamsQueryFilterLikeRegex],
+// [PrismObjectDealQueryParamsQueryFilterBeginsWith],
+// [PrismObjectDealQueryParamsQueryFilterEndsWith],
+// [PrismObjectDealQueryParamsQueryFilterNotContains],
+// [PrismObjectDealQueryParamsQueryFilterExists],
+// [PrismObjectDealQueryParamsQueryFilterNotExists],
+// [PrismObjectDealQueryParamsQueryFilterIn],
+// [PrismObjectDealQueryParamsQueryFilterNotIn],
+// [PrismObjectDealQueryParamsQueryFilter].
+type PrismObjectDealQueryParamsQueryFilterUnion interface {
+	implementsPrismObjectDealQueryParamsQueryFilterUnion()
+}
+
+type PrismObjectDealQueryParamsQueryFilter struct {
+	Equals param.Field[PrismObjectDealQueryParamsQueryFilterUnion] `json:"=" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilter) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterLikeRegex struct {
+	LikeRegex param.Field[string] `json:"like_regex" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterLikeRegex) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterLikeRegex) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterBeginsWith struct {
+	BeginsWith param.Field[string] `json:"begins_with" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterBeginsWith) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterBeginsWith) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterEndsWith struct {
+	EndsWith param.Field[string] `json:"ends_with" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterEndsWith) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterEndsWith) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterNotContains struct {
+	NotContains param.Field[string] `json:"not_contains" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterNotContains) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterNotContains) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterExists struct {
+	Exists param.Field[bool] `json:"exists" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterExists) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterExists) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterNotExists struct {
+	NotExists param.Field[bool] `json:"not_exists" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterNotExists) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterNotExists) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterIn struct {
+	In param.Field[[]string] `json:"in" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterIn) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterIn) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterNotIn struct {
+	NotIn param.Field[[]string] `json:"not_in" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterNotIn) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterNotIn) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
 }
 
 type PrismObjectDealQueryParamsQuerySort string

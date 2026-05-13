@@ -32,13 +32,11 @@ func NewPrismService(opts ...option.RequestOption) (r *PrismService) {
 }
 
 type PrismObjectPropertiesParam struct {
-	ID  param.Field[string]      `json:"id" format:"uuid"`
-	CRM param.Field[interface{}] `json:"crm"`
 	// Properties keyed by property slug. Values can be strings, numbers, booleans,
 	// arrays, or null. For select/multiselect properties, values may be option slugs
 	// or option UUIDs on write; option slugs are returned on read.
-	Default  param.Field[map[string]interface{}] `json:"default"`
-	Extended param.Field[interface{}]            `json:"extended"`
+	Default param.Field[map[string]interface{}] `json:"default"`
+	List    param.Field[interface{}]            `json:"list"`
 }
 
 func (r PrismObjectPropertiesParam) MarshalJSON() (data []byte, err error) {

@@ -33,7 +33,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/micro-so/micro-sdk-go@v0.2.0'
+go get -u 'github.com/micro-so/micro-sdk-go@v0.3.0'
 ```
 
 <!-- x-release-please-end -->
@@ -61,7 +61,6 @@ func main() {
 	client := micro.NewClient(
 		option.WithAPIKey("My API Key"), // defaults to os.LookupEnv("MICRO_API_KEY")
 		option.WithTeamID("My Team ID"),
-		option.WithEnvironmentProduction(), // defaults to option.WithEnvironmentStaging()
 	)
 	response, err := client.Prism.Objects.Deals.Query(context.TODO(), micro.PrismObjectDealQueryParams{
 		Query: micro.F(micro.PrismObjectDealQueryParamsQuery{

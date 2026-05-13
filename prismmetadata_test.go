@@ -32,7 +32,7 @@ func TestPrismMetadataListWithOptionalParams(t *testing.T) {
 		micro.PrismMetadataListParamsObjectTypeDeal,
 		micro.PrismMetadataListParams{
 			Autofill: micro.F(true),
-			CRMID:    micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			ListID:   micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 			Term:     micro.F("term"),
 		},
 	)
