@@ -60,14 +60,14 @@ func TestPrismObjectEventQueryWithOptionalParams(t *testing.T) {
 		Query: micro.F(micro.PrismObjectEventQueryParamsQuery{
 			Select:     micro.F([]string{"string"}),
 			Combinator: micro.F(micro.PrismObjectEventQueryParamsQueryCombinatorAnd),
-			CRMID:      micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			Filter: micro.F([]map[string]map[string]micro.PrismObjectEventQueryParamsQueryFilterUnion{{
-				"foo": {
-					"foo": shared.UnionString("string"),
+			Filter: micro.F([]map[string]micro.PrismObjectEventQueryParamsQueryFilterUnion{{
+				"foo": micro.PrismObjectEventQueryParamsQueryFilter{
+					Equals: micro.F[micro.PrismObjectEventQueryParamsQueryFilterUnion](shared.UnionString("string")),
 				},
 			}}),
-			Limit: micro.F(int64(1)),
-			Page:  micro.F(int64(0)),
+			Limit:  micro.F(int64(1)),
+			ListID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			Page:   micro.F(int64(0)),
 			Sort: micro.F([]map[string]micro.PrismObjectEventQueryParamsQuerySort{{
 				"foo": micro.PrismObjectEventQueryParamsQuerySortAsc,
 			}}),

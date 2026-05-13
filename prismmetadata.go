@@ -58,7 +58,7 @@ type PrismMetadataListParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID   param.Field[string] `path:"teamId" api:"required" format:"uuid"`
 	Autofill param.Field[bool]   `query:"autofill"`
-	CRMID    param.Field[string] `query:"crmId" format:"uuid"`
+	ListID   param.Field[string] `query:"listId" format:"uuid"`
 	Term     param.Field[string] `query:"term"`
 }
 
