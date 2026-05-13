@@ -25,7 +25,7 @@ type Client struct {
 // DefaultClientOptions read from the environment (MICRO_API_KEY, MICRO_BASE_URL).
 // This should be used to initialize new clients.
 func DefaultClientOptions() []option.RequestOption {
-	defaults := []option.RequestOption{option.WithHTTPClient(defaultHTTPClient()), option.WithEnvironmentStaging()}
+	defaults := []option.RequestOption{option.WithHTTPClient(defaultHTTPClient()), option.WithEnvironmentProduction()}
 	if o, ok := os.LookupEnv("MICRO_BASE_URL"); ok {
 		defaults = append(defaults, option.WithBaseURL(o))
 	}

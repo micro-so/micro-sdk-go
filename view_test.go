@@ -41,7 +41,6 @@ func TestViewNewWithOptionalParams(t *testing.T) {
 			}),
 			Combinator: micro.F(micro.ViewNewParamsCombinatorAnd),
 			CreatedAt:  micro.F("created_at"),
-			CRMID:      micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 			Filter: micro.F([]map[string]interface{}{{
 				"foo": "bar",
 			}}),
@@ -50,6 +49,7 @@ func TestViewNewWithOptionalParams(t *testing.T) {
 			GroupHideEmpty:       micro.F(true),
 			GroupSort:            micro.F("group_sort"),
 			Icon:                 micro.F("icon"),
+			ListID:               micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 			Select:               micro.F([]string{"string"}),
 			Sort: micro.F([]map[string]interface{}{{
 				"foo": "bar",
@@ -94,7 +94,6 @@ func TestViewUpdateWithOptionalParams(t *testing.T) {
 				"foo": "bar",
 			}),
 			Combinator: micro.F(micro.ViewUpdateParamsCombinatorAnd),
-			CRMID:      micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 			Filter: micro.F([]map[string]interface{}{{
 				"foo": "bar",
 			}}),
@@ -103,6 +102,7 @@ func TestViewUpdateWithOptionalParams(t *testing.T) {
 			GroupHideEmpty:       micro.F(true),
 			GroupSort:            micro.F("group_sort"),
 			Icon:                 micro.F("icon"),
+			ListID:               micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 			Name:                 micro.F("name"),
 			Select:               micro.F([]string{"string"}),
 			Sort: micro.F([]map[string]interface{}{{

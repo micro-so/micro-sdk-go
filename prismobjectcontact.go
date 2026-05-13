@@ -195,21 +195,19 @@ func (r *PrismObjectContactService) Restore(ctx context.Context, contactID strin
 
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectContactNewResponse struct {
-	ID  string      `json:"id" api:"required" format:"uuid"`
-	CRM interface{} `json:"crm"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Properties keyed by property slug.
-	Default  map[string]interface{}            `json:"default"`
-	Extended interface{}                       `json:"extended"`
-	JSON     prismObjectContactNewResponseJSON `json:"-"`
+	Default map[string]interface{}            `json:"default"`
+	List    interface{}                       `json:"list"`
+	JSON    prismObjectContactNewResponseJSON `json:"-"`
 }
 
 // prismObjectContactNewResponseJSON contains the JSON metadata for the struct
 // [PrismObjectContactNewResponse]
 type prismObjectContactNewResponseJSON struct {
 	ID          apijson.Field
-	CRM         apijson.Field
 	Default     apijson.Field
-	Extended    apijson.Field
+	List        apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -224,21 +222,19 @@ func (r prismObjectContactNewResponseJSON) RawJSON() string {
 
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectContactUpdateResponse struct {
-	ID  string      `json:"id" api:"required" format:"uuid"`
-	CRM interface{} `json:"crm"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Properties keyed by property slug.
-	Default  map[string]interface{}               `json:"default"`
-	Extended interface{}                          `json:"extended"`
-	JSON     prismObjectContactUpdateResponseJSON `json:"-"`
+	Default map[string]interface{}               `json:"default"`
+	List    interface{}                          `json:"list"`
+	JSON    prismObjectContactUpdateResponseJSON `json:"-"`
 }
 
 // prismObjectContactUpdateResponseJSON contains the JSON metadata for the struct
 // [PrismObjectContactUpdateResponse]
 type prismObjectContactUpdateResponseJSON struct {
 	ID          apijson.Field
-	CRM         apijson.Field
 	Default     apijson.Field
-	Extended    apijson.Field
+	List        apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -367,21 +363,19 @@ func (r prismObjectContactDuplicateResponseJSON) RawJSON() string {
 
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectContactGetResponse struct {
-	ID  string      `json:"id" api:"required" format:"uuid"`
-	CRM interface{} `json:"crm"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Properties keyed by property slug.
-	Default  map[string]interface{}            `json:"default"`
-	Extended interface{}                       `json:"extended"`
-	JSON     prismObjectContactGetResponseJSON `json:"-"`
+	Default map[string]interface{}            `json:"default"`
+	List    interface{}                       `json:"list"`
+	JSON    prismObjectContactGetResponseJSON `json:"-"`
 }
 
 // prismObjectContactGetResponseJSON contains the JSON metadata for the struct
 // [PrismObjectContactGetResponse]
 type prismObjectContactGetResponseJSON struct {
 	ID          apijson.Field
-	CRM         apijson.Field
 	Default     apijson.Field
-	Extended    apijson.Field
+	List        apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -420,21 +414,19 @@ func (r prismObjectContactQueryResponseJSON) RawJSON() string {
 
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectContactQueryResponseData struct {
-	ID  string      `json:"id" api:"required" format:"uuid"`
-	CRM interface{} `json:"crm"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Properties keyed by property slug.
-	Default  map[string]interface{}                  `json:"default"`
-	Extended interface{}                             `json:"extended"`
-	JSON     prismObjectContactQueryResponseDataJSON `json:"-"`
+	Default map[string]interface{}                  `json:"default"`
+	List    interface{}                             `json:"list"`
+	JSON    prismObjectContactQueryResponseDataJSON `json:"-"`
 }
 
 // prismObjectContactQueryResponseDataJSON contains the JSON metadata for the
 // struct [PrismObjectContactQueryResponseData]
 type prismObjectContactQueryResponseDataJSON struct {
 	ID          apijson.Field
-	CRM         apijson.Field
 	Default     apijson.Field
-	Extended    apijson.Field
+	List        apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -449,21 +441,19 @@ func (r prismObjectContactQueryResponseDataJSON) RawJSON() string {
 
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectContactRestoreResponse struct {
-	ID  string      `json:"id" api:"required" format:"uuid"`
-	CRM interface{} `json:"crm"`
+	ID string `json:"id" api:"required" format:"uuid"`
 	// Properties keyed by property slug.
-	Default  map[string]interface{}                `json:"default"`
-	Extended interface{}                           `json:"extended"`
-	JSON     prismObjectContactRestoreResponseJSON `json:"-"`
+	Default map[string]interface{}                `json:"default"`
+	List    interface{}                           `json:"list"`
+	JSON    prismObjectContactRestoreResponseJSON `json:"-"`
 }
 
 // prismObjectContactRestoreResponseJSON contains the JSON metadata for the struct
 // [PrismObjectContactRestoreResponse]
 type prismObjectContactRestoreResponseJSON struct {
 	ID          apijson.Field
-	CRM         apijson.Field
 	Default     apijson.Field
-	Extended    apijson.Field
+	List        apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -516,10 +506,10 @@ func (r PrismObjectContactBulkNewParams) MarshalJSON() (data []byte, err error) 
 type PrismObjectContactBulkNewParamsOptions struct {
 	// Whether deduplication should be case insensitive
 	CaseInsensitive param.Field[bool] `json:"caseInsensitive"`
-	// App/CRM ID for context (optional)
-	CRMID param.Field[string] `json:"crm_id" format:"uuid"`
 	// Property slug to deduplicate on
 	DedupeBy param.Field[string] `json:"dedupe_by"`
+	// App/CRM ID for context (optional)
+	ListID param.Field[string] `json:"list_id" format:"uuid"`
 }
 
 func (r PrismObjectContactBulkNewParamsOptions) MarshalJSON() (data []byte, err error) {
@@ -556,12 +546,12 @@ type PrismObjectContactQueryParamsQuery struct {
 	Select param.Field[[]string] `json:"select" api:"required"`
 	// Logical operator for combining filters
 	Combinator param.Field[PrismObjectContactQueryParamsQueryCombinator] `json:"combinator"`
-	CRMID      param.Field[string]                                       `json:"crm_id" format:"uuid"`
 	// Filters as [{ slug: { operator: value } }]. For select/multiselect properties,
 	// values may be option slugs or option UUIDs.
-	Filter param.Field[[]map[string]map[string]PrismObjectContactQueryParamsQueryFilterUnion] `json:"filter"`
-	Limit  param.Field[int64]                                                                 `json:"limit"`
-	Page   param.Field[int64]                                                                 `json:"page"`
+	Filter param.Field[[]map[string]PrismObjectContactQueryParamsQueryFilterUnion] `json:"filter"`
+	Limit  param.Field[int64]                                                      `json:"limit"`
+	ListID param.Field[string]                                                     `json:"list_id" format:"uuid"`
+	Page   param.Field[int64]                                                      `json:"page"`
 	// Sort order as [{ slug: direction }]. Array order determines sort priority
 	Sort param.Field[[]map[string]PrismObjectContactQueryParamsQuerySort] `json:"sort"`
 }
@@ -586,15 +576,146 @@ func (r PrismObjectContactQueryParamsQueryCombinator) IsKnown() bool {
 	return false
 }
 
-// Satisfied by [shared.UnionString], [shared.UnionBool],
-// [PrismObjectContactQueryParamsQueryFilterArray].
-type PrismObjectContactQueryParamsQueryFilterUnion interface {
-	ImplementsPrismObjectContactQueryParamsQueryFilterUnion()
+type PrismObjectContactQueryParamsQueryFilter struct {
+	NotEquals       param.Field[interface{}] `json:"!="`
+	Less            param.Field[string]      `json:"<"`
+	LessOrEquals    param.Field[string]      `json:"<="`
+	Equals          param.Field[interface{}] `json:"="`
+	Greater         param.Field[string]      `json:">"`
+	GreaterOrEquals param.Field[string]      `json:">="`
+	BeginsWith      param.Field[string]      `json:"begins_with"`
+	EndsWith        param.Field[string]      `json:"ends_with"`
+	Exists          param.Field[bool]        `json:"exists"`
+	In              param.Field[interface{}] `json:"in"`
+	LikeRegex       param.Field[string]      `json:"like_regex"`
+	NotContains     param.Field[string]      `json:"not_contains"`
+	NotExists       param.Field[bool]        `json:"not_exists"`
+	NotIn           param.Field[interface{}] `json:"not_in"`
 }
 
-type PrismObjectContactQueryParamsQueryFilterArray []string
+func (r PrismObjectContactQueryParamsQueryFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
 
-func (r PrismObjectContactQueryParamsQueryFilterArray) ImplementsPrismObjectContactQueryParamsQueryFilterUnion() {
+func (r PrismObjectContactQueryParamsQueryFilter) implementsPrismObjectContactQueryParamsQueryFilterUnion() {
+}
+
+// Satisfied by [PrismObjectContactQueryParamsQueryFilter],
+// [PrismObjectContactQueryParamsQueryFilter],
+// [PrismObjectContactQueryParamsQueryFilter],
+// [PrismObjectContactQueryParamsQueryFilter],
+// [PrismObjectContactQueryParamsQueryFilter],
+// [PrismObjectContactQueryParamsQueryFilter],
+// [PrismObjectContactQueryParamsQueryFilterLikeRegex],
+// [PrismObjectContactQueryParamsQueryFilterBeginsWith],
+// [PrismObjectContactQueryParamsQueryFilterEndsWith],
+// [PrismObjectContactQueryParamsQueryFilterNotContains],
+// [PrismObjectContactQueryParamsQueryFilterExists],
+// [PrismObjectContactQueryParamsQueryFilterNotExists],
+// [PrismObjectContactQueryParamsQueryFilterIn],
+// [PrismObjectContactQueryParamsQueryFilterNotIn],
+// [PrismObjectContactQueryParamsQueryFilter].
+type PrismObjectContactQueryParamsQueryFilterUnion interface {
+	implementsPrismObjectContactQueryParamsQueryFilterUnion()
+}
+
+type PrismObjectContactQueryParamsQueryFilter struct {
+	Equals param.Field[PrismObjectContactQueryParamsQueryFilterUnion] `json:"=" api:"required"`
+}
+
+func (r PrismObjectContactQueryParamsQueryFilter) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectContactQueryParamsQueryFilter) implementsPrismObjectContactQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectContactQueryParamsQueryFilterLikeRegex struct {
+	LikeRegex param.Field[string] `json:"like_regex" api:"required"`
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterLikeRegex) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterLikeRegex) implementsPrismObjectContactQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectContactQueryParamsQueryFilterBeginsWith struct {
+	BeginsWith param.Field[string] `json:"begins_with" api:"required"`
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterBeginsWith) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterBeginsWith) implementsPrismObjectContactQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectContactQueryParamsQueryFilterEndsWith struct {
+	EndsWith param.Field[string] `json:"ends_with" api:"required"`
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterEndsWith) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterEndsWith) implementsPrismObjectContactQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectContactQueryParamsQueryFilterNotContains struct {
+	NotContains param.Field[string] `json:"not_contains" api:"required"`
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterNotContains) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterNotContains) implementsPrismObjectContactQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectContactQueryParamsQueryFilterExists struct {
+	Exists param.Field[bool] `json:"exists" api:"required"`
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterExists) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterExists) implementsPrismObjectContactQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectContactQueryParamsQueryFilterNotExists struct {
+	NotExists param.Field[bool] `json:"not_exists" api:"required"`
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterNotExists) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterNotExists) implementsPrismObjectContactQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectContactQueryParamsQueryFilterIn struct {
+	In param.Field[[]string] `json:"in" api:"required"`
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterIn) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterIn) implementsPrismObjectContactQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectContactQueryParamsQueryFilterNotIn struct {
+	NotIn param.Field[[]string] `json:"not_in" api:"required"`
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterNotIn) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectContactQueryParamsQueryFilterNotIn) implementsPrismObjectContactQueryParamsQueryFilterUnion() {
 }
 
 type PrismObjectContactQueryParamsQuerySort string

@@ -130,7 +130,6 @@ type ViewNewResponse struct {
 	ColumnLayout         map[string]interface{}    `json:"column_layout" api:"nullable"`
 	Combinator           ViewNewResponseCombinator `json:"combinator"`
 	CreatedAt            string                    `json:"created_at"`
-	CRMID                string                    `json:"crm_id" api:"nullable" format:"uuid"`
 	// Each entry is { slug: { comparator: value } }
 	Filter []map[string]interface{} `json:"filter"`
 	// Property slug to group by
@@ -139,6 +138,7 @@ type ViewNewResponse struct {
 	GroupHideEmpty       bool          `json:"group_hide_empty" api:"nullable"`
 	GroupSort            string        `json:"group_sort" api:"nullable"`
 	Icon                 string        `json:"icon" api:"nullable"`
+	ListID               string        `json:"list_id" api:"nullable" format:"uuid"`
 	// Property slugs (dot-paths permitted for refs)
 	Select []string `json:"select"`
 	// Each entry is { slug: 'asc' | 'desc' }
@@ -160,13 +160,13 @@ type viewNewResponseJSON struct {
 	ColumnLayout         apijson.Field
 	Combinator           apijson.Field
 	CreatedAt            apijson.Field
-	CRMID                apijson.Field
 	Filter               apijson.Field
 	GroupBy              apijson.Field
 	GroupHiddenOptionIDs apijson.Field
 	GroupHideEmpty       apijson.Field
 	GroupSort            apijson.Field
 	Icon                 apijson.Field
+	ListID               apijson.Field
 	Select               apijson.Field
 	Sort                 apijson.Field
 	SortOrder            apijson.Field
@@ -212,7 +212,6 @@ type ViewUpdateResponse struct {
 	ColumnLayout         map[string]interface{}       `json:"column_layout" api:"nullable"`
 	Combinator           ViewUpdateResponseCombinator `json:"combinator"`
 	CreatedAt            string                       `json:"created_at"`
-	CRMID                string                       `json:"crm_id" api:"nullable" format:"uuid"`
 	// Each entry is { slug: { comparator: value } }
 	Filter []map[string]interface{} `json:"filter"`
 	// Property slug to group by
@@ -221,6 +220,7 @@ type ViewUpdateResponse struct {
 	GroupHideEmpty       bool          `json:"group_hide_empty" api:"nullable"`
 	GroupSort            string        `json:"group_sort" api:"nullable"`
 	Icon                 string        `json:"icon" api:"nullable"`
+	ListID               string        `json:"list_id" api:"nullable" format:"uuid"`
 	// Property slugs (dot-paths permitted for refs)
 	Select []string `json:"select"`
 	// Each entry is { slug: 'asc' | 'desc' }
@@ -243,13 +243,13 @@ type viewUpdateResponseJSON struct {
 	ColumnLayout         apijson.Field
 	Combinator           apijson.Field
 	CreatedAt            apijson.Field
-	CRMID                apijson.Field
 	Filter               apijson.Field
 	GroupBy              apijson.Field
 	GroupHiddenOptionIDs apijson.Field
 	GroupHideEmpty       apijson.Field
 	GroupSort            apijson.Field
 	Icon                 apijson.Field
+	ListID               apijson.Field
 	Select               apijson.Field
 	Sort                 apijson.Field
 	SortOrder            apijson.Field
@@ -295,7 +295,6 @@ type ViewGetResponse struct {
 	ColumnLayout         map[string]interface{}    `json:"column_layout" api:"nullable"`
 	Combinator           ViewGetResponseCombinator `json:"combinator"`
 	CreatedAt            string                    `json:"created_at"`
-	CRMID                string                    `json:"crm_id" api:"nullable" format:"uuid"`
 	// Each entry is { slug: { comparator: value } }
 	Filter []map[string]interface{} `json:"filter"`
 	// Property slug to group by
@@ -304,6 +303,7 @@ type ViewGetResponse struct {
 	GroupHideEmpty       bool          `json:"group_hide_empty" api:"nullable"`
 	GroupSort            string        `json:"group_sort" api:"nullable"`
 	Icon                 string        `json:"icon" api:"nullable"`
+	ListID               string        `json:"list_id" api:"nullable" format:"uuid"`
 	// Property slugs (dot-paths permitted for refs)
 	Select []string `json:"select"`
 	// Each entry is { slug: 'asc' | 'desc' }
@@ -325,13 +325,13 @@ type viewGetResponseJSON struct {
 	ColumnLayout         apijson.Field
 	Combinator           apijson.Field
 	CreatedAt            apijson.Field
-	CRMID                apijson.Field
 	Filter               apijson.Field
 	GroupBy              apijson.Field
 	GroupHiddenOptionIDs apijson.Field
 	GroupHideEmpty       apijson.Field
 	GroupSort            apijson.Field
 	Icon                 apijson.Field
+	ListID               apijson.Field
 	Select               apijson.Field
 	Sort                 apijson.Field
 	SortOrder            apijson.Field
@@ -376,7 +376,6 @@ type ViewNewParams struct {
 	ColumnLayout         param.Field[map[string]interface{}]  `json:"column_layout"`
 	Combinator           param.Field[ViewNewParamsCombinator] `json:"combinator"`
 	CreatedAt            param.Field[string]                  `json:"created_at"`
-	CRMID                param.Field[string]                  `json:"crm_id" format:"uuid"`
 	// Each entry is { slug: { comparator: value } }
 	Filter param.Field[[]map[string]interface{}] `json:"filter"`
 	// Property slug to group by
@@ -385,6 +384,7 @@ type ViewNewParams struct {
 	GroupHideEmpty       param.Field[bool]          `json:"group_hide_empty"`
 	GroupSort            param.Field[string]        `json:"group_sort"`
 	Icon                 param.Field[string]        `json:"icon"`
+	ListID               param.Field[string]        `json:"list_id" format:"uuid"`
 	// Property slugs (dot-paths permitted for refs)
 	Select param.Field[[]string] `json:"select"`
 	// Each entry is { slug: 'asc' | 'desc' }
@@ -440,13 +440,13 @@ type ViewUpdateParams struct {
 	AggregationType      param.Field[string]                     `json:"aggregation_type"`
 	ColumnLayout         param.Field[map[string]interface{}]     `json:"column_layout"`
 	Combinator           param.Field[ViewUpdateParamsCombinator] `json:"combinator"`
-	CRMID                param.Field[string]                     `json:"crm_id" format:"uuid"`
 	Filter               param.Field[[]map[string]interface{}]   `json:"filter"`
 	GroupBy              param.Field[string]                     `json:"group_by"`
 	GroupHiddenOptionIDs param.Field[[]interface{}]              `json:"group_hidden_option_ids"`
 	GroupHideEmpty       param.Field[bool]                       `json:"group_hide_empty"`
 	GroupSort            param.Field[string]                     `json:"group_sort"`
 	Icon                 param.Field[string]                     `json:"icon"`
+	ListID               param.Field[string]                     `json:"list_id" format:"uuid"`
 	Name                 param.Field[string]                     `json:"name"`
 	Select               param.Field[[]string]                   `json:"select"`
 	Sort                 param.Field[[]map[string]interface{}]   `json:"sort"`
