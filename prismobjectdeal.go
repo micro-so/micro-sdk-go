@@ -602,12 +602,12 @@ func (r PrismObjectDealQueryParamsQueryFilter) MarshalJSON() (data []byte, err e
 func (r PrismObjectDealQueryParamsQueryFilter) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
 }
 
-// Satisfied by [PrismObjectDealQueryParamsQueryFilter],
-// [PrismObjectDealQueryParamsQueryFilter],
-// [PrismObjectDealQueryParamsQueryFilter],
-// [PrismObjectDealQueryParamsQueryFilter],
-// [PrismObjectDealQueryParamsQueryFilter],
-// [PrismObjectDealQueryParamsQueryFilter],
+// Satisfied by [PrismObjectDealQueryParamsQueryFilterPrismQueryFilterEq],
+// [PrismObjectDealQueryParamsQueryFilterPrismQueryFilterNe],
+// [PrismObjectDealQueryParamsQueryFilterPrismQueryFilterLt],
+// [PrismObjectDealQueryParamsQueryFilterPrismQueryFilterGt],
+// [PrismObjectDealQueryParamsQueryFilterPrismQueryFilterLte],
+// [PrismObjectDealQueryParamsQueryFilterPrismQueryFilterGte],
 // [PrismObjectDealQueryParamsQueryFilterLikeRegex],
 // [PrismObjectDealQueryParamsQueryFilterBeginsWith],
 // [PrismObjectDealQueryParamsQueryFilterEndsWith],
@@ -621,15 +621,80 @@ type PrismObjectDealQueryParamsQueryFilterUnion interface {
 	implementsPrismObjectDealQueryParamsQueryFilterUnion()
 }
 
-type PrismObjectDealQueryParamsQueryFilter struct {
-	Equals param.Field[PrismObjectDealQueryParamsQueryFilterUnion] `json:"=" api:"required"`
+type PrismObjectDealQueryParamsQueryFilterPrismQueryFilterEq struct {
+	Equals param.Field[PrismObjectDealQueryParamsQueryFilterPrismQueryFilterEqUnion] `json:"=" api:"required"`
 }
 
-func (r PrismObjectDealQueryParamsQueryFilter) MarshalJSON() (data []byte, err error) {
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterEq) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PrismObjectDealQueryParamsQueryFilter) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterEq) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+// Satisfied by [shared.UnionString], [shared.UnionBool].
+type PrismObjectDealQueryParamsQueryFilterPrismQueryFilterEqUnion interface {
+	ImplementsPrismObjectDealQueryParamsQueryFilterPrismQueryFilterEqUnion()
+}
+
+type PrismObjectDealQueryParamsQueryFilterPrismQueryFilterNe struct {
+	NotEquals param.Field[PrismObjectDealQueryParamsQueryFilterPrismQueryFilterNeUnion] `json:"!=" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterNe) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterNe) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+// Satisfied by [shared.UnionString], [shared.UnionBool].
+type PrismObjectDealQueryParamsQueryFilterPrismQueryFilterNeUnion interface {
+	ImplementsPrismObjectDealQueryParamsQueryFilterPrismQueryFilterNeUnion()
+}
+
+type PrismObjectDealQueryParamsQueryFilterPrismQueryFilterLt struct {
+	Less param.Field[string] `json:"<" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterLt) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterLt) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterPrismQueryFilterGt struct {
+	Greater param.Field[string] `json:">" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterGt) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterGt) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterPrismQueryFilterLte struct {
+	LessOrEquals param.Field[string] `json:"<=" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterLte) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterLte) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
+}
+
+type PrismObjectDealQueryParamsQueryFilterPrismQueryFilterGte struct {
+	GreaterOrEquals param.Field[string] `json:">=" api:"required"`
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterGte) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+func (r PrismObjectDealQueryParamsQueryFilterPrismQueryFilterGte) implementsPrismObjectDealQueryParamsQueryFilterUnion() {
 }
 
 type PrismObjectDealQueryParamsQueryFilterLikeRegex struct {
