@@ -412,23 +412,30 @@ func (r prismObjectOrganizationQueryResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-// Object returned by reads (get/create/patch/restore). id is always present.
+// Row returned by the query endpoint. `id` is always present at the top level.
+// Selected property values are returned under `properties`, keyed by property
+// slug. Reference-typed values are returned as nested `{ id, properties }`
+// objects.
 type PrismObjectOrganizationQueryResponseData struct {
-	ID string `json:"id" api:"required" format:"uuid"`
-	// Properties keyed by property slug.
-	Default map[string]interface{}                       `json:"default"`
-	List    interface{}                                  `json:"list"`
-	JSON    prismObjectOrganizationQueryResponseDataJSON `json:"-"`
+	ID           string `json:"id" api:"required" format:"uuid"`
+	IsUserObject bool   `json:"is_user_object"`
+	// Selected property values keyed by property slug. For select/multiselect
+	// properties, option slugs are returned. For reference properties, values are
+	// nested `{ id, properties }` objects.
+	Properties map[string]interface{}                       `json:"properties"`
+	Source     string                                       `json:"source" api:"nullable" format:"uuid"`
+	JSON       prismObjectOrganizationQueryResponseDataJSON `json:"-"`
 }
 
 // prismObjectOrganizationQueryResponseDataJSON contains the JSON metadata for the
 // struct [PrismObjectOrganizationQueryResponseData]
 type prismObjectOrganizationQueryResponseDataJSON struct {
-	ID          apijson.Field
-	Default     apijson.Field
-	List        apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ID           apijson.Field
+	IsUserObject apijson.Field
+	Properties   apijson.Field
+	Source       apijson.Field
+	raw          string
+	ExtraFields  map[string]apijson.Field
 }
 
 func (r *PrismObjectOrganizationQueryResponseData) UnmarshalJSON(data []byte) (err error) {
@@ -542,16 +549,19 @@ func (r PrismObjectOrganizationQueryParams) MarshalJSON() (data []byte, err erro
 
 type PrismObjectOrganizationQueryParamsQuery struct {
 	// Property slugs to select. Use dot notation for relationships (e.g.
-	// attendee.contact.first_name)
+	// attendee.contact.first_name). `id` is always returned at the top level of each
+	// row and does not need to be selected.
 	Select param.Field[[]string] `json:"select" api:"required"`
 	// Logical operator for combining filters
 	Combinator param.Field[PrismObjectOrganizationQueryParamsQueryCombinator] `json:"combinator"`
 	// Filters as [{ slug: { operator: value } }]. For select/multiselect properties,
 	// values may be option slugs or option UUIDs.
 	Filter param.Field[[]map[string]PrismObjectOrganizationQueryParamsQueryFilterUnion] `json:"filter"`
-	Limit  param.Field[int64]                                                           `json:"limit"`
-	ListID param.Field[string]                                                          `json:"list_id" format:"uuid"`
-	Page   param.Field[int64]                                                           `json:"page"`
+	// Maximum number of rows to return. Capped server-side at 50; requests above the
+	// cap are rejected.
+	Limit  param.Field[int64]  `json:"limit"`
+	ListID param.Field[string] `json:"list_id" format:"uuid"`
+	Page   param.Field[int64]  `json:"page"`
 	// Sort order as [{ slug: direction }]. Array order determines sort priority
 	Sort param.Field[[]map[string]PrismObjectOrganizationQueryParamsQuerySort] `json:"sort"`
 }
@@ -584,10 +594,10 @@ type PrismObjectOrganizationQueryParamsQueryFilter struct {
 	Greater         param.Field[string]      `json:">"`
 	GreaterOrEquals param.Field[string]      `json:">="`
 	BeginsWith      param.Field[string]      `json:"begins_with"`
+	Contains        param.Field[interface{}] `json:"contains"`
 	EndsWith        param.Field[string]      `json:"ends_with"`
 	Exists          param.Field[bool]        `json:"exists"`
 	In              param.Field[interface{}] `json:"in"`
-	LikeRegex       param.Field[string]      `json:"like_regex"`
 	NotContains     param.Field[string]      `json:"not_contains"`
 	NotExists       param.Field[bool]        `json:"not_exists"`
 	NotIn           param.Field[interface{}] `json:"not_in"`
@@ -606,7 +616,7 @@ func (r PrismObjectOrganizationQueryParamsQueryFilter) implementsPrismObjectOrga
 // [PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterGt],
 // [PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterLte],
 // [PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterGte],
-// [PrismObjectOrganizationQueryParamsQueryFilterLikeRegex],
+// [PrismObjectOrganizationQueryParamsQueryFilterContains],
 // [PrismObjectOrganizationQueryParamsQueryFilterBeginsWith],
 // [PrismObjectOrganizationQueryParamsQueryFilterEndsWith],
 // [PrismObjectOrganizationQueryParamsQueryFilterNotContains],
@@ -695,15 +705,26 @@ func (r PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterGte) Marsha
 func (r PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterGte) implementsPrismObjectOrganizationQueryParamsQueryFilterUnion() {
 }
 
-type PrismObjectOrganizationQueryParamsQueryFilterLikeRegex struct {
-	LikeRegex param.Field[string] `json:"like_regex" api:"required"`
+type PrismObjectOrganizationQueryParamsQueryFilterContains struct {
+	Contains param.Field[PrismObjectOrganizationQueryParamsQueryFilterContainsContainsUnion] `json:"contains" api:"required"`
 }
 
-func (r PrismObjectOrganizationQueryParamsQueryFilterLikeRegex) MarshalJSON() (data []byte, err error) {
+func (r PrismObjectOrganizationQueryParamsQueryFilterContains) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-func (r PrismObjectOrganizationQueryParamsQueryFilterLikeRegex) implementsPrismObjectOrganizationQueryParamsQueryFilterUnion() {
+func (r PrismObjectOrganizationQueryParamsQueryFilterContains) implementsPrismObjectOrganizationQueryParamsQueryFilterUnion() {
+}
+
+// Satisfied by [shared.UnionString], [shared.UnionBool],
+// [PrismObjectOrganizationQueryParamsQueryFilterContainsContainsArray].
+type PrismObjectOrganizationQueryParamsQueryFilterContainsContainsUnion interface {
+	ImplementsPrismObjectOrganizationQueryParamsQueryFilterContainsContainsUnion()
+}
+
+type PrismObjectOrganizationQueryParamsQueryFilterContainsContainsArray []string
+
+func (r PrismObjectOrganizationQueryParamsQueryFilterContainsContainsArray) ImplementsPrismObjectOrganizationQueryParamsQueryFilterContainsContainsUnion() {
 }
 
 type PrismObjectOrganizationQueryParamsQueryFilterBeginsWith struct {
