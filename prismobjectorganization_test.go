@@ -219,8 +219,8 @@ func TestPrismObjectOrganizationQueryWithOptionalParams(t *testing.T) {
 			Select:     micro.F([]string{"string"}),
 			Combinator: micro.F(micro.PrismObjectOrganizationQueryParamsQueryCombinatorAnd),
 			Filter: micro.F([]map[string]micro.PrismObjectOrganizationQueryParamsQueryFilterUnion{{
-				"foo": micro.PrismObjectOrganizationQueryParamsQueryFilter{
-					Equals: micro.F[micro.PrismObjectOrganizationQueryParamsQueryFilterUnion](shared.UnionString("string")),
+				"foo": micro.PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEq{
+					Equals: micro.F[micro.PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqUnion](shared.UnionString("string")),
 				},
 			}}),
 			Limit:  micro.F(int64(1)),
