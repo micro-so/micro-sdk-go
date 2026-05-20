@@ -199,7 +199,7 @@ if err != nil {
 		println(string(apierr.DumpRequest(true)))  // Prints the serialized HTTP request
 		println(string(apierr.DumpResponse(true))) // Prints the serialized HTTP response
 	}
-	panic(err.Error()) // GET "/v2/prism/query/{teamId}/deal": 400 Bad Request { ... }
+	panic(err.Error()) // GET "/v2/prism/{teamId}/deal/query": 400 Bad Request { ... }
 }
 ```
 

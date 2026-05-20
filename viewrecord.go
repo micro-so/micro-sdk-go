@@ -38,7 +38,7 @@ func NewViewRecordService(opts ...option.RequestOption) (r *ViewRecordService) {
 
 // List records selected by a view (filters and sorts applied; pinned record_order
 // overlaid first)
-func (r *ViewRecordService) List(ctx context.Context, viewObjectType ViewRecordListParamsViewObjectType, viewID string, params ViewRecordListParams, opts ...option.RequestOption) (res *[]ViewRecordListResponse, err error) {
+func (r *ViewRecordService) List(ctx context.Context, viewObjectType ViewRecordListParamsViewObjectType, viewID string, params ViewRecordListParams, opts ...option.RequestOption) (res *ViewRecordListResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -53,21 +53,24 @@ func (r *ViewRecordService) List(ctx context.Context, viewObjectType ViewRecordL
 		err = errors.New("missing required viewId parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("v2/prism/%s/view/%v/%s/records", params.TeamID, viewObjectType, viewID)
+	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records", params.TeamID, viewObjectType, viewID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
 	return res, err
 }
 
 // Pin a record to the view (append to record_order)
-func (r *ViewRecordService) Pin(ctx context.Context, viewObjectType ViewRecordPinParamsViewObjectType, viewID string, objectID string, body ViewRecordPinParams, opts ...option.RequestOption) (err error) {
+func (r *ViewRecordService) Pin(ctx context.Context, viewObjectType ViewRecordPinParamsViewObjectType, viewID string, objectID string, params ViewRecordPinParams, opts ...option.RequestOption) (err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
 		return err
 	}
-	requestconfig.UseDefaultParam(&body.TeamID, precfg.TeamID)
-	if body.TeamID.Value == "" {
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
 		err = errors.New("missing required teamId parameter")
 		return err
 	}
@@ -79,13 +82,16 @@ func (r *ViewRecordService) Pin(ctx context.Context, viewObjectType ViewRecordPi
 		err = errors.New("missing required objectId parameter")
 		return err
 	}
-	path := fmt.Sprintf("v2/prism/%s/view/%v/%s/records/%s", body.TeamID, viewObjectType, viewID, objectID)
+	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records/%s", params.TeamID, viewObjectType, viewID, objectID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
 	return err
 }
 
 // Bulk reorder pinned records
 func (r *ViewRecordService) Reorder(ctx context.Context, viewObjectType ViewRecordReorderParamsViewObjectType, viewID string, params ViewRecordReorderParams, opts ...option.RequestOption) (err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
@@ -101,7 +107,7 @@ func (r *ViewRecordService) Reorder(ctx context.Context, viewObjectType ViewReco
 		err = errors.New("missing required viewId parameter")
 		return err
 	}
-	path := fmt.Sprintf("v2/prism/%s/view/%v/%s/records", params.TeamID, viewObjectType, viewID)
+	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records", params.TeamID, viewObjectType, viewID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, params, nil, opts...)
 	return err
 }
@@ -127,18 +133,48 @@ func (r *ViewRecordService) Unpin(ctx context.Context, viewObjectType ViewRecord
 		err = errors.New("missing required objectId parameter")
 		return err
 	}
-	path := fmt.Sprintf("v2/prism/%s/view/%v/%s/records/%s", body.TeamID, viewObjectType, viewID, objectID)
+	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records/%s", body.TeamID, viewObjectType, viewID, objectID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
 	return err
 }
 
-type ViewRecordListResponse map[string]interface{}
+type ViewRecordListResponse struct {
+	Data []map[string]interface{} `json:"data" api:"required"`
+	// True if more records exist beyond this page.
+	HasMore bool `json:"has_more" api:"required"`
+	// Opaque cursor for the next page; null when `has_more` is false.
+	NextCursor string                     `json:"next_cursor" api:"nullable"`
+	JSON       viewRecordListResponseJSON `json:"-"`
+}
+
+// viewRecordListResponseJSON contains the JSON metadata for the struct
+// [ViewRecordListResponse]
+type viewRecordListResponseJSON struct {
+	Data        apijson.Field
+	HasMore     apijson.Field
+	NextCursor  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *ViewRecordListResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r viewRecordListResponseJSON) RawJSON() string {
+	return r.raw
+}
 
 type ViewRecordListParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+	// Opaque cursor from a previous response's `next_cursor`. Pass it back unchanged
+	// to fetch the next page. When set, `page` and `limit` are derived from the
+	// cursor.
+	Cursor param.Field[string] `query:"cursor"`
 	Limit  param.Field[int64]  `query:"limit"`
-	Page   param.Field[int64]  `query:"page"`
+	// Page number (1-based). Prefer `cursor`.
+	Page param.Field[int64] `query:"page"`
 }
 
 // URLQuery serializes [ViewRecordListParams]'s query parameters as `url.Values`.
@@ -170,7 +206,8 @@ func (r ViewRecordListParamsViewObjectType) IsKnown() bool {
 
 type ViewRecordPinParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
-	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+	TeamID         param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+	IdempotencyKey param.Field[string] `header:"Idempotency-Key"`
 }
 
 type ViewRecordPinParamsViewObjectType string
@@ -194,8 +231,9 @@ func (r ViewRecordPinParamsViewObjectType) IsKnown() bool {
 
 type ViewRecordReorderParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
-	TeamID    param.Field[string]   `path:"teamId" api:"required" format:"uuid"`
-	ObjectIDs param.Field[[]string] `json:"object_ids" api:"required" format:"uuid"`
+	TeamID         param.Field[string]   `path:"teamId" api:"required" format:"uuid"`
+	ObjectIDs      param.Field[[]string] `json:"object_ids" api:"required" format:"uuid"`
+	IdempotencyKey param.Field[string]   `header:"Idempotency-Key"`
 }
 
 func (r ViewRecordReorderParams) MarshalJSON() (data []byte, err error) {

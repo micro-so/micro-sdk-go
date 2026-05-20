@@ -15,9 +15,10 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewPrismService] method instead.
 type PrismService struct {
-	Options  []option.RequestOption
-	Metadata *PrismMetadataService
-	Objects  *PrismObjectService
+	Options    []option.RequestOption
+	Properties *PrismPropertyService
+	Imports    *PrismImportService
+	Objects    *PrismObjectService
 }
 
 // NewPrismService generates a new service that applies the given options to each
@@ -26,7 +27,8 @@ type PrismService struct {
 func NewPrismService(opts ...option.RequestOption) (r *PrismService) {
 	r = &PrismService{}
 	r.Options = opts
-	r.Metadata = NewPrismMetadataService(opts...)
+	r.Properties = NewPrismPropertyService(opts...)
+	r.Imports = NewPrismImportService(opts...)
 	r.Objects = NewPrismObjectService(opts...)
 	return
 }
