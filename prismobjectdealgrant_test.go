@@ -40,6 +40,7 @@ func TestPrismObjectDealGrantUpdateWithOptionalParams(t *testing.T) {
 			UserID: micro.F([]map[string]micro.PrismObjectDealGrantUpdateParamsUserID{{
 				"foo": micro.PrismObjectDealGrantUpdateParamsUserIDA,
 			}}),
+			IdempotencyKey: micro.F("x"),
 		},
 	)
 	if err != nil {
