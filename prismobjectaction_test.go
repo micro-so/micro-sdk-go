@@ -35,6 +35,7 @@ func TestPrismObjectActionNewWithOptionalParams(t *testing.T) {
 			}),
 			List: micro.F[any](map[string]interface{}{}),
 		},
+		IdempotencyKey: micro.F("x"),
 	})
 	if err != nil {
 		var apierr *micro.Error
@@ -69,6 +70,8 @@ func TestPrismObjectActionUpdateWithOptionalParams(t *testing.T) {
 				}),
 				List: micro.F[any](map[string]interface{}{}),
 			},
+			IdempotencyKey: micro.F("x"),
+			IfMatch:        micro.F("If-Match"),
 		},
 	)
 	if err != nil {
@@ -80,7 +83,39 @@ func TestPrismObjectActionUpdateWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestPrismObjectActionDelete(t *testing.T) {
+func TestPrismObjectActionListWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Actions.List(context.TODO(), micro.PrismObjectActionListParams{
+		Cursor:       micro.F("cursor"),
+		Deleted:      micro.F(true),
+		IncludeTotal: micro.F(true),
+		Limit:        micro.F(int64(1)),
+		ListID:       micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+		Select:       micro.F("select"),
+		Sort:         micro.F("sort"),
+	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectActionDeleteWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -97,7 +132,9 @@ func TestPrismObjectActionDelete(t *testing.T) {
 	err := client.Prism.Objects.Actions.Delete(
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismObjectActionDeleteParams{},
+		micro.PrismObjectActionDeleteParams{
+			IfMatch: micro.F("If-Match"),
+		},
 	)
 	if err != nil {
 		var apierr *micro.Error
@@ -134,6 +171,7 @@ func TestPrismObjectActionBulkNewWithOptionalParams(t *testing.T) {
 			DedupeBy:        micro.F("dedupe_by"),
 			ListID:          micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 		}),
+		IdempotencyKey: micro.F("x"),
 	})
 	if err != nil {
 		var apierr *micro.Error
@@ -144,7 +182,89 @@ func TestPrismObjectActionBulkNewWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestPrismObjectActionDuplicate(t *testing.T) {
+func TestPrismObjectActionBulkDeleteWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Actions.BulkDelete(context.TODO(), micro.PrismObjectActionBulkDeleteParams{
+		IDs:            micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
+		IdempotencyKey: micro.F("x"),
+	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectActionBulkUpdateWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Actions.BulkUpdate(context.TODO(), micro.PrismObjectActionBulkUpdateParams{
+		Items: micro.F([]micro.PrismObjectActionBulkUpdateParamsItem{{
+			ID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+		}}),
+		IdempotencyKey: micro.F("x"),
+	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectActionCountWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Actions.Count(context.TODO(), micro.PrismObjectActionCountParams{
+		ListID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectActionDuplicateWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -161,7 +281,9 @@ func TestPrismObjectActionDuplicate(t *testing.T) {
 	_, err := client.Prism.Objects.Actions.Duplicate(
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismObjectActionDuplicateParams{},
+		micro.PrismObjectActionDuplicateParams{
+			IdempotencyKey: micro.F("x"),
+		},
 	)
 	if err != nil {
 		var apierr *micro.Error
@@ -172,7 +294,38 @@ func TestPrismObjectActionDuplicate(t *testing.T) {
 	}
 }
 
-func TestPrismObjectActionGet(t *testing.T) {
+func TestPrismObjectActionFindWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Actions.Find(
+		context.TODO(),
+		"slug",
+		"value",
+		micro.PrismObjectActionFindParams{
+			ListID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+		},
+	)
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectActionGetWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -189,7 +342,9 @@ func TestPrismObjectActionGet(t *testing.T) {
 	_, err := client.Prism.Objects.Actions.Get(
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismObjectActionGetParams{},
+		micro.PrismObjectActionGetParams{
+			Select: micro.F("select"),
+		},
 	)
 	if err != nil {
 		var apierr *micro.Error
@@ -218,6 +373,7 @@ func TestPrismObjectActionQueryWithOptionalParams(t *testing.T) {
 		Query: micro.F(micro.PrismObjectActionQueryParamsQuery{
 			Select:     micro.F([]string{"string"}),
 			Combinator: micro.F(micro.PrismObjectActionQueryParamsQueryCombinatorAnd),
+			Cursor:     micro.F("cursor"),
 			Filter: micro.F([]map[string]micro.PrismObjectActionQueryParamsQueryFilterUnion{{
 				"foo": micro.PrismObjectActionQueryParamsQueryFilterPrismQueryFilterEq{
 					Equals: micro.F[micro.PrismObjectActionQueryParamsQueryFilterPrismQueryFilterEqUnion](shared.UnionString("string")),
@@ -230,10 +386,12 @@ func TestPrismObjectActionQueryWithOptionalParams(t *testing.T) {
 				"foo": micro.PrismObjectActionQueryParamsQuerySortAsc,
 			}}),
 		}),
-		ID:      micro.F[micro.PrismObjectActionQueryParamsIDUnion](shared.UnionString("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")),
-		Boxes:   micro.F([]string{"string"}),
-		Deleted: micro.F(true),
-		Sources: micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
+		ID:           micro.F[micro.PrismObjectActionQueryParamsIDUnion](shared.UnionString("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")),
+		Boxes:        micro.F([]string{"string"}),
+		Cursor:       micro.F("cursor"),
+		Deleted:      micro.F(true),
+		IncludeTotal: micro.F(true),
+		Sources:      micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
 	})
 	if err != nil {
 		var apierr *micro.Error
@@ -244,7 +402,7 @@ func TestPrismObjectActionQueryWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestPrismObjectActionRestore(t *testing.T) {
+func TestPrismObjectActionRestoreWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -261,7 +419,46 @@ func TestPrismObjectActionRestore(t *testing.T) {
 	_, err := client.Prism.Objects.Actions.Restore(
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismObjectActionRestoreParams{},
+		micro.PrismObjectActionRestoreParams{
+			IdempotencyKey: micro.F("x"),
+		},
+	)
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectActionUpsertWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Actions.Upsert(
+		context.TODO(),
+		"slug",
+		"value",
+		micro.PrismObjectActionUpsertParams{
+			PrismObjectProperties: micro.PrismObjectPropertiesParam{
+				Default: micro.F(map[string]interface{}{
+					"foo": "bar",
+				}),
+				List: micro.F[any](map[string]interface{}{}),
+			},
+			IdempotencyKey: micro.F("x"),
+		},
 	)
 	if err != nil {
 		var apierr *micro.Error

@@ -32,8 +32,9 @@ func TestViewRecordListWithOptionalParams(t *testing.T) {
 		micro.ViewRecordListParamsViewObjectTypeAction,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewRecordListParams{
-			Limit: micro.F(int64(0)),
-			Page:  micro.F(int64(1)),
+			Cursor: micro.F("cursor"),
+			Limit:  micro.F(int64(0)),
+			Page:   micro.F(int64(1)),
 		},
 	)
 	if err != nil {
@@ -45,7 +46,7 @@ func TestViewRecordListWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestViewRecordPin(t *testing.T) {
+func TestViewRecordPinWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -64,7 +65,9 @@ func TestViewRecordPin(t *testing.T) {
 		micro.ViewRecordPinParamsViewObjectTypeAction,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.ViewRecordPinParams{},
+		micro.ViewRecordPinParams{
+			IdempotencyKey: micro.F("x"),
+		},
 	)
 	if err != nil {
 		var apierr *micro.Error
@@ -75,7 +78,7 @@ func TestViewRecordPin(t *testing.T) {
 	}
 }
 
-func TestViewRecordReorder(t *testing.T) {
+func TestViewRecordReorderWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -94,7 +97,8 @@ func TestViewRecordReorder(t *testing.T) {
 		micro.ViewRecordReorderParamsViewObjectTypeAction,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewRecordReorderParams{
-			ObjectIDs: micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
+			ObjectIDs:      micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
+			IdempotencyKey: micro.F("x"),
 		},
 	)
 	if err != nil {

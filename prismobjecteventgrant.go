@@ -36,6 +36,9 @@ func NewPrismObjectEventGrantService(opts ...option.RequestOption) (r *PrismObje
 
 // Update grant
 func (r *PrismObjectEventGrantService) Update(ctx context.Context, eventID string, params PrismObjectEventGrantUpdateParams, opts ...option.RequestOption) (res *PrismObjectEventGrantUpdateResponse, err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -50,7 +53,7 @@ func (r *PrismObjectEventGrantService) Update(ctx context.Context, eventID strin
 		err = errors.New("missing required eventId parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("v2/prism/grant/%s/event/%s", params.PathTeamID, eventID)
+	path := fmt.Sprintf("v2/prism/%s/event/%s/grant", params.PathTeamID, eventID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, params, &res, opts...)
 	return res, err
 }
@@ -71,7 +74,7 @@ func (r *PrismObjectEventGrantService) Get(ctx context.Context, eventID string, 
 		err = errors.New("missing required eventId parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("v2/prism/grant/%s/event/%s", query.TeamID, eventID)
+	path := fmt.Sprintf("v2/prism/%s/event/%s/grant", query.TeamID, eventID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
 	return res, err
 }
@@ -224,10 +227,11 @@ func (r PrismObjectEventGrantGetResponseUserID) IsKnown() bool {
 
 type PrismObjectEventGrantUpdateParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
-	PathTeamID  param.Field[string]                                                    `path:"teamId" api:"required" format:"uuid"`
-	TeamGroupID param.Field[[]map[string]PrismObjectEventGrantUpdateParamsTeamGroupID] `json:"team_group_id"`
-	BodyTeamID  param.Field[map[string]PrismObjectEventGrantUpdateParamsTeamID]        `json:"team_id"`
-	UserID      param.Field[[]map[string]PrismObjectEventGrantUpdateParamsUserID]      `json:"user_id"`
+	PathTeamID     param.Field[string]                                                    `path:"teamId" api:"required" format:"uuid"`
+	TeamGroupID    param.Field[[]map[string]PrismObjectEventGrantUpdateParamsTeamGroupID] `json:"team_group_id"`
+	BodyTeamID     param.Field[map[string]PrismObjectEventGrantUpdateParamsTeamID]        `json:"team_id"`
+	UserID         param.Field[[]map[string]PrismObjectEventGrantUpdateParamsUserID]      `json:"user_id"`
+	IdempotencyKey param.Field[string]                                                    `header:"Idempotency-Key"`
 }
 
 func (r PrismObjectEventGrantUpdateParams) MarshalJSON() (data []byte, err error) {

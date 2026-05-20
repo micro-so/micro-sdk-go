@@ -13,7 +13,7 @@ import (
 	"github.com/micro-so/micro-sdk-go/option"
 )
 
-func TestPrismObjectActionGrantUpdateWithOptionalParams(t *testing.T) {
+func TestPrismPropertyListWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -27,20 +27,13 @@ func TestPrismObjectActionGrantUpdateWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Prism.Objects.Actions.Grant.Update(
+	_, err := client.Prism.Properties.List(
 		context.TODO(),
-		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismObjectActionGrantUpdateParams{
-			TeamGroupID: micro.F([]map[string]micro.PrismObjectActionGrantUpdateParamsTeamGroupID{{
-				"foo": micro.PrismObjectActionGrantUpdateParamsTeamGroupIDA,
-			}}),
-			BodyTeamID: micro.F(map[string]micro.PrismObjectActionGrantUpdateParamsTeamID{
-				"foo": micro.PrismObjectActionGrantUpdateParamsTeamIDA,
-			}),
-			UserID: micro.F([]map[string]micro.PrismObjectActionGrantUpdateParamsUserID{{
-				"foo": micro.PrismObjectActionGrantUpdateParamsUserIDA,
-			}}),
-			IdempotencyKey: micro.F("x"),
+		micro.PrismPropertyListParamsObjectTypeDeal,
+		micro.PrismPropertyListParams{
+			Autofill: micro.F(true),
+			ListID:   micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			Term:     micro.F("term"),
 		},
 	)
 	if err != nil {
@@ -52,7 +45,7 @@ func TestPrismObjectActionGrantUpdateWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestPrismObjectActionGrantGet(t *testing.T) {
+func TestPrismPropertyListAllWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -66,11 +59,11 @@ func TestPrismObjectActionGrantGet(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Prism.Objects.Actions.Grant.Get(
-		context.TODO(),
-		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismObjectActionGrantGetParams{},
-	)
+	_, err := client.Prism.Properties.ListAll(context.TODO(), micro.PrismPropertyListAllParams{
+		Autofill: micro.F(true),
+		ListID:   micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+		Term:     micro.F("term"),
+	})
 	if err != nil {
 		var apierr *micro.Error
 		if errors.As(err, &apierr) {

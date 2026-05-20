@@ -54,10 +54,11 @@ func TestViewNewWithOptionalParams(t *testing.T) {
 			Sort: micro.F([]map[string]interface{}{{
 				"foo": "bar",
 			}}),
-			SortOrder:  micro.F(int64(0)),
-			BodyTeamID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			UpdatedAt:  micro.F("updated_at"),
-			UserID:     micro.F("user_id"),
+			SortOrder:      micro.F(int64(0)),
+			BodyTeamID:     micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			UpdatedAt:      micro.F("updated_at"),
+			UserID:         micro.F("user_id"),
+			IdempotencyKey: micro.F("x"),
 		},
 	)
 	if err != nil {
@@ -108,10 +109,11 @@ func TestViewUpdateWithOptionalParams(t *testing.T) {
 			Sort: micro.F([]map[string]interface{}{{
 				"foo": "bar",
 			}}),
-			SortOrder:  micro.F(int64(0)),
-			BodyTeamID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			UserID:     micro.F("user_id"),
-			ViewType:   micro.F("view_type"),
+			SortOrder:      micro.F(int64(0)),
+			BodyTeamID:     micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			UserID:         micro.F("user_id"),
+			ViewType:       micro.F("view_type"),
+			IdempotencyKey: micro.F("x"),
 		},
 	)
 	if err != nil {
@@ -152,7 +154,7 @@ func TestViewDelete(t *testing.T) {
 	}
 }
 
-func TestViewGet(t *testing.T) {
+func TestViewGetWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -170,7 +172,12 @@ func TestViewGet(t *testing.T) {
 		context.TODO(),
 		micro.ViewGetParamsViewObjectTypeAction,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.ViewGetParams{},
+		micro.ViewGetParams{
+			Cursor:  micro.F("cursor"),
+			Include: micro.F("records"),
+			Limit:   micro.F(int64(0)),
+			Page:    micro.F(int64(1)),
+		},
 	)
 	if err != nil {
 		var apierr *micro.Error

@@ -14,7 +14,96 @@ import (
 	"github.com/micro-so/micro-sdk-go/shared"
 )
 
-func TestPrismObjectEventGet(t *testing.T) {
+func TestPrismObjectEventListWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Events.List(context.TODO(), micro.PrismObjectEventListParams{
+		Cursor:       micro.F("cursor"),
+		Deleted:      micro.F(true),
+		IncludeTotal: micro.F(true),
+		Limit:        micro.F(int64(1)),
+		ListID:       micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+		Select:       micro.F("select"),
+		Sort:         micro.F("sort"),
+	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectEventCountWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Events.Count(context.TODO(), micro.PrismObjectEventCountParams{
+		ListID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectEventFindWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Events.Find(
+		context.TODO(),
+		"slug",
+		"value",
+		micro.PrismObjectEventFindParams{
+			ListID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+		},
+	)
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestPrismObjectEventGetWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -31,7 +120,9 @@ func TestPrismObjectEventGet(t *testing.T) {
 	_, err := client.Prism.Objects.Events.Get(
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismObjectEventGetParams{},
+		micro.PrismObjectEventGetParams{
+			Select: micro.F("select"),
+		},
 	)
 	if err != nil {
 		var apierr *micro.Error
@@ -60,6 +151,7 @@ func TestPrismObjectEventQueryWithOptionalParams(t *testing.T) {
 		Query: micro.F(micro.PrismObjectEventQueryParamsQuery{
 			Select:     micro.F([]string{"string"}),
 			Combinator: micro.F(micro.PrismObjectEventQueryParamsQueryCombinatorAnd),
+			Cursor:     micro.F("cursor"),
 			Filter: micro.F([]map[string]micro.PrismObjectEventQueryParamsQueryFilterUnion{{
 				"foo": micro.PrismObjectEventQueryParamsQueryFilterPrismQueryFilterEq{
 					Equals: micro.F[micro.PrismObjectEventQueryParamsQueryFilterPrismQueryFilterEqUnion](shared.UnionString("string")),
@@ -72,10 +164,12 @@ func TestPrismObjectEventQueryWithOptionalParams(t *testing.T) {
 				"foo": micro.PrismObjectEventQueryParamsQuerySortAsc,
 			}}),
 		}),
-		ID:      micro.F[micro.PrismObjectEventQueryParamsIDUnion](shared.UnionString("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")),
-		Boxes:   micro.F([]string{"string"}),
-		Deleted: micro.F(true),
-		Sources: micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
+		ID:           micro.F[micro.PrismObjectEventQueryParamsIDUnion](shared.UnionString("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")),
+		Boxes:        micro.F([]string{"string"}),
+		Cursor:       micro.F("cursor"),
+		Deleted:      micro.F(true),
+		IncludeTotal: micro.F(true),
+		Sources:      micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
 	})
 	if err != nil {
 		var apierr *micro.Error
