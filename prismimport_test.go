@@ -13,7 +13,7 @@ import (
 	"github.com/micro-so/micro-sdk-go/option"
 )
 
-func TestPrismImportJobGet(t *testing.T) {
+func TestPrismImportGet(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -27,10 +27,10 @@ func TestPrismImportJobGet(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Prism.ImportJobs.Get(
+	_, err := client.Prism.Imports.Get(
 		context.TODO(),
 		"jobId",
-		micro.PrismImportJobGetParams{},
+		micro.PrismImportGetParams{},
 	)
 	if err != nil {
 		var apierr *micro.Error
