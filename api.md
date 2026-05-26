@@ -16,15 +16,15 @@ Methods:
 - <code title="get /v2/prism/{teamId}/{objectType}/properties">client.Prism.Properties.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismPropertyService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, objectType <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismPropertyListParamsObjectType">PrismPropertyListParamsObjectType</a>, params <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismPropertyListParams">PrismPropertyListParams</a>) (\*<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismPropertyListResponse">PrismPropertyListResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="get /v2/prism/{teamId}/properties">client.Prism.Properties.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismPropertyService.ListAll">ListAll</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, params <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismPropertyListAllParams">PrismPropertyListAllParams</a>) (\*<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismPropertyListAllResponse">PrismPropertyListAllResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
-## ImportJobs
+## Imports
 
 Response Types:
 
-- <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismImportJobGetResponse">PrismImportJobGetResponse</a>
+- <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismImportGetResponse">PrismImportGetResponse</a>
 
 Methods:
 
-- <code title="get /v2/prism/{teamId}/imports/{jobId}">client.Prism.ImportJobs.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismImportJobService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, jobID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismImportJobGetParams">PrismImportJobGetParams</a>) (\*<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismImportJobGetResponse">PrismImportJobGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /v2/prism/{teamId}/imports/{jobId}">client.Prism.Imports.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismImportService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, jobID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismImportGetParams">PrismImportGetParams</a>) (\*<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismImportGetResponse">PrismImportGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 ## Objects
 

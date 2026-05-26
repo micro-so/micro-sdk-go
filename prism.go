@@ -17,7 +17,7 @@ import (
 type PrismService struct {
 	Options    []option.RequestOption
 	Properties *PrismPropertyService
-	ImportJobs *PrismImportJobService
+	Imports    *PrismImportService
 	Objects    *PrismObjectService
 }
 
@@ -28,7 +28,7 @@ func NewPrismService(opts ...option.RequestOption) (r *PrismService) {
 	r = &PrismService{}
 	r.Options = opts
 	r.Properties = NewPrismPropertyService(opts...)
-	r.ImportJobs = NewPrismImportJobService(opts...)
+	r.Imports = NewPrismImportService(opts...)
 	r.Objects = NewPrismObjectService(opts...)
 	return
 }
