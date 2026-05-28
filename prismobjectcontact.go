@@ -457,7 +457,7 @@ type PrismObjectContactListResponseData struct {
 	// properties, option slugs are returned. For reference properties, values are
 	// nested `{ id, properties }` objects.
 	Properties map[string]interface{}                 `json:"properties"`
-	Source     string                                 `json:"source" api:"nullable" format:"uuid"`
+	Source     []string                               `json:"source" api:"nullable"`
 	JSON       prismObjectContactListResponseDataJSON `json:"-"`
 }
 
@@ -1058,7 +1058,7 @@ type PrismObjectContactQueryResponseData struct {
 	// properties, option slugs are returned. For reference properties, values are
 	// nested `{ id, properties }` objects.
 	Properties map[string]interface{}                  `json:"properties"`
-	Source     string                                  `json:"source" api:"nullable" format:"uuid"`
+	Source     []string                                `json:"source" api:"nullable"`
 	JSON       prismObjectContactQueryResponseDataJSON `json:"-"`
 }
 
@@ -1316,7 +1316,7 @@ type PrismObjectContactQueryParams struct {
 	Query  param.Field[PrismObjectContactQueryParamsQuery]   `json:"query" api:"required"`
 	ID     param.Field[PrismObjectContactQueryParamsIDUnion] `json:"id" format:"uuid"`
 	Boxes  param.Field[[]string]                             `json:"boxes"`
-	// Alternative location for the opaque cursor (sibling of `query`). Use whichever
+	// Alternative location for the opaque cursor (a sibling of `query`). Use whichever
 	// feels more natural; if both are present, `query.cursor` wins.
 	Cursor  param.Field[string] `json:"cursor"`
 	Deleted param.Field[bool]   `json:"deleted"`
