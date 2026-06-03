@@ -53,6 +53,13 @@ func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterIsNullIsNullU
 func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterIsNotNullIsNotNullUnion()        {}
 func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterBetweenBetweenUnion()            {}
 func (UnionString) ImplementsPrismObjectEventQueryParamsIDUnion()                                   {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqUnion()   {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeUnion()   {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterContainsContainsUnion()     {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNullIsNullUnion()         {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNotNullIsNotNullUnion()   {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterBetweenBetweenUnion()       {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsIDUnion()                              {}
 
 type UnionBool bool
 
@@ -98,3 +105,9 @@ func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterContainsContain
 func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterIsNullIsNullUnion()              {}
 func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterIsNotNullIsNotNullUnion()        {}
 func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterBetweenBetweenUnion()            {}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqUnion()   {}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeUnion()   {}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterContainsContainsUnion()     {}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNullIsNullUnion()         {}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNotNullIsNotNullUnion()   {}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterBetweenBetweenUnion()       {}
