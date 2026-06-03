@@ -688,8 +688,10 @@ func (r ViewNewParams) MarshalJSON() (data []byte, err error) {
 type ViewNewParamsViewObjectType string
 
 const (
+	ViewNewParamsViewObjectTypeComment      ViewNewParamsViewObjectType = "comment"
 	ViewNewParamsViewObjectTypeAction       ViewNewParamsViewObjectType = "action"
 	ViewNewParamsViewObjectTypeDeal         ViewNewParamsViewObjectType = "deal"
+	ViewNewParamsViewObjectTypeEngagement   ViewNewParamsViewObjectType = "engagement"
 	ViewNewParamsViewObjectTypeDocument     ViewNewParamsViewObjectType = "document"
 	ViewNewParamsViewObjectTypeEvent        ViewNewParamsViewObjectType = "event"
 	ViewNewParamsViewObjectTypeIdentity     ViewNewParamsViewObjectType = "identity"
@@ -698,7 +700,7 @@ const (
 
 func (r ViewNewParamsViewObjectType) IsKnown() bool {
 	switch r {
-	case ViewNewParamsViewObjectTypeAction, ViewNewParamsViewObjectTypeDeal, ViewNewParamsViewObjectTypeDocument, ViewNewParamsViewObjectTypeEvent, ViewNewParamsViewObjectTypeIdentity, ViewNewParamsViewObjectTypeOrganization:
+	case ViewNewParamsViewObjectTypeComment, ViewNewParamsViewObjectTypeAction, ViewNewParamsViewObjectTypeDeal, ViewNewParamsViewObjectTypeEngagement, ViewNewParamsViewObjectTypeDocument, ViewNewParamsViewObjectTypeEvent, ViewNewParamsViewObjectTypeIdentity, ViewNewParamsViewObjectTypeOrganization:
 		return true
 	}
 	return false
@@ -750,8 +752,10 @@ func (r ViewUpdateParams) MarshalJSON() (data []byte, err error) {
 type ViewUpdateParamsViewObjectType string
 
 const (
+	ViewUpdateParamsViewObjectTypeComment      ViewUpdateParamsViewObjectType = "comment"
 	ViewUpdateParamsViewObjectTypeAction       ViewUpdateParamsViewObjectType = "action"
 	ViewUpdateParamsViewObjectTypeDeal         ViewUpdateParamsViewObjectType = "deal"
+	ViewUpdateParamsViewObjectTypeEngagement   ViewUpdateParamsViewObjectType = "engagement"
 	ViewUpdateParamsViewObjectTypeDocument     ViewUpdateParamsViewObjectType = "document"
 	ViewUpdateParamsViewObjectTypeEvent        ViewUpdateParamsViewObjectType = "event"
 	ViewUpdateParamsViewObjectTypeIdentity     ViewUpdateParamsViewObjectType = "identity"
@@ -760,7 +764,7 @@ const (
 
 func (r ViewUpdateParamsViewObjectType) IsKnown() bool {
 	switch r {
-	case ViewUpdateParamsViewObjectTypeAction, ViewUpdateParamsViewObjectTypeDeal, ViewUpdateParamsViewObjectTypeDocument, ViewUpdateParamsViewObjectTypeEvent, ViewUpdateParamsViewObjectTypeIdentity, ViewUpdateParamsViewObjectTypeOrganization:
+	case ViewUpdateParamsViewObjectTypeComment, ViewUpdateParamsViewObjectTypeAction, ViewUpdateParamsViewObjectTypeDeal, ViewUpdateParamsViewObjectTypeEngagement, ViewUpdateParamsViewObjectTypeDocument, ViewUpdateParamsViewObjectTypeEvent, ViewUpdateParamsViewObjectTypeIdentity, ViewUpdateParamsViewObjectTypeOrganization:
 		return true
 	}
 	return false
@@ -789,8 +793,10 @@ type ViewDeleteParams struct {
 type ViewDeleteParamsViewObjectType string
 
 const (
+	ViewDeleteParamsViewObjectTypeComment      ViewDeleteParamsViewObjectType = "comment"
 	ViewDeleteParamsViewObjectTypeAction       ViewDeleteParamsViewObjectType = "action"
 	ViewDeleteParamsViewObjectTypeDeal         ViewDeleteParamsViewObjectType = "deal"
+	ViewDeleteParamsViewObjectTypeEngagement   ViewDeleteParamsViewObjectType = "engagement"
 	ViewDeleteParamsViewObjectTypeDocument     ViewDeleteParamsViewObjectType = "document"
 	ViewDeleteParamsViewObjectTypeEvent        ViewDeleteParamsViewObjectType = "event"
 	ViewDeleteParamsViewObjectTypeIdentity     ViewDeleteParamsViewObjectType = "identity"
@@ -799,7 +805,7 @@ const (
 
 func (r ViewDeleteParamsViewObjectType) IsKnown() bool {
 	switch r {
-	case ViewDeleteParamsViewObjectTypeAction, ViewDeleteParamsViewObjectTypeDeal, ViewDeleteParamsViewObjectTypeDocument, ViewDeleteParamsViewObjectTypeEvent, ViewDeleteParamsViewObjectTypeIdentity, ViewDeleteParamsViewObjectTypeOrganization:
+	case ViewDeleteParamsViewObjectTypeComment, ViewDeleteParamsViewObjectTypeAction, ViewDeleteParamsViewObjectTypeDeal, ViewDeleteParamsViewObjectTypeEngagement, ViewDeleteParamsViewObjectTypeDocument, ViewDeleteParamsViewObjectTypeEvent, ViewDeleteParamsViewObjectTypeIdentity, ViewDeleteParamsViewObjectTypeOrganization:
 		return true
 	}
 	return false
@@ -831,8 +837,10 @@ func (r ViewGetParams) URLQuery() (v url.Values) {
 type ViewGetParamsViewObjectType string
 
 const (
+	ViewGetParamsViewObjectTypeComment      ViewGetParamsViewObjectType = "comment"
 	ViewGetParamsViewObjectTypeAction       ViewGetParamsViewObjectType = "action"
 	ViewGetParamsViewObjectTypeDeal         ViewGetParamsViewObjectType = "deal"
+	ViewGetParamsViewObjectTypeEngagement   ViewGetParamsViewObjectType = "engagement"
 	ViewGetParamsViewObjectTypeDocument     ViewGetParamsViewObjectType = "document"
 	ViewGetParamsViewObjectTypeEvent        ViewGetParamsViewObjectType = "event"
 	ViewGetParamsViewObjectTypeIdentity     ViewGetParamsViewObjectType = "identity"
@@ -841,7 +849,7 @@ const (
 
 func (r ViewGetParamsViewObjectType) IsKnown() bool {
 	switch r {
-	case ViewGetParamsViewObjectTypeAction, ViewGetParamsViewObjectTypeDeal, ViewGetParamsViewObjectTypeDocument, ViewGetParamsViewObjectTypeEvent, ViewGetParamsViewObjectTypeIdentity, ViewGetParamsViewObjectTypeOrganization:
+	case ViewGetParamsViewObjectTypeComment, ViewGetParamsViewObjectTypeAction, ViewGetParamsViewObjectTypeDeal, ViewGetParamsViewObjectTypeEngagement, ViewGetParamsViewObjectTypeDocument, ViewGetParamsViewObjectTypeEvent, ViewGetParamsViewObjectTypeIdentity, ViewGetParamsViewObjectTypeOrganization:
 		return true
 	}
 	return false

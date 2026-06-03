@@ -29,7 +29,7 @@ func TestViewRecordListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Views.Records.List(
 		context.TODO(),
-		micro.ViewRecordListParamsViewObjectTypeAction,
+		micro.ViewRecordListParamsViewObjectTypeComment,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewRecordListParams{
 			Cursor: micro.F("cursor"),
@@ -62,7 +62,7 @@ func TestViewRecordPinWithOptionalParams(t *testing.T) {
 	)
 	err := client.Views.Records.Pin(
 		context.TODO(),
-		micro.ViewRecordPinParamsViewObjectTypeAction,
+		micro.ViewRecordPinParamsViewObjectTypeComment,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewRecordPinParams{
@@ -94,7 +94,7 @@ func TestViewRecordReorderWithOptionalParams(t *testing.T) {
 	)
 	err := client.Views.Records.Reorder(
 		context.TODO(),
-		micro.ViewRecordReorderParamsViewObjectTypeAction,
+		micro.ViewRecordReorderParamsViewObjectTypeComment,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewRecordReorderParams{
 			ObjectIDs:      micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
@@ -126,7 +126,7 @@ func TestViewRecordUnpin(t *testing.T) {
 	)
 	err := client.Views.Records.Unpin(
 		context.TODO(),
-		micro.ViewRecordUnpinParamsViewObjectTypeAction,
+		micro.ViewRecordUnpinParamsViewObjectTypeComment,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewRecordUnpinParams{},

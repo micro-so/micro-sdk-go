@@ -29,7 +29,7 @@ func TestPrismPropertyListWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Prism.Properties.List(
 		context.TODO(),
-		micro.PrismPropertyListParamsObjectTypeDeal,
+		micro.PrismPropertyListParamsObjectTypeComment,
 		micro.PrismPropertyListParams{
 			Autofill: micro.F(true),
 			ListID:   micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),

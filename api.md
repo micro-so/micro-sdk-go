@@ -304,6 +304,10 @@ Methods:
 - <code title="put /v2/prism/{teamId}/event/{eventId}/grant">client.Prism.Objects.Events.Grant.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEventGrantService.Update">Update</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, eventID <a href="https://pkg.go.dev/builtin#string">string</a>, params <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEventGrantUpdateParams">PrismObjectEventGrantUpdateParams</a>) (\*<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEventGrantUpdateResponse">PrismObjectEventGrantUpdateResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="get /v2/prism/{teamId}/event/{eventId}/grant">client.Prism.Objects.Events.Grant.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEventGrantService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, eventID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEventGrantGetParams">PrismObjectEventGrantGetParams</a>) (\*<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEventGrantGetResponse">PrismObjectEventGrantGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
+### Engagements
+
+#### Grant
+
 # Views
 
 Response Types:

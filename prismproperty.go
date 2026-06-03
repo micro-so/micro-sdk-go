@@ -94,7 +94,9 @@ func (r PrismPropertyListParams) URLQuery() (v url.Values) {
 type PrismPropertyListParamsObjectType string
 
 const (
+	PrismPropertyListParamsObjectTypeComment       PrismPropertyListParamsObjectType = "comment"
 	PrismPropertyListParamsObjectTypeDeal          PrismPropertyListParamsObjectType = "deal"
+	PrismPropertyListParamsObjectTypeEngagement    PrismPropertyListParamsObjectType = "engagement"
 	PrismPropertyListParamsObjectTypeIdentity      PrismPropertyListParamsObjectType = "identity"
 	PrismPropertyListParamsObjectTypeAIChatThread  PrismPropertyListParamsObjectType = "ai_chat_thread"
 	PrismPropertyListParamsObjectTypeAIChatMessage PrismPropertyListParamsObjectType = "ai_chat_message"
@@ -107,7 +109,7 @@ const (
 
 func (r PrismPropertyListParamsObjectType) IsKnown() bool {
 	switch r {
-	case PrismPropertyListParamsObjectTypeDeal, PrismPropertyListParamsObjectTypeIdentity, PrismPropertyListParamsObjectTypeAIChatThread, PrismPropertyListParamsObjectTypeAIChatMessage, PrismPropertyListParamsObjectTypeDocument, PrismPropertyListParamsObjectTypeAction, PrismPropertyListParamsObjectTypeEvent, PrismPropertyListParamsObjectTypeOrganization, PrismPropertyListParamsObjectTypeContact:
+	case PrismPropertyListParamsObjectTypeComment, PrismPropertyListParamsObjectTypeDeal, PrismPropertyListParamsObjectTypeEngagement, PrismPropertyListParamsObjectTypeIdentity, PrismPropertyListParamsObjectTypeAIChatThread, PrismPropertyListParamsObjectTypeAIChatMessage, PrismPropertyListParamsObjectTypeDocument, PrismPropertyListParamsObjectTypeAction, PrismPropertyListParamsObjectTypeEvent, PrismPropertyListParamsObjectTypeOrganization, PrismPropertyListParamsObjectTypeContact:
 		return true
 	}
 	return false
