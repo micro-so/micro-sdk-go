@@ -188,8 +188,10 @@ func (r ViewRecordListParams) URLQuery() (v url.Values) {
 type ViewRecordListParamsViewObjectType string
 
 const (
+	ViewRecordListParamsViewObjectTypeComment      ViewRecordListParamsViewObjectType = "comment"
 	ViewRecordListParamsViewObjectTypeAction       ViewRecordListParamsViewObjectType = "action"
 	ViewRecordListParamsViewObjectTypeDeal         ViewRecordListParamsViewObjectType = "deal"
+	ViewRecordListParamsViewObjectTypeEngagement   ViewRecordListParamsViewObjectType = "engagement"
 	ViewRecordListParamsViewObjectTypeDocument     ViewRecordListParamsViewObjectType = "document"
 	ViewRecordListParamsViewObjectTypeEvent        ViewRecordListParamsViewObjectType = "event"
 	ViewRecordListParamsViewObjectTypeIdentity     ViewRecordListParamsViewObjectType = "identity"
@@ -198,7 +200,7 @@ const (
 
 func (r ViewRecordListParamsViewObjectType) IsKnown() bool {
 	switch r {
-	case ViewRecordListParamsViewObjectTypeAction, ViewRecordListParamsViewObjectTypeDeal, ViewRecordListParamsViewObjectTypeDocument, ViewRecordListParamsViewObjectTypeEvent, ViewRecordListParamsViewObjectTypeIdentity, ViewRecordListParamsViewObjectTypeOrganization:
+	case ViewRecordListParamsViewObjectTypeComment, ViewRecordListParamsViewObjectTypeAction, ViewRecordListParamsViewObjectTypeDeal, ViewRecordListParamsViewObjectTypeEngagement, ViewRecordListParamsViewObjectTypeDocument, ViewRecordListParamsViewObjectTypeEvent, ViewRecordListParamsViewObjectTypeIdentity, ViewRecordListParamsViewObjectTypeOrganization:
 		return true
 	}
 	return false
@@ -213,8 +215,10 @@ type ViewRecordPinParams struct {
 type ViewRecordPinParamsViewObjectType string
 
 const (
+	ViewRecordPinParamsViewObjectTypeComment      ViewRecordPinParamsViewObjectType = "comment"
 	ViewRecordPinParamsViewObjectTypeAction       ViewRecordPinParamsViewObjectType = "action"
 	ViewRecordPinParamsViewObjectTypeDeal         ViewRecordPinParamsViewObjectType = "deal"
+	ViewRecordPinParamsViewObjectTypeEngagement   ViewRecordPinParamsViewObjectType = "engagement"
 	ViewRecordPinParamsViewObjectTypeDocument     ViewRecordPinParamsViewObjectType = "document"
 	ViewRecordPinParamsViewObjectTypeEvent        ViewRecordPinParamsViewObjectType = "event"
 	ViewRecordPinParamsViewObjectTypeIdentity     ViewRecordPinParamsViewObjectType = "identity"
@@ -223,7 +227,7 @@ const (
 
 func (r ViewRecordPinParamsViewObjectType) IsKnown() bool {
 	switch r {
-	case ViewRecordPinParamsViewObjectTypeAction, ViewRecordPinParamsViewObjectTypeDeal, ViewRecordPinParamsViewObjectTypeDocument, ViewRecordPinParamsViewObjectTypeEvent, ViewRecordPinParamsViewObjectTypeIdentity, ViewRecordPinParamsViewObjectTypeOrganization:
+	case ViewRecordPinParamsViewObjectTypeComment, ViewRecordPinParamsViewObjectTypeAction, ViewRecordPinParamsViewObjectTypeDeal, ViewRecordPinParamsViewObjectTypeEngagement, ViewRecordPinParamsViewObjectTypeDocument, ViewRecordPinParamsViewObjectTypeEvent, ViewRecordPinParamsViewObjectTypeIdentity, ViewRecordPinParamsViewObjectTypeOrganization:
 		return true
 	}
 	return false
@@ -243,8 +247,10 @@ func (r ViewRecordReorderParams) MarshalJSON() (data []byte, err error) {
 type ViewRecordReorderParamsViewObjectType string
 
 const (
+	ViewRecordReorderParamsViewObjectTypeComment      ViewRecordReorderParamsViewObjectType = "comment"
 	ViewRecordReorderParamsViewObjectTypeAction       ViewRecordReorderParamsViewObjectType = "action"
 	ViewRecordReorderParamsViewObjectTypeDeal         ViewRecordReorderParamsViewObjectType = "deal"
+	ViewRecordReorderParamsViewObjectTypeEngagement   ViewRecordReorderParamsViewObjectType = "engagement"
 	ViewRecordReorderParamsViewObjectTypeDocument     ViewRecordReorderParamsViewObjectType = "document"
 	ViewRecordReorderParamsViewObjectTypeEvent        ViewRecordReorderParamsViewObjectType = "event"
 	ViewRecordReorderParamsViewObjectTypeIdentity     ViewRecordReorderParamsViewObjectType = "identity"
@@ -253,7 +259,7 @@ const (
 
 func (r ViewRecordReorderParamsViewObjectType) IsKnown() bool {
 	switch r {
-	case ViewRecordReorderParamsViewObjectTypeAction, ViewRecordReorderParamsViewObjectTypeDeal, ViewRecordReorderParamsViewObjectTypeDocument, ViewRecordReorderParamsViewObjectTypeEvent, ViewRecordReorderParamsViewObjectTypeIdentity, ViewRecordReorderParamsViewObjectTypeOrganization:
+	case ViewRecordReorderParamsViewObjectTypeComment, ViewRecordReorderParamsViewObjectTypeAction, ViewRecordReorderParamsViewObjectTypeDeal, ViewRecordReorderParamsViewObjectTypeEngagement, ViewRecordReorderParamsViewObjectTypeDocument, ViewRecordReorderParamsViewObjectTypeEvent, ViewRecordReorderParamsViewObjectTypeIdentity, ViewRecordReorderParamsViewObjectTypeOrganization:
 		return true
 	}
 	return false
@@ -267,8 +273,10 @@ type ViewRecordUnpinParams struct {
 type ViewRecordUnpinParamsViewObjectType string
 
 const (
+	ViewRecordUnpinParamsViewObjectTypeComment      ViewRecordUnpinParamsViewObjectType = "comment"
 	ViewRecordUnpinParamsViewObjectTypeAction       ViewRecordUnpinParamsViewObjectType = "action"
 	ViewRecordUnpinParamsViewObjectTypeDeal         ViewRecordUnpinParamsViewObjectType = "deal"
+	ViewRecordUnpinParamsViewObjectTypeEngagement   ViewRecordUnpinParamsViewObjectType = "engagement"
 	ViewRecordUnpinParamsViewObjectTypeDocument     ViewRecordUnpinParamsViewObjectType = "document"
 	ViewRecordUnpinParamsViewObjectTypeEvent        ViewRecordUnpinParamsViewObjectType = "event"
 	ViewRecordUnpinParamsViewObjectTypeIdentity     ViewRecordUnpinParamsViewObjectType = "identity"
@@ -277,7 +285,7 @@ const (
 
 func (r ViewRecordUnpinParamsViewObjectType) IsKnown() bool {
 	switch r {
-	case ViewRecordUnpinParamsViewObjectTypeAction, ViewRecordUnpinParamsViewObjectTypeDeal, ViewRecordUnpinParamsViewObjectTypeDocument, ViewRecordUnpinParamsViewObjectTypeEvent, ViewRecordUnpinParamsViewObjectTypeIdentity, ViewRecordUnpinParamsViewObjectTypeOrganization:
+	case ViewRecordUnpinParamsViewObjectTypeComment, ViewRecordUnpinParamsViewObjectTypeAction, ViewRecordUnpinParamsViewObjectTypeDeal, ViewRecordUnpinParamsViewObjectTypeEngagement, ViewRecordUnpinParamsViewObjectTypeDocument, ViewRecordUnpinParamsViewObjectTypeEvent, ViewRecordUnpinParamsViewObjectTypeIdentity, ViewRecordUnpinParamsViewObjectTypeOrganization:
 		return true
 	}
 	return false

@@ -29,7 +29,7 @@ func TestViewNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Views.New(
 		context.TODO(),
-		micro.ViewNewParamsViewObjectTypeAction,
+		micro.ViewNewParamsViewObjectTypeComment,
 		micro.ViewNewParams{
 			Name:                 micro.F("name"),
 			ViewType:             micro.F("view_type"),
@@ -86,7 +86,7 @@ func TestViewUpdateWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Views.Update(
 		context.TODO(),
-		micro.ViewUpdateParamsViewObjectTypeAction,
+		micro.ViewUpdateParamsViewObjectTypeComment,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewUpdateParams{
 			AggregationPropDefID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
@@ -141,7 +141,7 @@ func TestViewDelete(t *testing.T) {
 	)
 	err := client.Views.Delete(
 		context.TODO(),
-		micro.ViewDeleteParamsViewObjectTypeAction,
+		micro.ViewDeleteParamsViewObjectTypeComment,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewDeleteParams{},
 	)
@@ -170,7 +170,7 @@ func TestViewGetWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Views.Get(
 		context.TODO(),
-		micro.ViewGetParamsViewObjectTypeAction,
+		micro.ViewGetParamsViewObjectTypeComment,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewGetParams{
 			Cursor:  micro.F("cursor"),
