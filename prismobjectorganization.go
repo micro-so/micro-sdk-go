@@ -1428,7 +1428,7 @@ type PrismObjectOrganizationQueryParamsQueryFilterUnion interface {
 }
 
 type PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEq struct {
-	Equals param.Field[PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqUnion] `json:"=" api:"required"`
+	Equals param.Field[PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion] `json:"=" api:"required"`
 }
 
 func (r PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEq) MarshalJSON() (data []byte, err error) {
@@ -1439,12 +1439,12 @@ func (r PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEq) impleme
 }
 
 // Satisfied by [shared.UnionString], [shared.UnionBool].
-type PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqUnion interface {
-	ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqUnion()
+type PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion interface {
+	ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion()
 }
 
 type PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNe struct {
-	NotEquals param.Field[PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNeUnion] `json:"!=" api:"required"`
+	NotEquals param.Field[PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion] `json:"!=" api:"required"`
 }
 
 func (r PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNe) MarshalJSON() (data []byte, err error) {
@@ -1455,8 +1455,8 @@ func (r PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNe) impleme
 }
 
 // Satisfied by [shared.UnionString], [shared.UnionBool].
-type PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNeUnion interface {
-	ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNeUnion()
+type PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion interface {
+	ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion()
 }
 
 type PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterLt struct {

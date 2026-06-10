@@ -1430,7 +1430,7 @@ type PrismObjectDocumentQueryParamsQueryFilterUnion interface {
 }
 
 type PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEq struct {
-	Equals param.Field[PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqUnion] `json:"=" api:"required"`
+	Equals param.Field[PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion] `json:"=" api:"required"`
 }
 
 func (r PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEq) MarshalJSON() (data []byte, err error) {
@@ -1441,12 +1441,12 @@ func (r PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEq) implementsP
 }
 
 // Satisfied by [shared.UnionString], [shared.UnionBool].
-type PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqUnion interface {
-	ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqUnion()
+type PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion interface {
+	ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion()
 }
 
 type PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNe struct {
-	NotEquals param.Field[PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNeUnion] `json:"!=" api:"required"`
+	NotEquals param.Field[PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion] `json:"!=" api:"required"`
 }
 
 func (r PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNe) MarshalJSON() (data []byte, err error) {
@@ -1457,8 +1457,8 @@ func (r PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNe) implementsP
 }
 
 // Satisfied by [shared.UnionString], [shared.UnionBool].
-type PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNeUnion interface {
-	ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNeUnion()
+type PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion interface {
+	ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion()
 }
 
 type PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterLt struct {

@@ -376,7 +376,7 @@ func TestPrismObjectOrganizationQueryWithOptionalParams(t *testing.T) {
 			Cursor:     micro.F("cursor"),
 			Filter: micro.F([]map[string]micro.PrismObjectOrganizationQueryParamsQueryFilterUnion{{
 				"foo": micro.PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEq{
-					Equals: micro.F[micro.PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqUnion](shared.UnionString("string")),
+					Equals: micro.F[micro.PrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion](shared.UnionString("string")),
 				},
 			}}),
 			Limit:  micro.F(int64(1)),

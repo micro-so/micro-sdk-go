@@ -376,7 +376,7 @@ func TestPrismObjectEngagementQueryWithOptionalParams(t *testing.T) {
 			Cursor:     micro.F("cursor"),
 			Filter: micro.F([]map[string]micro.PrismObjectEngagementQueryParamsQueryFilterUnion{{
 				"foo": micro.PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEq{
-					Equals: micro.F[micro.PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqUnion](shared.UnionString("string")),
+					Equals: micro.F[micro.PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion](shared.UnionString("string")),
 				},
 			}}),
 			Limit:  micro.F(int64(1)),

@@ -4,110 +4,131 @@ package shared
 
 type UnionString string
 
-func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterPrismQueryFilterEqUnion()      {}
-func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterPrismQueryFilterNeUnion()      {}
-func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterContainsContainsUnion()        {}
-func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterIsNullIsNullUnion()            {}
-func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterIsNotNullIsNotNullUnion()      {}
-func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterBetweenBetweenUnion()          {}
-func (UnionString) ImplementsPrismObjectContactQueryParamsIDUnion()                                 {}
-func (UnionString) ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqUnion() {}
-func (UnionString) ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNeUnion() {}
+func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterContainsContainsUnion()   {}
+func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterIsNullIsNullUnion()       {}
+func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterIsNotNullIsNotNullUnion() {}
+func (UnionString) ImplementsPrismObjectContactQueryParamsQueryFilterBetweenBetweenUnion()     {}
+func (UnionString) ImplementsPrismObjectContactQueryParamsIDUnion()                            {}
+func (UnionString) ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
 func (UnionString) ImplementsPrismObjectOrganizationQueryParamsQueryFilterContainsContainsUnion()   {}
 func (UnionString) ImplementsPrismObjectOrganizationQueryParamsQueryFilterIsNullIsNullUnion()       {}
 func (UnionString) ImplementsPrismObjectOrganizationQueryParamsQueryFilterIsNotNullIsNotNullUnion() {}
 func (UnionString) ImplementsPrismObjectOrganizationQueryParamsQueryFilterBetweenBetweenUnion()     {}
 func (UnionString) ImplementsPrismObjectOrganizationQueryParamsIDUnion()                            {}
-func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterPrismQueryFilterEqUnion()     {}
-func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterPrismQueryFilterNeUnion()     {}
-func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterContainsContainsUnion()       {}
-func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterIsNullIsNullUnion()           {}
-func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterIsNotNullIsNotNullUnion()     {}
-func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterBetweenBetweenUnion()         {}
-func (UnionString) ImplementsPrismObjectIdentityQueryParamsIDUnion()                                {}
-func (UnionString) ImplementsPrismObjectDealQueryParamsQueryFilterPrismQueryFilterEqUnion()         {}
-func (UnionString) ImplementsPrismObjectDealQueryParamsQueryFilterPrismQueryFilterNeUnion()         {}
+func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterContainsContainsUnion()     {}
+func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterIsNullIsNullUnion()         {}
+func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterIsNotNullIsNotNullUnion()   {}
+func (UnionString) ImplementsPrismObjectIdentityQueryParamsQueryFilterBetweenBetweenUnion()       {}
+func (UnionString) ImplementsPrismObjectIdentityQueryParamsIDUnion()                              {}
+func (UnionString) ImplementsPrismObjectDealQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {}
+func (UnionString) ImplementsPrismObjectDealQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
 func (UnionString) ImplementsPrismObjectDealQueryParamsQueryFilterContainsContainsUnion()           {}
 func (UnionString) ImplementsPrismObjectDealQueryParamsQueryFilterIsNullIsNullUnion()               {}
 func (UnionString) ImplementsPrismObjectDealQueryParamsQueryFilterIsNotNullIsNotNullUnion()         {}
 func (UnionString) ImplementsPrismObjectDealQueryParamsQueryFilterBetweenBetweenUnion()             {}
 func (UnionString) ImplementsPrismObjectDealQueryParamsIDUnion()                                    {}
-func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterPrismQueryFilterEqUnion()       {}
-func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterPrismQueryFilterNeUnion()       {}
-func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterContainsContainsUnion()         {}
-func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterIsNullIsNullUnion()             {}
-func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterIsNotNullIsNotNullUnion()       {}
-func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterBetweenBetweenUnion()           {}
-func (UnionString) ImplementsPrismObjectActionQueryParamsIDUnion()                                  {}
-func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqUnion()     {}
-func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNeUnion()     {}
-func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterContainsContainsUnion()       {}
-func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterIsNullIsNullUnion()           {}
-func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterIsNotNullIsNotNullUnion()     {}
-func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterBetweenBetweenUnion()         {}
-func (UnionString) ImplementsPrismObjectDocumentQueryParamsIDUnion()                                {}
-func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterPrismQueryFilterEqUnion()        {}
-func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterPrismQueryFilterNeUnion()        {}
-func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterContainsContainsUnion()          {}
-func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterIsNullIsNullUnion()              {}
-func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterIsNotNullIsNotNullUnion()        {}
-func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterBetweenBetweenUnion()            {}
-func (UnionString) ImplementsPrismObjectEventQueryParamsIDUnion()                                   {}
-func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqUnion()   {}
-func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeUnion()   {}
-func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterContainsContainsUnion()     {}
-func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNullIsNullUnion()         {}
-func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNotNullIsNotNullUnion()   {}
-func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterBetweenBetweenUnion()       {}
-func (UnionString) ImplementsPrismObjectEngagementQueryParamsIDUnion()                              {}
+func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {}
+func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterContainsContainsUnion()   {}
+func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterIsNullIsNullUnion()       {}
+func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterIsNotNullIsNotNullUnion() {}
+func (UnionString) ImplementsPrismObjectActionQueryParamsQueryFilterBetweenBetweenUnion()     {}
+func (UnionString) ImplementsPrismObjectActionQueryParamsIDUnion()                            {}
+func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterContainsContainsUnion()      {}
+func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterIsNullIsNullUnion()          {}
+func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterIsNotNullIsNotNullUnion()    {}
+func (UnionString) ImplementsPrismObjectDocumentQueryParamsQueryFilterBetweenBetweenUnion()        {}
+func (UnionString) ImplementsPrismObjectDocumentQueryParamsIDUnion()                               {}
+func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {}
+func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterContainsContainsUnion()   {}
+func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterIsNullIsNullUnion()       {}
+func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterIsNotNullIsNotNullUnion() {}
+func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterBetweenBetweenUnion()     {}
+func (UnionString) ImplementsPrismObjectEventQueryParamsIDUnion()                            {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterContainsContainsUnion()   {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNullIsNullUnion()       {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNotNullIsNotNullUnion() {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterBetweenBetweenUnion()     {}
+func (UnionString) ImplementsPrismObjectEngagementQueryParamsIDUnion()                            {}
 
 type UnionBool bool
 
-func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterPrismQueryFilterEqUnion()      {}
-func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterPrismQueryFilterNeUnion()      {}
-func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterContainsContainsUnion()        {}
-func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterIsNullIsNullUnion()            {}
-func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterIsNotNullIsNotNullUnion()      {}
-func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterBetweenBetweenUnion()          {}
-func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqUnion() {}
-func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNeUnion() {}
-func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterContainsContainsUnion()   {}
-func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterIsNullIsNullUnion()       {}
-func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterIsNotNullIsNotNullUnion() {}
-func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterBetweenBetweenUnion()     {}
-func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterPrismQueryFilterEqUnion()     {}
-func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterPrismQueryFilterNeUnion()     {}
-func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterContainsContainsUnion()       {}
-func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterIsNullIsNullUnion()           {}
-func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterIsNotNullIsNotNullUnion()     {}
-func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterBetweenBetweenUnion()         {}
-func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterPrismQueryFilterEqUnion()         {}
-func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterPrismQueryFilterNeUnion()         {}
-func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterContainsContainsUnion()           {}
-func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterIsNullIsNullUnion()               {}
-func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterIsNotNullIsNotNullUnion()         {}
-func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterBetweenBetweenUnion()             {}
-func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterPrismQueryFilterEqUnion()       {}
-func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterPrismQueryFilterNeUnion()       {}
-func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterContainsContainsUnion()         {}
-func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterIsNullIsNullUnion()             {}
-func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterIsNotNullIsNotNullUnion()       {}
-func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterBetweenBetweenUnion()           {}
-func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqUnion()     {}
-func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNeUnion()     {}
-func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterContainsContainsUnion()       {}
-func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterIsNullIsNullUnion()           {}
-func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterIsNotNullIsNotNullUnion()     {}
-func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterBetweenBetweenUnion()         {}
-func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterPrismQueryFilterEqUnion()        {}
-func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterPrismQueryFilterNeUnion()        {}
-func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterContainsContainsUnion()          {}
-func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterIsNullIsNullUnion()              {}
-func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterIsNotNullIsNotNullUnion()        {}
-func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterBetweenBetweenUnion()            {}
-func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqUnion()   {}
-func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeUnion()   {}
-func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterContainsContainsUnion()     {}
-func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNullIsNullUnion()         {}
-func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNotNullIsNotNullUnion()   {}
-func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterBetweenBetweenUnion()       {}
+func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {}
+func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterContainsContainsUnion()   {}
+func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterIsNullIsNullUnion()       {}
+func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterIsNotNullIsNotNullUnion() {}
+func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterBetweenBetweenUnion()     {}
+func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {
+}
+func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterContainsContainsUnion()     {}
+func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterIsNullIsNullUnion()         {}
+func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterIsNotNullIsNotNullUnion()   {}
+func (UnionBool) ImplementsPrismObjectOrganizationQueryParamsQueryFilterBetweenBetweenUnion()       {}
+func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {}
+func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterContainsContainsUnion()        {}
+func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterIsNullIsNullUnion()            {}
+func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterIsNotNullIsNotNullUnion()      {}
+func (UnionBool) ImplementsPrismObjectIdentityQueryParamsQueryFilterBetweenBetweenUnion()          {}
+func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion()    {}
+func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {}
+func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterContainsContainsUnion()            {}
+func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterIsNullIsNullUnion()                {}
+func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterIsNotNullIsNotNullUnion()          {}
+func (UnionBool) ImplementsPrismObjectDealQueryParamsQueryFilterBetweenBetweenUnion()              {}
+func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion()  {}
+func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterContainsContainsUnion()           {}
+func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterIsNullIsNullUnion()               {}
+func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterIsNotNullIsNotNullUnion()         {}
+func (UnionBool) ImplementsPrismObjectActionQueryParamsQueryFilterBetweenBetweenUnion()             {}
+func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {}
+func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterContainsContainsUnion()         {}
+func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterIsNullIsNullUnion()             {}
+func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterIsNotNullIsNotNullUnion()       {}
+func (UnionBool) ImplementsPrismObjectDocumentQueryParamsQueryFilterBetweenBetweenUnion()           {}
+func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion()    {}
+func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {}
+func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterContainsContainsUnion()            {}
+func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterIsNullIsNullUnion()                {}
+func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterIsNotNullIsNotNullUnion()          {}
+func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterBetweenBetweenUnion()              {}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {
+}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
+}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterContainsContainsUnion()   {}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNullIsNullUnion()       {}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNotNullIsNotNullUnion() {}
+func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterBetweenBetweenUnion()     {}

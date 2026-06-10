@@ -1430,7 +1430,7 @@ type PrismObjectEngagementQueryParamsQueryFilterUnion interface {
 }
 
 type PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEq struct {
-	Equals param.Field[PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqUnion] `json:"=" api:"required"`
+	Equals param.Field[PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion] `json:"=" api:"required"`
 }
 
 func (r PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEq) MarshalJSON() (data []byte, err error) {
@@ -1441,12 +1441,12 @@ func (r PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEq) implement
 }
 
 // Satisfied by [shared.UnionString], [shared.UnionBool].
-type PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqUnion interface {
-	ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqUnion()
+type PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion interface {
+	ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion()
 }
 
 type PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNe struct {
-	NotEquals param.Field[PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeUnion] `json:"!=" api:"required"`
+	NotEquals param.Field[PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion] `json:"!=" api:"required"`
 }
 
 func (r PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNe) MarshalJSON() (data []byte, err error) {
@@ -1457,8 +1457,8 @@ func (r PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNe) implement
 }
 
 // Satisfied by [shared.UnionString], [shared.UnionBool].
-type PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeUnion interface {
-	ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeUnion()
+type PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion interface {
+	ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion()
 }
 
 type PrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterLt struct {
