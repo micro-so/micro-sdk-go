@@ -100,6 +100,7 @@ const (
 	PrismPropertyListParamsObjectTypeIdentity      PrismPropertyListParamsObjectType = "identity"
 	PrismPropertyListParamsObjectTypeAIChatThread  PrismPropertyListParamsObjectType = "ai_chat_thread"
 	PrismPropertyListParamsObjectTypeAIChatMessage PrismPropertyListParamsObjectType = "ai_chat_message"
+	PrismPropertyListParamsObjectTypeAgentArtifact PrismPropertyListParamsObjectType = "agent_artifact"
 	PrismPropertyListParamsObjectTypeDocument      PrismPropertyListParamsObjectType = "document"
 	PrismPropertyListParamsObjectTypeAction        PrismPropertyListParamsObjectType = "action"
 	PrismPropertyListParamsObjectTypeEvent         PrismPropertyListParamsObjectType = "event"
@@ -109,7 +110,7 @@ const (
 
 func (r PrismPropertyListParamsObjectType) IsKnown() bool {
 	switch r {
-	case PrismPropertyListParamsObjectTypeComment, PrismPropertyListParamsObjectTypeDeal, PrismPropertyListParamsObjectTypeEngagement, PrismPropertyListParamsObjectTypeIdentity, PrismPropertyListParamsObjectTypeAIChatThread, PrismPropertyListParamsObjectTypeAIChatMessage, PrismPropertyListParamsObjectTypeDocument, PrismPropertyListParamsObjectTypeAction, PrismPropertyListParamsObjectTypeEvent, PrismPropertyListParamsObjectTypeOrganization, PrismPropertyListParamsObjectTypeContact:
+	case PrismPropertyListParamsObjectTypeComment, PrismPropertyListParamsObjectTypeDeal, PrismPropertyListParamsObjectTypeEngagement, PrismPropertyListParamsObjectTypeIdentity, PrismPropertyListParamsObjectTypeAIChatThread, PrismPropertyListParamsObjectTypeAIChatMessage, PrismPropertyListParamsObjectTypeAgentArtifact, PrismPropertyListParamsObjectTypeDocument, PrismPropertyListParamsObjectTypeAction, PrismPropertyListParamsObjectTypeEvent, PrismPropertyListParamsObjectTypeOrganization, PrismPropertyListParamsObjectTypeContact:
 		return true
 	}
 	return false
