@@ -20,6 +20,7 @@ type Client struct {
 	Options []option.RequestOption
 	Prism   *PrismService
 	Views   *ViewService
+	TriggeredAutomations *TriggeredAutomationService
 }
 
 // DefaultClientOptions read from the environment (MICRO_API_KEY, MICRO_BASE_URL).
