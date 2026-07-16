@@ -1,5 +1,51 @@
 # Changelog
 
+## 0.8.0 (2026-07-15)
+
+Full Changelog: [v0.7.0...v0.8.0](https://github.com/micro-so/micro-sdk-go/compare/v0.7.0...v0.8.0)
+
+### Features
+
+* **api:** api update ([521b6de](https://github.com/micro-so/micro-sdk-go/commit/521b6de22827b37bb18cfe3e52d75ebb59132631))
+* **api:** api update ([41e95e7](https://github.com/micro-so/micro-sdk-go/commit/41e95e7121b7d6b5e931d5630bd95d2b5dc26543))
+* **api:** api update ([2ce921d](https://github.com/micro-so/micro-sdk-go/commit/2ce921d80f743335115938eb8cab3d3dd1cf31fa))
+* **api:** api update ([41df894](https://github.com/micro-so/micro-sdk-go/commit/41df89476e3b7e96049a397478a21cfdc5cf1b05))
+* **api:** api update ([6cbd80b](https://github.com/micro-so/micro-sdk-go/commit/6cbd80b5ec9b073ff9c8d87bc9de9c4d46c8910f))
+* **api:** api update ([919d1eb](https://github.com/micro-so/micro-sdk-go/commit/919d1ebbefad5db28d6e75fdb5c880f8107db9b9))
+* **api:** api update ([2deb366](https://github.com/micro-so/micro-sdk-go/commit/2deb3663880aa4099f1d428cd4e051e25f9063ab))
+* **api:** api update ([f2d52be](https://github.com/micro-so/micro-sdk-go/commit/f2d52be938531292c74d1e0be4aea5b70d7c25d0))
+* **api:** api update ([edd0bc9](https://github.com/micro-so/micro-sdk-go/commit/edd0bc9fdb5c7b996348c3215bbe8f6bc739004d))
+* **api:** api update ([791cedf](https://github.com/micro-so/micro-sdk-go/commit/791cedf27d468e96aeb165e58eb8cf5404f286bb))
+* **api:** api update ([6f96db1](https://github.com/micro-so/micro-sdk-go/commit/6f96db1c733122b504f91e55e51380ed0af0d8bf))
+* **api:** api update ([fb1326c](https://github.com/micro-so/micro-sdk-go/commit/fb1326cfc527889536abd93eaff2c12d5444dde1))
+* **api:** api update ([019946b](https://github.com/micro-so/micro-sdk-go/commit/019946bc58b838e7edd7c39e74498bddaf68f537))
+* **api:** api update ([b93b147](https://github.com/micro-so/micro-sdk-go/commit/b93b1476132c88423ecae4b4a6a2168d474399c1))
+* **api:** api update ([49c9384](https://github.com/micro-so/micro-sdk-go/commit/49c93848a83b951378563fc3dd01443781a4b386))
+* **api:** api update ([e98500d](https://github.com/micro-so/micro-sdk-go/commit/e98500d2b9e10776538fa5b19ab3ec10e4dec042))
+* **api:** api update ([07d9c4a](https://github.com/micro-so/micro-sdk-go/commit/07d9c4a5eca4f2229bdcb96d574eac952476fad8))
+* **api:** api update ([1ebf1a8](https://github.com/micro-so/micro-sdk-go/commit/1ebf1a80a8d9174fd3e6e3b3973729cca9544f1b))
+* **api:** api update ([aa8e48c](https://github.com/micro-so/micro-sdk-go/commit/aa8e48c1b4dc60818d73449fc5c92db4ed8187f5))
+* **api:** api update ([60069d6](https://github.com/micro-so/micro-sdk-go/commit/60069d66f3ce41122d49ca6451b9b4bafd29b8b5))
+* **api:** api update ([ca92242](https://github.com/micro-so/micro-sdk-go/commit/ca9224291522a16bf2d132613a2c095c32c95390))
+* **api:** api update ([e736825](https://github.com/micro-so/micro-sdk-go/commit/e73682570bdce2c70de1623e78f7b15e34fbb199))
+* **api:** manual updates ([86b35a9](https://github.com/micro-so/micro-sdk-go/commit/86b35a916f1a51e341dfdecdba1103a277af2386))
+* **go:** add default http client with timeout ([87acd14](https://github.com/micro-so/micro-sdk-go/commit/87acd141f0188decb5c903e8a3c5a99776e63843))
+* support setting headers via env ([d7634aa](https://github.com/micro-so/micro-sdk-go/commit/d7634aa3c9cbb95d1f1156c035046694b5d20e86))
+
+
+### Bug Fixes
+
+* **go:** avoid panic when http.DefaultTransport is wrapped ([e7ee369](https://github.com/micro-so/micro-sdk-go/commit/e7ee3697977379a2155465634d3880ad8276de54))
+
+
+### Chores
+
+* avoid embedding reflect.Type for dead code elimination ([00aeef1](https://github.com/micro-so/micro-sdk-go/commit/00aeef167a0f2246d53f9c010948bd658c7b7df7))
+* configure new SDK language ([58e56d8](https://github.com/micro-so/micro-sdk-go/commit/58e56d8a2eec479ab7b4db8ab58b2a310801c41c))
+* **internal:** more robust bootstrap script ([84550ef](https://github.com/micro-so/micro-sdk-go/commit/84550efb7a18b578ddcdedad604106ce009c4bfa))
+* redact api-key headers in debug logs ([465e897](https://github.com/micro-so/micro-sdk-go/commit/465e89731765bae62f80dd321e3e337af01630e4))
+* update SDK settings ([3d7dd10](https://github.com/micro-so/micro-sdk-go/commit/3d7dd10aa4ae187d4fd6a44b7286a8a246c723b1))
+
 ## 0.7.0 (2026-06-03)
 
 Full Changelog: [v0.6.0...v0.7.0](https://github.com/micro-so/micro-sdk-go/compare/v0.6.0...v0.7.0)
