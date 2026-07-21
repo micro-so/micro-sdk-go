@@ -1212,6 +1212,9 @@ func (r PrismObjectIdentityBulkNewParams) MarshalJSON() (data []byte, err error)
 type PrismObjectIdentityBulkNewParamsOptions struct {
 	// Whether deduplication should be case insensitive
 	CaseInsensitive param.Field[bool] `json:"caseInsensitive"`
+	// When true, unknown values for select/multiselect properties are created as new
+	// options instead of failing the import
+	CreateMissingOptions param.Field[bool] `json:"create_missing_options"`
 	// Property slug to deduplicate on
 	DedupeBy param.Field[string] `json:"dedupe_by"`
 	// App/CRM ID for context (optional)
