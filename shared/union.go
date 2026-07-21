@@ -107,6 +107,8 @@ func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterIsNotNullIsNotN
 func (UnionBool) ImplementsPrismObjectEventQueryParamsQueryFilterBetweenBetweenUnion()            {}
 func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqUnion()   {}
 func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeUnion()   {}
+func (UnionBool) ImplementsPrismPropertyListParamsIncludeOptionsUnion()                            {}
+func (UnionBool) ImplementsPrismPropertyListAllParamsIncludeOptionsUnion()                         {}
 func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterContainsContainsUnion()     {}
 func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNullIsNullUnion()         {}
 func (UnionBool) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNotNullIsNotNullUnion()   {}

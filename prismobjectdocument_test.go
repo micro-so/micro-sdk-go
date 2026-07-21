@@ -167,9 +167,10 @@ func TestPrismObjectDocumentBulkNewWithOptionalParams(t *testing.T) {
 			List: micro.F[any](map[string]interface{}{}),
 		}}),
 		Options: micro.F(micro.PrismObjectDocumentBulkNewParamsOptions{
-			CaseInsensitive: micro.F(true),
-			DedupeBy:        micro.F("dedupe_by"),
-			ListID:          micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			CaseInsensitive:      micro.F(true),
+			CreateMissingOptions: micro.F(true),
+			DedupeBy:             micro.F("dedupe_by"),
+			ListID:               micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 		}),
 		IdempotencyKey: micro.F("x"),
 	})
