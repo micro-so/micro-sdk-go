@@ -38,6 +38,53 @@ func NewPrismObjectEventService(opts ...option.RequestOption) (r *PrismObjectEve
 	return
 }
 
+// Create object
+func (r *PrismObjectEventService) New(ctx context.Context, params PrismObjectEventNewParams, opts ...option.RequestOption) (res *PrismObjectEventNewResponse, err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/event", params.TeamID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	return res, err
+}
+
+// Patch object
+func (r *PrismObjectEventService) Update(ctx context.Context, eventID string, params PrismObjectEventUpdateParams, opts ...option.RequestOption) (res *PrismObjectEventUpdateResponse, err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
+	if params.IfMatch.Present {
+		opts = append(opts, option.WithHeader("If-Match", fmt.Sprintf("%v", params.IfMatch)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if eventID == "" {
+		err = errors.New("missing required eventId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/event/%s", params.TeamID, eventID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, params, &res, opts...)
+	return res, err
+}
+
 // Convenience list endpoint. Equivalent to
 // `POST /v2/prism/{teamId}/{objectType}/query` with an empty body, plus
 // query-string sugar for the common cases. Any unrecognized query parameter is
@@ -61,6 +108,31 @@ func (r *PrismObjectEventService) List(ctx context.Context, params PrismObjectEv
 	return res, err
 }
 
+// Delete object
+func (r *PrismObjectEventService) Delete(ctx context.Context, eventID string, params PrismObjectEventDeleteParams, opts ...option.RequestOption) (err error) {
+	if params.IfMatch.Present {
+		opts = append(opts, option.WithHeader("If-Match", fmt.Sprintf("%v", params.IfMatch)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return err
+	}
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return err
+	}
+	if eventID == "" {
+		err = errors.New("missing required eventId parameter")
+		return err
+	}
+	path := fmt.Sprintf("v2/prism/%s/event/%s", params.TeamID, eventID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
+	return err
+}
+
 // Returns the total number of records of this object type that the caller can see.
 // Avoids the page-overshoot anti-pattern — clients no longer need to keep paging
 // until `has_more` flips false to discover the total. Currently does not apply
@@ -79,6 +151,30 @@ func (r *PrismObjectEventService) Count(ctx context.Context, params PrismObjectE
 	}
 	path := fmt.Sprintf("v2/prism/%s/event/count", params.TeamID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
+	return res, err
+}
+
+// Duplicate object
+func (r *PrismObjectEventService) Duplicate(ctx context.Context, eventID string, params PrismObjectEventDuplicateParams, opts ...option.RequestOption) (res *PrismObjectEventDuplicateResponse, err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if eventID == "" {
+		err = errors.New("missing required eventId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/event/%s/duplicate", params.TeamID, eventID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
 	return res, err
 }
 
@@ -144,6 +240,115 @@ func (r *PrismObjectEventService) Query(ctx context.Context, params PrismObjectE
 	path := fmt.Sprintf("v2/prism/%s/event/query", params.TeamID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
 	return res, err
+}
+
+// Restore object
+func (r *PrismObjectEventService) Restore(ctx context.Context, eventID string, params PrismObjectEventRestoreParams, opts ...option.RequestOption) (res *PrismObjectEventRestoreResponse, err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if eventID == "" {
+		err = errors.New("missing required eventId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/event/%s/restore", params.TeamID, eventID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
+	return res, err
+}
+
+// Idempotent create-or-update keyed on `{slug}={value}`. If exactly one record
+// matches, it is patched and 200 is returned. If none match, a new record is
+// created (with the lookup property set if absent) and 201 is returned. If
+// multiple records match, 409 is returned and you should patch by id instead.
+func (r *PrismObjectEventService) Upsert(ctx context.Context, slug string, value string, params PrismObjectEventUpsertParams, opts ...option.RequestOption) (res *PrismObjectEventUpsertResponse, err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	if slug == "" {
+		err = errors.New("missing required slug parameter")
+		return nil, err
+	}
+	if value == "" {
+		err = errors.New("missing required value parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/event/by/%s/%s", params.TeamID, slug, value)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPut, path, params, &res, opts...)
+	return res, err
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectEventNewResponse struct {
+	ID string `json:"id" api:"required" format:"uuid"`
+	// Properties keyed by property slug.
+	Default map[string]interface{}          `json:"default"`
+	List    interface{}                     `json:"list"`
+	JSON    prismObjectEventNewResponseJSON `json:"-"`
+}
+
+// prismObjectEventNewResponseJSON contains the JSON metadata for the struct
+// [PrismObjectEventNewResponse]
+type prismObjectEventNewResponseJSON struct {
+	ID          apijson.Field
+	Default     apijson.Field
+	List        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectEventNewResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectEventNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectEventUpdateResponse struct {
+	ID string `json:"id" api:"required" format:"uuid"`
+	// Properties keyed by property slug.
+	Default map[string]interface{}             `json:"default"`
+	List    interface{}                        `json:"list"`
+	JSON    prismObjectEventUpdateResponseJSON `json:"-"`
+}
+
+// prismObjectEventUpdateResponseJSON contains the JSON metadata for the struct
+// [PrismObjectEventUpdateResponse]
+type prismObjectEventUpdateResponseJSON struct {
+	ID          apijson.Field
+	Default     apijson.Field
+	List        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectEventUpdateResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectEventUpdateResponseJSON) RawJSON() string {
+	return r.raw
 }
 
 type PrismObjectEventListResponse struct {
@@ -229,6 +434,33 @@ func (r *PrismObjectEventCountResponse) UnmarshalJSON(data []byte) (err error) {
 }
 
 func (r prismObjectEventCountResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectEventDuplicateResponse struct {
+	ID string `json:"id" api:"required" format:"uuid"`
+	// Properties keyed by property slug.
+	Default map[string]interface{}                `json:"default"`
+	List    interface{}                           `json:"list"`
+	JSON    prismObjectEventDuplicateResponseJSON `json:"-"`
+}
+
+// prismObjectEventDuplicateResponseJSON contains the JSON metadata for the struct
+// [PrismObjectEventDuplicateResponse]
+type prismObjectEventDuplicateResponseJSON struct {
+	ID          apijson.Field
+	Default     apijson.Field
+	List        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectEventDuplicateResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectEventDuplicateResponseJSON) RawJSON() string {
 	return r.raw
 }
 
@@ -356,6 +588,83 @@ func (r prismObjectEventQueryResponseDataJSON) RawJSON() string {
 	return r.raw
 }
 
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectEventRestoreResponse struct {
+	ID string `json:"id" api:"required" format:"uuid"`
+	// Properties keyed by property slug.
+	Default map[string]interface{}              `json:"default"`
+	List    interface{}                         `json:"list"`
+	JSON    prismObjectEventRestoreResponseJSON `json:"-"`
+}
+
+// prismObjectEventRestoreResponseJSON contains the JSON metadata for the struct
+// [PrismObjectEventRestoreResponse]
+type prismObjectEventRestoreResponseJSON struct {
+	ID          apijson.Field
+	Default     apijson.Field
+	List        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectEventRestoreResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectEventRestoreResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// Object returned by reads (get/create/patch/restore). id is always present.
+type PrismObjectEventUpsertResponse struct {
+	ID string `json:"id" api:"required" format:"uuid"`
+	// Properties keyed by property slug.
+	Default map[string]interface{}             `json:"default"`
+	List    interface{}                        `json:"list"`
+	JSON    prismObjectEventUpsertResponseJSON `json:"-"`
+}
+
+// prismObjectEventUpsertResponseJSON contains the JSON metadata for the struct
+// [PrismObjectEventUpsertResponse]
+type prismObjectEventUpsertResponseJSON struct {
+	ID          apijson.Field
+	Default     apijson.Field
+	List        apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectEventUpsertResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectEventUpsertResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type PrismObjectEventNewParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID                param.Field[string]        `path:"teamId" api:"required" format:"uuid"`
+	PrismObjectProperties PrismObjectPropertiesParam `json:"prism_object_properties" api:"required"`
+	IdempotencyKey        param.Field[string]        `header:"Idempotency-Key"`
+}
+
+func (r PrismObjectEventNewParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r.PrismObjectProperties)
+}
+
+type PrismObjectEventUpdateParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID                param.Field[string]        `path:"teamId" api:"required" format:"uuid"`
+	PrismObjectProperties PrismObjectPropertiesParam `json:"prism_object_properties" api:"required"`
+	IdempotencyKey        param.Field[string]        `header:"Idempotency-Key"`
+	IfMatch               param.Field[string]        `header:"If-Match"`
+}
+
+func (r PrismObjectEventUpdateParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r.PrismObjectProperties)
+}
+
 type PrismObjectEventListParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
@@ -388,6 +697,12 @@ func (r PrismObjectEventListParams) URLQuery() (v url.Values) {
 	})
 }
 
+type PrismObjectEventDeleteParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID  param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+	IfMatch param.Field[string] `header:"If-Match"`
+}
+
 type PrismObjectEventCountParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
@@ -402,6 +717,12 @@ func (r PrismObjectEventCountParams) URLQuery() (v url.Values) {
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type PrismObjectEventDuplicateParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID         param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+	IdempotencyKey param.Field[string] `header:"Idempotency-Key"`
 }
 
 type PrismObjectEventFindParams struct {
@@ -818,3 +1139,20 @@ type PrismObjectEventQueryParamsIDUnion interface {
 type PrismObjectEventQueryParamsIDArray []string
 
 func (r PrismObjectEventQueryParamsIDArray) ImplementsPrismObjectEventQueryParamsIDUnion() {}
+
+type PrismObjectEventRestoreParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID         param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+	IdempotencyKey param.Field[string] `header:"Idempotency-Key"`
+}
+
+type PrismObjectEventUpsertParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID                param.Field[string]        `path:"teamId" api:"required" format:"uuid"`
+	PrismObjectProperties PrismObjectPropertiesParam `json:"prism_object_properties" api:"required"`
+	IdempotencyKey        param.Field[string]        `header:"Idempotency-Key"`
+}
+
+func (r PrismObjectEventUpsertParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r.PrismObjectProperties)
+}

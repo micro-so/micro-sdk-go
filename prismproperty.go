@@ -77,6 +77,12 @@ type PrismPropertyListParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID   param.Field[string] `path:"teamId" api:"required" format:"uuid"`
 	Autofill param.Field[bool]   `query:"autofill"`
+	// When false, return property definitions without hydrating select/multiselect
+	// option rows. Defaults to true server-side (parseIncludeOptions). Accepts boolean
+	// or query-string forms (true/false/0/1). Uses anyOf (not oneOf) so qs/AJV
+	// boolean-vs-string ambiguity does not 400 when Speakeasy SDKs send
+	// include_options=true.
+	IncludeOptions param.Field[PrismPropertyListParamsIncludeOptionsUnion] `query:"include_options"`
 	// Scope properties to a specific list/app.
 	ListID param.Field[string] `query:"list_id" format:"uuid"`
 	Term   param.Field[string] `query:"term"`
@@ -116,10 +122,47 @@ func (r PrismPropertyListParamsObjectType) IsKnown() bool {
 	return false
 }
 
+// When false, return property definitions without hydrating select/multiselect
+// option rows. Defaults to true server-side (parseIncludeOptions). Accepts boolean
+// or query-string forms (true/false/0/1). Uses anyOf (not oneOf) so qs/AJV
+// boolean-vs-string ambiguity does not 400 when Speakeasy SDKs send
+// include_options=true.
+//
+// Satisfied by [shared.UnionBool], [PrismPropertyListParamsIncludeOptionsString].
+type PrismPropertyListParamsIncludeOptionsUnion interface {
+	ImplementsPrismPropertyListParamsIncludeOptionsUnion()
+}
+
+type PrismPropertyListParamsIncludeOptionsString string
+
+const (
+	PrismPropertyListParamsIncludeOptionsStringTrue  PrismPropertyListParamsIncludeOptionsString = "true"
+	PrismPropertyListParamsIncludeOptionsStringFalse PrismPropertyListParamsIncludeOptionsString = "false"
+	PrismPropertyListParamsIncludeOptionsString0     PrismPropertyListParamsIncludeOptionsString = "0"
+	PrismPropertyListParamsIncludeOptionsString1     PrismPropertyListParamsIncludeOptionsString = "1"
+)
+
+func (r PrismPropertyListParamsIncludeOptionsString) IsKnown() bool {
+	switch r {
+	case PrismPropertyListParamsIncludeOptionsStringTrue, PrismPropertyListParamsIncludeOptionsStringFalse, PrismPropertyListParamsIncludeOptionsString0, PrismPropertyListParamsIncludeOptionsString1:
+		return true
+	}
+	return false
+}
+
+func (r PrismPropertyListParamsIncludeOptionsString) ImplementsPrismPropertyListParamsIncludeOptionsUnion() {
+}
+
 type PrismPropertyListAllParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID   param.Field[string] `path:"teamId" api:"required" format:"uuid"`
 	Autofill param.Field[bool]   `query:"autofill"`
+	// When false, return property definitions without hydrating select/multiselect
+	// option rows. Defaults to true server-side (parseIncludeOptions). Accepts boolean
+	// or query-string forms (true/false/0/1). Uses anyOf (not oneOf) so qs/AJV
+	// boolean-vs-string ambiguity does not 400 when Speakeasy SDKs send
+	// include_options=true.
+	IncludeOptions param.Field[PrismPropertyListAllParamsIncludeOptionsUnion] `query:"include_options"`
 	// Scope properties to a specific list/app.
 	ListID param.Field[string] `query:"list_id" format:"uuid"`
 	Term   param.Field[string] `query:"term"`
@@ -132,4 +175,36 @@ func (r PrismPropertyListAllParams) URLQuery() (v url.Values) {
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+// When false, return property definitions without hydrating select/multiselect
+// option rows. Defaults to true server-side (parseIncludeOptions). Accepts boolean
+// or query-string forms (true/false/0/1). Uses anyOf (not oneOf) so qs/AJV
+// boolean-vs-string ambiguity does not 400 when Speakeasy SDKs send
+// include_options=true.
+//
+// Satisfied by [shared.UnionBool],
+// [PrismPropertyListAllParamsIncludeOptionsString].
+type PrismPropertyListAllParamsIncludeOptionsUnion interface {
+	ImplementsPrismPropertyListAllParamsIncludeOptionsUnion()
+}
+
+type PrismPropertyListAllParamsIncludeOptionsString string
+
+const (
+	PrismPropertyListAllParamsIncludeOptionsStringTrue  PrismPropertyListAllParamsIncludeOptionsString = "true"
+	PrismPropertyListAllParamsIncludeOptionsStringFalse PrismPropertyListAllParamsIncludeOptionsString = "false"
+	PrismPropertyListAllParamsIncludeOptionsString0     PrismPropertyListAllParamsIncludeOptionsString = "0"
+	PrismPropertyListAllParamsIncludeOptionsString1     PrismPropertyListAllParamsIncludeOptionsString = "1"
+)
+
+func (r PrismPropertyListAllParamsIncludeOptionsString) IsKnown() bool {
+	switch r {
+	case PrismPropertyListAllParamsIncludeOptionsStringTrue, PrismPropertyListAllParamsIncludeOptionsStringFalse, PrismPropertyListAllParamsIncludeOptionsString0, PrismPropertyListAllParamsIncludeOptionsString1:
+		return true
+	}
+	return false
+}
+
+func (r PrismPropertyListAllParamsIncludeOptionsString) ImplementsPrismPropertyListAllParamsIncludeOptionsUnion() {
 }

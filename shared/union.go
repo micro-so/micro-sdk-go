@@ -76,6 +76,8 @@ func (UnionString) ImplementsPrismObjectEngagementQueryParamsIDUnion()          
 
 type UnionBool bool
 
+func (UnionBool) ImplementsPrismPropertyListParamsIncludeOptionsUnion()                            {}
+func (UnionBool) ImplementsPrismPropertyListAllParamsIncludeOptionsUnion()                         {}
 func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion() {}
 func (UnionBool) ImplementsPrismObjectContactQueryParamsQueryFilterPrismQueryFilterNeNotEqualsUnion() {
 }

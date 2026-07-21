@@ -216,7 +216,8 @@ func (r TriggeredAutomationKind) IsKnown() bool {
 
 // An action the automation runs when it fires. `type` selects the kind; the
 // remaining fields are type-specific (`agent` → `agent_id`, `webhook` →
-// `webhook_id`). Generic: new action types add fields here.
+// `webhook_id`, `email`/`linkedin` → the send-as user, template, and
+// recipient-view fields). Generic: new action types add fields here.
 type TriggeredAutomationAction struct {
 	Type TriggeredAutomationActionsType `json:"type" api:"required"`
 	// Required when `type` is `agent`. The agent to run.
@@ -227,6 +228,29 @@ type TriggeredAutomationAction struct {
 	// wait: relative delay in seconds. Exactly one of delay_seconds or
 	// cron_expression.
 	DelaySeconds int64 `json:"delay_seconds" api:"nullable"`
+	// Required when `type` is `email`. The property (on the recipient view object)
+	// holding the recipient email address.
+	RecipientEmailPropDefID string `json:"recipient_email_prop_def_id" api:"nullable" format:"uuid"`
+	// Required when `type` is `linkedin`. The property (on the recipient view object)
+	// holding the recipient LinkedIn provider id.
+	RecipientProviderPropDefID string `json:"recipient_provider_prop_def_id" api:"nullable" format:"uuid"`
+	// Required when `type` is `email` or `linkedin`. The saved prism view resolved at
+	// send time to the recipient audience (its filter re-runs each step, so responders
+	// drop out of later drip sends).
+	RecipientViewID string `json:"recipient_view_id" api:"nullable" format:"uuid"`
+	// Required when `type` is `email` or `linkedin`. Must be `contact` — the recipient
+	// audience is a contact view (contacts carry the direct email / linkedin provider
+	// property).
+	RecipientViewObjectType string `json:"recipient_view_object_type" api:"nullable"`
+	// Required when `type` is `email` or `linkedin`. The user (external id) the
+	// message is sent as.
+	SendAsUserID string `json:"send_as_user_id" api:"nullable"`
+	// Required when `type` is `email`. The subject line; rendered as a Liquid template
+	// per recipient.
+	Subject string `json:"subject" api:"nullable"`
+	// Required when `type` is `email` or `linkedin`. The email-template document whose
+	// body is rendered (Liquid) per recipient.
+	TemplateID string `json:"template_id" api:"nullable" format:"uuid"`
 	// wait: IANA timezone for evaluating cron_expression (optional).
 	Timezone string `json:"timezone" api:"nullable"`
 	// Required when `type` is `webhook`. The id of the webhook the event is dispatched
@@ -239,14 +263,21 @@ type TriggeredAutomationAction struct {
 // triggeredAutomationActionJSON contains the JSON metadata for the struct
 // [TriggeredAutomationAction]
 type triggeredAutomationActionJSON struct {
-	Type           apijson.Field
-	AgentID        apijson.Field
-	CronExpression apijson.Field
-	DelaySeconds   apijson.Field
-	Timezone       apijson.Field
-	WebhookID      apijson.Field
-	raw            string
-	ExtraFields    map[string]apijson.Field
+	Type                       apijson.Field
+	AgentID                    apijson.Field
+	CronExpression             apijson.Field
+	DelaySeconds               apijson.Field
+	RecipientEmailPropDefID    apijson.Field
+	RecipientProviderPropDefID apijson.Field
+	RecipientViewID            apijson.Field
+	RecipientViewObjectType    apijson.Field
+	SendAsUserID               apijson.Field
+	Subject                    apijson.Field
+	TemplateID                 apijson.Field
+	Timezone                   apijson.Field
+	WebhookID                  apijson.Field
+	raw                        string
+	ExtraFields                map[string]apijson.Field
 }
 
 func (r *TriggeredAutomationAction) UnmarshalJSON(data []byte) (err error) {
@@ -260,14 +291,16 @@ func (r triggeredAutomationActionJSON) RawJSON() string {
 type TriggeredAutomationActionsType string
 
 const (
-	TriggeredAutomationActionsTypeAgent   TriggeredAutomationActionsType = "agent"
-	TriggeredAutomationActionsTypeWebhook TriggeredAutomationActionsType = "webhook"
-	TriggeredAutomationActionsTypeWait    TriggeredAutomationActionsType = "wait"
+	TriggeredAutomationActionsTypeAgent    TriggeredAutomationActionsType = "agent"
+	TriggeredAutomationActionsTypeWebhook  TriggeredAutomationActionsType = "webhook"
+	TriggeredAutomationActionsTypeWait     TriggeredAutomationActionsType = "wait"
+	TriggeredAutomationActionsTypeEmail    TriggeredAutomationActionsType = "email"
+	TriggeredAutomationActionsTypeLinkedin TriggeredAutomationActionsType = "linkedin"
 )
 
 func (r TriggeredAutomationActionsType) IsKnown() bool {
 	switch r {
-	case TriggeredAutomationActionsTypeAgent, TriggeredAutomationActionsTypeWebhook, TriggeredAutomationActionsTypeWait:
+	case TriggeredAutomationActionsTypeAgent, TriggeredAutomationActionsTypeWebhook, TriggeredAutomationActionsTypeWait, TriggeredAutomationActionsTypeEmail, TriggeredAutomationActionsTypeLinkedin:
 		return true
 	}
 	return false
@@ -396,7 +429,8 @@ func (r TriggeredAutomationParam) MarshalJSON() (data []byte, err error) {
 
 // An action the automation runs when it fires. `type` selects the kind; the
 // remaining fields are type-specific (`agent` → `agent_id`, `webhook` →
-// `webhook_id`). Generic: new action types add fields here.
+// `webhook_id`, `email`/`linkedin` → the send-as user, template, and
+// recipient-view fields). Generic: new action types add fields here.
 type TriggeredAutomationActionParam struct {
 	Type param.Field[TriggeredAutomationActionsType] `json:"type" api:"required"`
 	// Required when `type` is `agent`. The agent to run.
@@ -407,6 +441,29 @@ type TriggeredAutomationActionParam struct {
 	// wait: relative delay in seconds. Exactly one of delay_seconds or
 	// cron_expression.
 	DelaySeconds param.Field[int64] `json:"delay_seconds"`
+	// Required when `type` is `email`. The property (on the recipient view object)
+	// holding the recipient email address.
+	RecipientEmailPropDefID param.Field[string] `json:"recipient_email_prop_def_id" format:"uuid"`
+	// Required when `type` is `linkedin`. The property (on the recipient view object)
+	// holding the recipient LinkedIn provider id.
+	RecipientProviderPropDefID param.Field[string] `json:"recipient_provider_prop_def_id" format:"uuid"`
+	// Required when `type` is `email` or `linkedin`. The saved prism view resolved at
+	// send time to the recipient audience (its filter re-runs each step, so responders
+	// drop out of later drip sends).
+	RecipientViewID param.Field[string] `json:"recipient_view_id" format:"uuid"`
+	// Required when `type` is `email` or `linkedin`. Must be `contact` — the recipient
+	// audience is a contact view (contacts carry the direct email / linkedin provider
+	// property).
+	RecipientViewObjectType param.Field[string] `json:"recipient_view_object_type"`
+	// Required when `type` is `email` or `linkedin`. The user (external id) the
+	// message is sent as.
+	SendAsUserID param.Field[string] `json:"send_as_user_id"`
+	// Required when `type` is `email`. The subject line; rendered as a Liquid template
+	// per recipient.
+	Subject param.Field[string] `json:"subject"`
+	// Required when `type` is `email` or `linkedin`. The email-template document whose
+	// body is rendered (Liquid) per recipient.
+	TemplateID param.Field[string] `json:"template_id" format:"uuid"`
 	// wait: IANA timezone for evaluating cron_expression (optional).
 	Timezone param.Field[string] `json:"timezone"`
 	// Required when `type` is `webhook`. The id of the webhook the event is dispatched

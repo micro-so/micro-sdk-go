@@ -31,9 +31,10 @@ func TestPrismPropertyListWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		micro.PrismPropertyListParamsObjectTypeComment,
 		micro.PrismPropertyListParams{
-			Autofill: micro.F(true),
-			ListID:   micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-			Term:     micro.F("term"),
+			Autofill:       micro.F(true),
+			IncludeOptions: micro.F[micro.PrismPropertyListParamsIncludeOptionsUnion](micro.PrismPropertyListParamsIncludeOptionsString(micro.PrismPropertyListParamsIncludeOptionsStringTrue)),
+			ListID:         micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			Term:           micro.F("term"),
 		},
 	)
 	if err != nil {
@@ -60,9 +61,10 @@ func TestPrismPropertyListAllWithOptionalParams(t *testing.T) {
 		option.WithTeamID("My Team ID"),
 	)
 	_, err := client.Prism.Properties.ListAll(context.TODO(), micro.PrismPropertyListAllParams{
-		Autofill: micro.F(true),
-		ListID:   micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
-		Term:     micro.F("term"),
+		Autofill:       micro.F(true),
+		IncludeOptions: micro.F[micro.PrismPropertyListAllParamsIncludeOptionsUnion](micro.PrismPropertyListAllParamsIncludeOptionsString(micro.PrismPropertyListAllParamsIncludeOptionsStringTrue)),
+		ListID:         micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+		Term:           micro.F("term"),
 	})
 	if err != nil {
 		var apierr *micro.Error
