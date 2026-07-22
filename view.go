@@ -85,6 +85,24 @@ func (r *ViewService) Update(ctx context.Context, viewObjectType ViewUpdateParam
 	return res, err
 }
 
+// Returns saved view bundles for the path team. Pass `?list_id=` to scope to a
+// list (CRM) instead. Cursor pagination matches other Prism list endpoints.
+func (r *ViewService) List(ctx context.Context, viewObjectType ViewListParamsViewObjectType, params ViewListParams, opts ...option.RequestOption) (res *ViewListResponse, err error) {
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/%v/views", params.TeamID, viewObjectType)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
+	return res, err
+}
+
 // Delete a view bundle
 func (r *ViewService) Delete(ctx context.Context, viewObjectType ViewDeleteParamsViewObjectType, viewID string, body ViewDeleteParams, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
@@ -290,6 +308,116 @@ const (
 func (r ViewUpdateResponseCombinator) IsKnown() bool {
 	switch r {
 	case ViewUpdateResponseCombinatorAnd, ViewUpdateResponseCombinatorOr:
+		return true
+	}
+	return false
+}
+
+type ViewListResponse struct {
+	Data []ViewListResponseData `json:"data" api:"required"`
+	// True if more views exist beyond this page.
+	HasMore bool `json:"has_more" api:"required"`
+	// Opaque cursor for the next page; null when has_more is false.
+	NextCursor string               `json:"next_cursor" api:"nullable"`
+	JSON       viewListResponseJSON `json:"-"`
+}
+
+// viewListResponseJSON contains the JSON metadata for the struct
+// [ViewListResponse]
+type viewListResponseJSON struct {
+	Data        apijson.Field
+	HasMore     apijson.Field
+	NextCursor  apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *ViewListResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r viewListResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+// A view (saved configuration for displaying records of a given object type) plus
+// its select/filter/sort children. Properties in select/filter/sort are referenced
+// by slug.
+type ViewListResponseData struct {
+	Name                 string                         `json:"name" api:"required"`
+	ViewType             string                         `json:"view_type" api:"required"`
+	ID                   string                         `json:"id" format:"uuid"`
+	AggregationPropDefID string                         `json:"aggregation_prop_def_id" api:"nullable" format:"uuid"`
+	AggregationType      string                         `json:"aggregation_type" api:"nullable"`
+	ColumnLayout         map[string]interface{}         `json:"column_layout" api:"nullable"`
+	Combinator           ViewListResponseDataCombinator `json:"combinator"`
+	CreatedAt            string                         `json:"created_at"`
+	// Each entry is { slug: { comparator: value } }
+	Filter []map[string]interface{} `json:"filter"`
+	// Property slug to group by
+	GroupBy              string        `json:"group_by" api:"nullable"`
+	GroupHiddenOptionIDs []interface{} `json:"group_hidden_option_ids" api:"nullable"`
+	GroupHideEmpty       bool          `json:"group_hide_empty" api:"nullable"`
+	GroupSort            string        `json:"group_sort" api:"nullable"`
+	Icon                 string        `json:"icon" api:"nullable"`
+	ListID               string        `json:"list_id" api:"nullable" format:"uuid"`
+	// Property slugs (dot-paths permitted for refs)
+	Select []string `json:"select"`
+	// Each entry is { slug: 'asc' | 'desc' }
+	Sort      []map[string]interface{} `json:"sort"`
+	SortOrder int64                    `json:"sort_order" api:"nullable"`
+	TeamID    string                   `json:"team_id" api:"nullable" format:"uuid"`
+	UpdatedAt string                   `json:"updated_at" api:"nullable"`
+	UserID    string                   `json:"user_id" api:"nullable"`
+	JSON      viewListResponseDataJSON `json:"-"`
+}
+
+// viewListResponseDataJSON contains the JSON metadata for the struct
+// [ViewListResponseData]
+type viewListResponseDataJSON struct {
+	Name                 apijson.Field
+	ViewType             apijson.Field
+	ID                   apijson.Field
+	AggregationPropDefID apijson.Field
+	AggregationType      apijson.Field
+	ColumnLayout         apijson.Field
+	Combinator           apijson.Field
+	CreatedAt            apijson.Field
+	Filter               apijson.Field
+	GroupBy              apijson.Field
+	GroupHiddenOptionIDs apijson.Field
+	GroupHideEmpty       apijson.Field
+	GroupSort            apijson.Field
+	Icon                 apijson.Field
+	ListID               apijson.Field
+	Select               apijson.Field
+	Sort                 apijson.Field
+	SortOrder            apijson.Field
+	TeamID               apijson.Field
+	UpdatedAt            apijson.Field
+	UserID               apijson.Field
+	raw                  string
+	ExtraFields          map[string]apijson.Field
+}
+
+func (r *ViewListResponseData) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r viewListResponseDataJSON) RawJSON() string {
+	return r.raw
+}
+
+type ViewListResponseDataCombinator string
+
+const (
+	ViewListResponseDataCombinatorAnd ViewListResponseDataCombinator = "AND"
+	ViewListResponseDataCombinatorOr  ViewListResponseDataCombinator = "OR"
+)
+
+func (r ViewListResponseDataCombinator) IsKnown() bool {
+	switch r {
+	case ViewListResponseDataCombinatorAnd, ViewListResponseDataCombinatorOr:
 		return true
 	}
 	return false
@@ -780,6 +908,50 @@ const (
 func (r ViewUpdateParamsCombinator) IsKnown() bool {
 	switch r {
 	case ViewUpdateParamsCombinatorAnd, ViewUpdateParamsCombinatorOr:
+		return true
+	}
+	return false
+}
+
+type ViewListParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+	// Opaque pagination cursor (from a prior response's next_cursor); supersedes
+	// page/limit when present.
+	Cursor param.Field[string] `query:"cursor"`
+	// Maximum items per page (<= 50; defaults to 50).
+	Limit param.Field[int64] `query:"limit"`
+	// List (CRM) id to scope the listing to. When omitted, views owned by the path
+	// team are returned.
+	ListID param.Field[string] `query:"list_id" format:"uuid"`
+	// 1-based page number. Prefer cursor.
+	Page param.Field[int64] `query:"page"`
+}
+
+// URLQuery serializes [ViewListParams]'s query parameters as `url.Values`.
+func (r ViewListParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
+}
+
+type ViewListParamsViewObjectType string
+
+const (
+	ViewListParamsViewObjectTypeComment      ViewListParamsViewObjectType = "comment"
+	ViewListParamsViewObjectTypeAction       ViewListParamsViewObjectType = "action"
+	ViewListParamsViewObjectTypeDeal         ViewListParamsViewObjectType = "deal"
+	ViewListParamsViewObjectTypeEngagement   ViewListParamsViewObjectType = "engagement"
+	ViewListParamsViewObjectTypeDocument     ViewListParamsViewObjectType = "document"
+	ViewListParamsViewObjectTypeEvent        ViewListParamsViewObjectType = "event"
+	ViewListParamsViewObjectTypeIdentity     ViewListParamsViewObjectType = "identity"
+	ViewListParamsViewObjectTypeOrganization ViewListParamsViewObjectType = "organization"
+)
+
+func (r ViewListParamsViewObjectType) IsKnown() bool {
+	switch r {
+	case ViewListParamsViewObjectTypeComment, ViewListParamsViewObjectTypeAction, ViewListParamsViewObjectTypeDeal, ViewListParamsViewObjectTypeEngagement, ViewListParamsViewObjectTypeDocument, ViewListParamsViewObjectTypeEvent, ViewListParamsViewObjectTypeIdentity, ViewListParamsViewObjectTypeOrganization:
 		return true
 	}
 	return false
