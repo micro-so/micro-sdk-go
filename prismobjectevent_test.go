@@ -364,6 +364,7 @@ func TestPrismObjectEventUpsertWithOptionalParams(t *testing.T) {
 				}),
 				List: micro.F[any](map[string]interface{}{}),
 			},
+			ListID:         micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 			IdempotencyKey: micro.F("x"),
 		},
 	)

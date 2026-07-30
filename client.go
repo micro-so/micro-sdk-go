@@ -21,6 +21,7 @@ type Client struct {
 	Prism                *PrismService
 	Views                *ViewService
 	TriggeredAutomations *TriggeredAutomationService
+	Webhooks             *WebhookService
 	Realtime             *RealtimeService
 }
 
@@ -57,6 +58,7 @@ func NewClient(opts ...option.RequestOption) (r *Client) {
 	r.Prism = NewPrismService(opts...)
 	r.Views = NewViewService(opts...)
 	r.TriggeredAutomations = NewTriggeredAutomationService(opts...)
+	r.Webhooks = NewWebhookService(opts...)
 	r.Realtime = NewRealtimeService(opts...)
 
 	return
