@@ -152,8 +152,12 @@ type PrismImportGetResponseResult struct {
 	Created bool                               `json:"created"`
 	Error   PrismImportGetResponseResultsError `json:"error"`
 	// True if the row matched an existing record via the dedupe key.
-	Existing bool                             `json:"existing"`
-	JSON     prismImportGetResponseResultJSON `json:"-"`
+	Existing bool `json:"existing"`
+	// Zero-based position of this row in the request.
+	InputIndex int64 `json:"input_index"`
+	// True if a matching record was updated.
+	Updated bool                             `json:"updated"`
+	JSON    prismImportGetResponseResultJSON `json:"-"`
 }
 
 // prismImportGetResponseResultJSON contains the JSON metadata for the struct
@@ -163,6 +167,8 @@ type prismImportGetResponseResultJSON struct {
 	Created     apijson.Field
 	Error       apijson.Field
 	Existing    apijson.Field
+	InputIndex  apijson.Field
+	Updated     apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }

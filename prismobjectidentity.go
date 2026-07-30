@@ -574,8 +574,12 @@ type PrismObjectIdentityBulkNewResponseResult struct {
 	Created bool                                           `json:"created"`
 	Error   PrismObjectIdentityBulkNewResponseResultsError `json:"error"`
 	// True if the row matched an existing record via the dedupe key.
-	Existing bool                                         `json:"existing"`
-	JSON     prismObjectIdentityBulkNewResponseResultJSON `json:"-"`
+	Existing bool `json:"existing"`
+	// Zero-based position of this row in the request.
+	InputIndex int64 `json:"input_index"`
+	// True if a matching record was updated.
+	Updated bool                                         `json:"updated"`
+	JSON    prismObjectIdentityBulkNewResponseResultJSON `json:"-"`
 }
 
 // prismObjectIdentityBulkNewResponseResultJSON contains the JSON metadata for the
@@ -585,6 +589,8 @@ type prismObjectIdentityBulkNewResponseResultJSON struct {
 	Created     apijson.Field
 	Error       apijson.Field
 	Existing    apijson.Field
+	InputIndex  apijson.Field
+	Updated     apijson.Field
 	raw         string
 	ExtraFields map[string]apijson.Field
 }
@@ -1215,14 +1221,38 @@ type PrismObjectIdentityBulkNewParamsOptions struct {
 	// When true, unknown values for select/multiselect properties are created as new
 	// options instead of failing the import
 	CreateMissingOptions param.Field[bool] `json:"create_missing_options"`
-	// Property slug to deduplicate on
-	DedupeBy param.Field[string] `json:"dedupe_by"`
+	// Deprecated alias for list_id.
+	//
+	// Deprecated: deprecated
+	CRMID param.Field[string] `json:"crm_id" format:"uuid"`
+	// Property slug to deduplicate on. A single-element array is also accepted;
+	// compound (multi-slug) dedupe is not supported yet and is rejected with guidance.
+	DedupeBy param.Field[PrismObjectIdentityBulkNewParamsOptionsDedupeByUnion] `json:"dedupe_by"`
 	// App/CRM ID for context (optional)
 	ListID param.Field[string] `json:"list_id" format:"uuid"`
+	// Require app_stage for every row in the selected list. app_stage is a reserved
+	// list-scoped alias for native status.
+	RequireListStage param.Field[bool] `json:"require_list_stage"`
+	// Patch a deduplicated record with the supplied properties instead of skipping it.
+	UpdateExisting param.Field[bool] `json:"update_existing"`
 }
 
 func (r PrismObjectIdentityBulkNewParamsOptions) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// Property slug to deduplicate on. A single-element array is also accepted;
+// compound (multi-slug) dedupe is not supported yet and is rejected with guidance.
+//
+// Satisfied by [shared.UnionString],
+// [PrismObjectIdentityBulkNewParamsOptionsDedupeByArray].
+type PrismObjectIdentityBulkNewParamsOptionsDedupeByUnion interface {
+	ImplementsPrismObjectIdentityBulkNewParamsOptionsDedupeByUnion()
+}
+
+type PrismObjectIdentityBulkNewParamsOptionsDedupeByArray []string
+
+func (r PrismObjectIdentityBulkNewParamsOptionsDedupeByArray) ImplementsPrismObjectIdentityBulkNewParamsOptionsDedupeByUnion() {
 }
 
 type PrismObjectIdentityBulkDeleteParams struct {
@@ -1705,9 +1735,21 @@ type PrismObjectIdentityUpsertParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID                param.Field[string]        `path:"teamId" api:"required" format:"uuid"`
 	PrismObjectProperties PrismObjectPropertiesParam `json:"prism_object_properties" api:"required"`
-	IdempotencyKey        param.Field[string]        `header:"Idempotency-Key"`
+	// Scope the upsert to a specific list/app. Required to match or write list-scoped
+	// properties, including `app_stage`.
+	ListID         param.Field[string] `query:"list_id" format:"uuid"`
+	IdempotencyKey param.Field[string] `header:"Idempotency-Key"`
 }
 
 func (r PrismObjectIdentityUpsertParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r.PrismObjectProperties)
+}
+
+// URLQuery serializes [PrismObjectIdentityUpsertParams]'s query parameters as
+// `url.Values`.
+func (r PrismObjectIdentityUpsertParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
 }

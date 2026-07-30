@@ -21,6 +21,7 @@ type Client struct {
 	Prism   *PrismService
 	Views   *ViewService
 	TriggeredAutomations *TriggeredAutomationService
+	Webhooks             *WebhookService
 }
 
 // DefaultClientOptions read from the environment (MICRO_API_KEY, MICRO_BASE_URL).
