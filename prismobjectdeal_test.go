@@ -169,8 +169,11 @@ func TestPrismObjectDealBulkNewWithOptionalParams(t *testing.T) {
 		Options: micro.F(micro.PrismObjectDealBulkNewParamsOptions{
 			CaseInsensitive:      micro.F(true),
 			CreateMissingOptions: micro.F(true),
-			DedupeBy:             micro.F("dedupe_by"),
+			CRMID:                micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			DedupeBy:             micro.F[micro.PrismObjectDealBulkNewParamsOptionsDedupeByUnion](shared.UnionString("string")),
 			ListID:               micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			RequireListStage:     micro.F(true),
+			UpdateExisting:       micro.F(true),
 		}),
 		IdempotencyKey: micro.F("x"),
 	})
@@ -458,6 +461,7 @@ func TestPrismObjectDealUpsertWithOptionalParams(t *testing.T) {
 				}),
 				List: micro.F[any](map[string]interface{}{}),
 			},
+			ListID:         micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 			IdempotencyKey: micro.F("x"),
 		},
 	)

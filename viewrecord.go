@@ -38,7 +38,7 @@ func NewViewRecordService(opts ...option.RequestOption) (r *ViewRecordService) {
 
 // List records selected by a view (filters and sorts applied; pinned record_order
 // overlaid first)
-func (r *ViewRecordService) List(ctx context.Context, viewObjectType ViewRecordListParamsViewObjectType, viewID string, params ViewRecordListParams, opts ...option.RequestOption) (res *ViewRecordListResponse, err error) {
+func (r *ViewRecordService) List(ctx context.Context, objectType ViewRecordListParamsObjectType, viewID string, params ViewRecordListParams, opts ...option.RequestOption) (res *ViewRecordListResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -53,13 +53,13 @@ func (r *ViewRecordService) List(ctx context.Context, viewObjectType ViewRecordL
 		err = errors.New("missing required viewId parameter")
 		return nil, err
 	}
-	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records", params.TeamID, viewObjectType, viewID)
+	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records", params.TeamID, objectType, viewID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, params, &res, opts...)
 	return res, err
 }
 
 // Pin a record to the view (append to record_order)
-func (r *ViewRecordService) Pin(ctx context.Context, viewObjectType ViewRecordPinParamsViewObjectType, viewID string, objectID string, params ViewRecordPinParams, opts ...option.RequestOption) (err error) {
+func (r *ViewRecordService) Pin(ctx context.Context, objectType ViewRecordPinParamsObjectType, viewID string, objectID string, params ViewRecordPinParams, opts ...option.RequestOption) (err error) {
 	if params.IdempotencyKey.Present {
 		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
 	}
@@ -82,13 +82,13 @@ func (r *ViewRecordService) Pin(ctx context.Context, viewObjectType ViewRecordPi
 		err = errors.New("missing required objectId parameter")
 		return err
 	}
-	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records/%s", params.TeamID, viewObjectType, viewID, objectID)
+	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records/%s", params.TeamID, objectType, viewID, objectID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, nil, opts...)
 	return err
 }
 
 // Bulk reorder pinned records
-func (r *ViewRecordService) Reorder(ctx context.Context, viewObjectType ViewRecordReorderParamsViewObjectType, viewID string, params ViewRecordReorderParams, opts ...option.RequestOption) (err error) {
+func (r *ViewRecordService) Reorder(ctx context.Context, objectType ViewRecordReorderParamsObjectType, viewID string, params ViewRecordReorderParams, opts ...option.RequestOption) (err error) {
 	if params.IdempotencyKey.Present {
 		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
 	}
@@ -107,13 +107,13 @@ func (r *ViewRecordService) Reorder(ctx context.Context, viewObjectType ViewReco
 		err = errors.New("missing required viewId parameter")
 		return err
 	}
-	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records", params.TeamID, viewObjectType, viewID)
+	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records", params.TeamID, objectType, viewID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPatch, path, params, nil, opts...)
 	return err
 }
 
 // Unpin a record from the view
-func (r *ViewRecordService) Unpin(ctx context.Context, viewObjectType ViewRecordUnpinParamsViewObjectType, viewID string, objectID string, body ViewRecordUnpinParams, opts ...option.RequestOption) (err error) {
+func (r *ViewRecordService) Unpin(ctx context.Context, objectType ViewRecordUnpinParamsObjectType, viewID string, objectID string, body ViewRecordUnpinParams, opts ...option.RequestOption) (err error) {
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
@@ -133,7 +133,7 @@ func (r *ViewRecordService) Unpin(ctx context.Context, viewObjectType ViewRecord
 		err = errors.New("missing required objectId parameter")
 		return err
 	}
-	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records/%s", body.TeamID, viewObjectType, viewID, objectID)
+	path := fmt.Sprintf("v2/prism/%s/%v/views/%s/records/%s", body.TeamID, objectType, viewID, objectID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, nil, opts...)
 	return err
 }
@@ -185,22 +185,22 @@ func (r ViewRecordListParams) URLQuery() (v url.Values) {
 	})
 }
 
-type ViewRecordListParamsViewObjectType string
+type ViewRecordListParamsObjectType string
 
 const (
-	ViewRecordListParamsViewObjectTypeComment      ViewRecordListParamsViewObjectType = "comment"
-	ViewRecordListParamsViewObjectTypeAction       ViewRecordListParamsViewObjectType = "action"
-	ViewRecordListParamsViewObjectTypeDeal         ViewRecordListParamsViewObjectType = "deal"
-	ViewRecordListParamsViewObjectTypeEngagement   ViewRecordListParamsViewObjectType = "engagement"
-	ViewRecordListParamsViewObjectTypeDocument     ViewRecordListParamsViewObjectType = "document"
-	ViewRecordListParamsViewObjectTypeEvent        ViewRecordListParamsViewObjectType = "event"
-	ViewRecordListParamsViewObjectTypeIdentity     ViewRecordListParamsViewObjectType = "identity"
-	ViewRecordListParamsViewObjectTypeOrganization ViewRecordListParamsViewObjectType = "organization"
+	ViewRecordListParamsObjectTypeComment      ViewRecordListParamsObjectType = "comment"
+	ViewRecordListParamsObjectTypeAction       ViewRecordListParamsObjectType = "action"
+	ViewRecordListParamsObjectTypeDeal         ViewRecordListParamsObjectType = "deal"
+	ViewRecordListParamsObjectTypeEngagement   ViewRecordListParamsObjectType = "engagement"
+	ViewRecordListParamsObjectTypeDocument     ViewRecordListParamsObjectType = "document"
+	ViewRecordListParamsObjectTypeEvent        ViewRecordListParamsObjectType = "event"
+	ViewRecordListParamsObjectTypeIdentity     ViewRecordListParamsObjectType = "identity"
+	ViewRecordListParamsObjectTypeOrganization ViewRecordListParamsObjectType = "organization"
 )
 
-func (r ViewRecordListParamsViewObjectType) IsKnown() bool {
+func (r ViewRecordListParamsObjectType) IsKnown() bool {
 	switch r {
-	case ViewRecordListParamsViewObjectTypeComment, ViewRecordListParamsViewObjectTypeAction, ViewRecordListParamsViewObjectTypeDeal, ViewRecordListParamsViewObjectTypeEngagement, ViewRecordListParamsViewObjectTypeDocument, ViewRecordListParamsViewObjectTypeEvent, ViewRecordListParamsViewObjectTypeIdentity, ViewRecordListParamsViewObjectTypeOrganization:
+	case ViewRecordListParamsObjectTypeComment, ViewRecordListParamsObjectTypeAction, ViewRecordListParamsObjectTypeDeal, ViewRecordListParamsObjectTypeEngagement, ViewRecordListParamsObjectTypeDocument, ViewRecordListParamsObjectTypeEvent, ViewRecordListParamsObjectTypeIdentity, ViewRecordListParamsObjectTypeOrganization:
 		return true
 	}
 	return false
@@ -212,22 +212,22 @@ type ViewRecordPinParams struct {
 	IdempotencyKey param.Field[string] `header:"Idempotency-Key"`
 }
 
-type ViewRecordPinParamsViewObjectType string
+type ViewRecordPinParamsObjectType string
 
 const (
-	ViewRecordPinParamsViewObjectTypeComment      ViewRecordPinParamsViewObjectType = "comment"
-	ViewRecordPinParamsViewObjectTypeAction       ViewRecordPinParamsViewObjectType = "action"
-	ViewRecordPinParamsViewObjectTypeDeal         ViewRecordPinParamsViewObjectType = "deal"
-	ViewRecordPinParamsViewObjectTypeEngagement   ViewRecordPinParamsViewObjectType = "engagement"
-	ViewRecordPinParamsViewObjectTypeDocument     ViewRecordPinParamsViewObjectType = "document"
-	ViewRecordPinParamsViewObjectTypeEvent        ViewRecordPinParamsViewObjectType = "event"
-	ViewRecordPinParamsViewObjectTypeIdentity     ViewRecordPinParamsViewObjectType = "identity"
-	ViewRecordPinParamsViewObjectTypeOrganization ViewRecordPinParamsViewObjectType = "organization"
+	ViewRecordPinParamsObjectTypeComment      ViewRecordPinParamsObjectType = "comment"
+	ViewRecordPinParamsObjectTypeAction       ViewRecordPinParamsObjectType = "action"
+	ViewRecordPinParamsObjectTypeDeal         ViewRecordPinParamsObjectType = "deal"
+	ViewRecordPinParamsObjectTypeEngagement   ViewRecordPinParamsObjectType = "engagement"
+	ViewRecordPinParamsObjectTypeDocument     ViewRecordPinParamsObjectType = "document"
+	ViewRecordPinParamsObjectTypeEvent        ViewRecordPinParamsObjectType = "event"
+	ViewRecordPinParamsObjectTypeIdentity     ViewRecordPinParamsObjectType = "identity"
+	ViewRecordPinParamsObjectTypeOrganization ViewRecordPinParamsObjectType = "organization"
 )
 
-func (r ViewRecordPinParamsViewObjectType) IsKnown() bool {
+func (r ViewRecordPinParamsObjectType) IsKnown() bool {
 	switch r {
-	case ViewRecordPinParamsViewObjectTypeComment, ViewRecordPinParamsViewObjectTypeAction, ViewRecordPinParamsViewObjectTypeDeal, ViewRecordPinParamsViewObjectTypeEngagement, ViewRecordPinParamsViewObjectTypeDocument, ViewRecordPinParamsViewObjectTypeEvent, ViewRecordPinParamsViewObjectTypeIdentity, ViewRecordPinParamsViewObjectTypeOrganization:
+	case ViewRecordPinParamsObjectTypeComment, ViewRecordPinParamsObjectTypeAction, ViewRecordPinParamsObjectTypeDeal, ViewRecordPinParamsObjectTypeEngagement, ViewRecordPinParamsObjectTypeDocument, ViewRecordPinParamsObjectTypeEvent, ViewRecordPinParamsObjectTypeIdentity, ViewRecordPinParamsObjectTypeOrganization:
 		return true
 	}
 	return false
@@ -244,22 +244,22 @@ func (r ViewRecordReorderParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
 }
 
-type ViewRecordReorderParamsViewObjectType string
+type ViewRecordReorderParamsObjectType string
 
 const (
-	ViewRecordReorderParamsViewObjectTypeComment      ViewRecordReorderParamsViewObjectType = "comment"
-	ViewRecordReorderParamsViewObjectTypeAction       ViewRecordReorderParamsViewObjectType = "action"
-	ViewRecordReorderParamsViewObjectTypeDeal         ViewRecordReorderParamsViewObjectType = "deal"
-	ViewRecordReorderParamsViewObjectTypeEngagement   ViewRecordReorderParamsViewObjectType = "engagement"
-	ViewRecordReorderParamsViewObjectTypeDocument     ViewRecordReorderParamsViewObjectType = "document"
-	ViewRecordReorderParamsViewObjectTypeEvent        ViewRecordReorderParamsViewObjectType = "event"
-	ViewRecordReorderParamsViewObjectTypeIdentity     ViewRecordReorderParamsViewObjectType = "identity"
-	ViewRecordReorderParamsViewObjectTypeOrganization ViewRecordReorderParamsViewObjectType = "organization"
+	ViewRecordReorderParamsObjectTypeComment      ViewRecordReorderParamsObjectType = "comment"
+	ViewRecordReorderParamsObjectTypeAction       ViewRecordReorderParamsObjectType = "action"
+	ViewRecordReorderParamsObjectTypeDeal         ViewRecordReorderParamsObjectType = "deal"
+	ViewRecordReorderParamsObjectTypeEngagement   ViewRecordReorderParamsObjectType = "engagement"
+	ViewRecordReorderParamsObjectTypeDocument     ViewRecordReorderParamsObjectType = "document"
+	ViewRecordReorderParamsObjectTypeEvent        ViewRecordReorderParamsObjectType = "event"
+	ViewRecordReorderParamsObjectTypeIdentity     ViewRecordReorderParamsObjectType = "identity"
+	ViewRecordReorderParamsObjectTypeOrganization ViewRecordReorderParamsObjectType = "organization"
 )
 
-func (r ViewRecordReorderParamsViewObjectType) IsKnown() bool {
+func (r ViewRecordReorderParamsObjectType) IsKnown() bool {
 	switch r {
-	case ViewRecordReorderParamsViewObjectTypeComment, ViewRecordReorderParamsViewObjectTypeAction, ViewRecordReorderParamsViewObjectTypeDeal, ViewRecordReorderParamsViewObjectTypeEngagement, ViewRecordReorderParamsViewObjectTypeDocument, ViewRecordReorderParamsViewObjectTypeEvent, ViewRecordReorderParamsViewObjectTypeIdentity, ViewRecordReorderParamsViewObjectTypeOrganization:
+	case ViewRecordReorderParamsObjectTypeComment, ViewRecordReorderParamsObjectTypeAction, ViewRecordReorderParamsObjectTypeDeal, ViewRecordReorderParamsObjectTypeEngagement, ViewRecordReorderParamsObjectTypeDocument, ViewRecordReorderParamsObjectTypeEvent, ViewRecordReorderParamsObjectTypeIdentity, ViewRecordReorderParamsObjectTypeOrganization:
 		return true
 	}
 	return false
@@ -270,22 +270,22 @@ type ViewRecordUnpinParams struct {
 	TeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
 }
 
-type ViewRecordUnpinParamsViewObjectType string
+type ViewRecordUnpinParamsObjectType string
 
 const (
-	ViewRecordUnpinParamsViewObjectTypeComment      ViewRecordUnpinParamsViewObjectType = "comment"
-	ViewRecordUnpinParamsViewObjectTypeAction       ViewRecordUnpinParamsViewObjectType = "action"
-	ViewRecordUnpinParamsViewObjectTypeDeal         ViewRecordUnpinParamsViewObjectType = "deal"
-	ViewRecordUnpinParamsViewObjectTypeEngagement   ViewRecordUnpinParamsViewObjectType = "engagement"
-	ViewRecordUnpinParamsViewObjectTypeDocument     ViewRecordUnpinParamsViewObjectType = "document"
-	ViewRecordUnpinParamsViewObjectTypeEvent        ViewRecordUnpinParamsViewObjectType = "event"
-	ViewRecordUnpinParamsViewObjectTypeIdentity     ViewRecordUnpinParamsViewObjectType = "identity"
-	ViewRecordUnpinParamsViewObjectTypeOrganization ViewRecordUnpinParamsViewObjectType = "organization"
+	ViewRecordUnpinParamsObjectTypeComment      ViewRecordUnpinParamsObjectType = "comment"
+	ViewRecordUnpinParamsObjectTypeAction       ViewRecordUnpinParamsObjectType = "action"
+	ViewRecordUnpinParamsObjectTypeDeal         ViewRecordUnpinParamsObjectType = "deal"
+	ViewRecordUnpinParamsObjectTypeEngagement   ViewRecordUnpinParamsObjectType = "engagement"
+	ViewRecordUnpinParamsObjectTypeDocument     ViewRecordUnpinParamsObjectType = "document"
+	ViewRecordUnpinParamsObjectTypeEvent        ViewRecordUnpinParamsObjectType = "event"
+	ViewRecordUnpinParamsObjectTypeIdentity     ViewRecordUnpinParamsObjectType = "identity"
+	ViewRecordUnpinParamsObjectTypeOrganization ViewRecordUnpinParamsObjectType = "organization"
 )
 
-func (r ViewRecordUnpinParamsViewObjectType) IsKnown() bool {
+func (r ViewRecordUnpinParamsObjectType) IsKnown() bool {
 	switch r {
-	case ViewRecordUnpinParamsViewObjectTypeComment, ViewRecordUnpinParamsViewObjectTypeAction, ViewRecordUnpinParamsViewObjectTypeDeal, ViewRecordUnpinParamsViewObjectTypeEngagement, ViewRecordUnpinParamsViewObjectTypeDocument, ViewRecordUnpinParamsViewObjectTypeEvent, ViewRecordUnpinParamsViewObjectTypeIdentity, ViewRecordUnpinParamsViewObjectTypeOrganization:
+	case ViewRecordUnpinParamsObjectTypeComment, ViewRecordUnpinParamsObjectTypeAction, ViewRecordUnpinParamsObjectTypeDeal, ViewRecordUnpinParamsObjectTypeEngagement, ViewRecordUnpinParamsObjectTypeDocument, ViewRecordUnpinParamsObjectTypeEvent, ViewRecordUnpinParamsObjectTypeIdentity, ViewRecordUnpinParamsObjectTypeOrganization:
 		return true
 	}
 	return false

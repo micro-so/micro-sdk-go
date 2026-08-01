@@ -29,7 +29,7 @@ func TestViewNewWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Views.New(
 		context.TODO(),
-		micro.ViewNewParamsViewObjectTypeComment,
+		micro.ViewNewParamsObjectTypeComment,
 		micro.ViewNewParams{
 			Name:                 micro.F("name"),
 			ViewType:             micro.F("view_type"),
@@ -86,7 +86,7 @@ func TestViewUpdateWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Views.Update(
 		context.TODO(),
-		micro.ViewUpdateParamsViewObjectTypeComment,
+		micro.ViewUpdateParamsObjectTypeComment,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewUpdateParams{
 			AggregationPropDefID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
@@ -125,6 +125,39 @@ func TestViewUpdateWithOptionalParams(t *testing.T) {
 	}
 }
 
+func TestViewListWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Views.List(
+		context.TODO(),
+		micro.ViewListParamsObjectTypeComment,
+		micro.ViewListParams{
+			Cursor: micro.F("cursor"),
+			Limit:  micro.F(int64(0)),
+			ListID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
+			Page:   micro.F(int64(1)),
+		},
+	)
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestViewDelete(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
@@ -141,7 +174,7 @@ func TestViewDelete(t *testing.T) {
 	)
 	err := client.Views.Delete(
 		context.TODO(),
-		micro.ViewDeleteParamsViewObjectTypeComment,
+		micro.ViewDeleteParamsObjectTypeComment,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewDeleteParams{},
 	)
@@ -170,7 +203,7 @@ func TestViewGetWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Views.Get(
 		context.TODO(),
-		micro.ViewGetParamsViewObjectTypeComment,
+		micro.ViewGetParamsObjectTypeComment,
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.ViewGetParams{
 			Cursor:  micro.F("cursor"),

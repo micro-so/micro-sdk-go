@@ -55,6 +55,13 @@ func (UnionString) ImplementsPrismObjectEventQueryParamsQueryFilterBetweenBetwee
 func (UnionString) ImplementsPrismObjectEventQueryParamsIDUnion()                                   {}
 func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterEqUnion()   {}
 func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterPrismQueryFilterNeUnion()   {}
+func (UnionString) ImplementsPrismObjectContactBulkNewParamsOptionsDedupeByUnion() {}
+func (UnionString) ImplementsPrismObjectOrganizationBulkNewParamsOptionsDedupeByUnion()        {}
+func (UnionString) ImplementsPrismObjectIdentityBulkNewParamsOptionsDedupeByUnion()                 {}
+func (UnionString) ImplementsPrismObjectDealBulkNewParamsOptionsDedupeByUnion()                   {}
+func (UnionString) ImplementsPrismObjectActionBulkNewParamsOptionsDedupeByUnion()                   {}
+func (UnionString) ImplementsPrismObjectDocumentBulkNewParamsOptionsDedupeByUnion()           {}
+func (UnionString) ImplementsPrismObjectEngagementBulkNewParamsOptionsDedupeByUnion()        {}
 func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterContainsContainsUnion()     {}
 func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNullIsNullUnion()         {}
 func (UnionString) ImplementsPrismObjectEngagementQueryParamsQueryFilterIsNotNullIsNotNullUnion()   {}

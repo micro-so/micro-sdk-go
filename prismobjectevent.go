@@ -1150,9 +1150,21 @@ type PrismObjectEventUpsertParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
 	TeamID                param.Field[string]        `path:"teamId" api:"required" format:"uuid"`
 	PrismObjectProperties PrismObjectPropertiesParam `json:"prism_object_properties" api:"required"`
-	IdempotencyKey        param.Field[string]        `header:"Idempotency-Key"`
+	// Scope the upsert to a specific list/app. Required to match or write list-scoped
+	// properties, including `app_stage`.
+	ListID         param.Field[string] `query:"list_id" format:"uuid"`
+	IdempotencyKey param.Field[string] `header:"Idempotency-Key"`
 }
 
 func (r PrismObjectEventUpsertParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r.PrismObjectProperties)
+}
+
+// URLQuery serializes [PrismObjectEventUpsertParams]'s query parameters as
+// `url.Values`.
+func (r PrismObjectEventUpsertParams) URLQuery() (v url.Values) {
+	return apiquery.MarshalWithSettings(r, apiquery.QuerySettings{
+		ArrayFormat:  apiquery.ArrayQueryFormatComma,
+		NestedFormat: apiquery.NestedQueryFormatBrackets,
+	})
 }
