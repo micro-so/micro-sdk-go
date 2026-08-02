@@ -227,6 +227,9 @@ func (r *PrismObjectEventService) Get(ctx context.Context, eventID string, param
 
 // Query
 func (r *PrismObjectEventService) Query(ctx context.Context, params PrismObjectEventQueryParams, opts ...option.RequestOption) (res *PrismObjectEventQueryResponse, err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -771,8 +774,9 @@ type PrismObjectEventQueryParams struct {
 	// When true, the response includes a `total` field with the unpaginated row count.
 	// Costs an additional pass over the result set — for unfiltered totals prefer
 	// `GET /v2/prism/{teamId}/{objectType}/count` instead.
-	IncludeTotal param.Field[bool]     `json:"include_total"`
-	Sources      param.Field[[]string] `json:"sources" format:"uuid"`
+	IncludeTotal   param.Field[bool]     `json:"include_total"`
+	Sources        param.Field[[]string] `json:"sources" format:"uuid"`
+	IdempotencyKey param.Field[string]   `header:"Idempotency-Key"`
 }
 
 func (r PrismObjectEventQueryParams) MarshalJSON() (data []byte, err error) {

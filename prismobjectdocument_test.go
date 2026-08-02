@@ -31,7 +31,10 @@ func TestPrismObjectDocumentNewWithOptionalParams(t *testing.T) {
 	_, err := client.Prism.Objects.Documents.New(context.TODO(), micro.PrismObjectDocumentNewParams{
 		PrismObjectProperties: micro.PrismObjectPropertiesParam{
 			Default: micro.F(map[string]interface{}{
-				"foo": "bar",
+				"full_name":    "bar",
+				"email":        "bar",
+				"title":        "bar",
+				"organization": "bar",
 			}),
 			List: micro.F[any](map[string]interface{}{}),
 		},
@@ -66,7 +69,7 @@ func TestPrismObjectDocumentUpdateWithOptionalParams(t *testing.T) {
 		micro.PrismObjectDocumentUpdateParams{
 			PrismObjectProperties: micro.PrismObjectPropertiesParam{
 				Default: micro.F(map[string]interface{}{
-					"foo": "bar",
+					"title": "bar",
 				}),
 				List: micro.F[any](map[string]interface{}{}),
 			},
@@ -375,27 +378,28 @@ func TestPrismObjectDocumentQueryWithOptionalParams(t *testing.T) {
 	)
 	_, err := client.Prism.Objects.Documents.Query(context.TODO(), micro.PrismObjectDocumentQueryParams{
 		Query: micro.F(micro.PrismObjectDocumentQueryParamsQuery{
-			Select:     micro.F([]string{"string"}),
+			Select:     micro.F([]string{"full_name", "email", "title", "organization"}),
 			Combinator: micro.F(micro.PrismObjectDocumentQueryParamsQueryCombinatorAnd),
 			Cursor:     micro.F("cursor"),
 			Filter: micro.F([]map[string]micro.PrismObjectDocumentQueryParamsQueryFilterUnion{{
-				"foo": micro.PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEq{
-					Equals: micro.F[micro.PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion](shared.UnionString("string")),
+				"full_name": micro.PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEq{
+					Equals: micro.F[micro.PrismObjectDocumentQueryParamsQueryFilterPrismQueryFilterEqEqualsUnion](shared.UnionString("Sarah Chen")),
 				},
 			}}),
-			Limit:  micro.F(int64(1)),
+			Limit:  micro.F(int64(10)),
 			ListID: micro.F("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"),
 			Page:   micro.F(int64(0)),
 			Sort: micro.F([]map[string]micro.PrismObjectDocumentQueryParamsQuerySort{{
 				"foo": micro.PrismObjectDocumentQueryParamsQuerySortAsc,
 			}}),
 		}),
-		ID:           micro.F[micro.PrismObjectDocumentQueryParamsIDUnion](shared.UnionString("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")),
-		Boxes:        micro.F([]string{"string"}),
-		Cursor:       micro.F("cursor"),
-		Deleted:      micro.F(true),
-		IncludeTotal: micro.F(true),
-		Sources:      micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
+		ID:             micro.F[micro.PrismObjectDocumentQueryParamsIDUnion](shared.UnionString("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")),
+		Boxes:          micro.F([]string{"string"}),
+		Cursor:         micro.F("cursor"),
+		Deleted:        micro.F(true),
+		IncludeTotal:   micro.F(true),
+		Sources:        micro.F([]string{"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e"}),
+		IdempotencyKey: micro.F("x"),
 	})
 	if err != nil {
 		var apierr *micro.Error

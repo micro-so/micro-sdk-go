@@ -292,6 +292,9 @@ func (r *PrismObjectIdentityService) Get(ctx context.Context, identityID string,
 
 // Query
 func (r *PrismObjectIdentityService) Query(ctx context.Context, params PrismObjectIdentityQueryParams, opts ...option.RequestOption) (res *PrismObjectIdentityQueryResponse, err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -1356,8 +1359,9 @@ type PrismObjectIdentityQueryParams struct {
 	// When true, the response includes a `total` field with the unpaginated row count.
 	// Costs an additional pass over the result set — for unfiltered totals prefer
 	// `GET /v2/prism/{teamId}/{objectType}/count` instead.
-	IncludeTotal param.Field[bool]     `json:"include_total"`
-	Sources      param.Field[[]string] `json:"sources" format:"uuid"`
+	IncludeTotal   param.Field[bool]     `json:"include_total"`
+	Sources        param.Field[[]string] `json:"sources" format:"uuid"`
+	IdempotencyKey param.Field[string]   `header:"Idempotency-Key"`
 }
 
 func (r PrismObjectIdentityQueryParams) MarshalJSON() (data []byte, err error) {

@@ -142,6 +142,7 @@ func TestTriggeredAutomationUpdateWithOptionalParams(t *testing.T) {
 				UpdatedAt: micro.F("updated_at"),
 				UserID:    micro.F("user_id"),
 			},
+			IdempotencyKey: micro.F("x"),
 		},
 	)
 	if err != nil {

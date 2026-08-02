@@ -58,6 +58,9 @@ func (r *TriggeredAutomationService) New(ctx context.Context, automationObjectTy
 
 // Replace a triggered automation (idempotent full write of the whole tree)
 func (r *TriggeredAutomationService) Update(ctx context.Context, automationObjectType TriggeredAutomationUpdateParamsAutomationObjectType, automationID string, params TriggeredAutomationUpdateParams, opts ...option.RequestOption) (res *TriggeredAutomation, err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -582,6 +585,7 @@ type TriggeredAutomationUpdateParams struct {
 	// permits dot-paths (nested reference filters); `changeset` is direct properties
 	// only. Object type is taken from the path.
 	TriggeredAutomation TriggeredAutomationParam `json:"triggered_automation" api:"required"`
+	IdempotencyKey      param.Field[string]      `header:"Idempotency-Key"`
 }
 
 func (r TriggeredAutomationUpdateParams) MarshalJSON() (data []byte, err error) {
