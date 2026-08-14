@@ -22,6 +22,7 @@ type PrismObjectService struct {
 	Documents     *PrismObjectDocumentService
 	Events        *PrismObjectEventService
 	Engagements   *PrismObjectEngagementService
+	Messages      *PrismObjectMessageService
 }
 
 // NewPrismObjectService generates a new service that applies the given options to
@@ -38,5 +39,6 @@ func NewPrismObjectService(opts ...option.RequestOption) (r *PrismObjectService)
 	r.Documents = NewPrismObjectDocumentService(opts...)
 	r.Events = NewPrismObjectEventService(opts...)
 	r.Engagements = NewPrismObjectEngagementService(opts...)
+	r.Messages = NewPrismObjectMessageService(opts...)
 	return
 }

@@ -31,6 +31,7 @@ func TestPrismObjectDocumentGrantUpdateWithOptionalParams(t *testing.T) {
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
 		micro.PrismObjectDocumentGrantUpdateParams{
+			ShareLevel: micro.F(micro.PrismObjectDocumentGrantUpdateParamsShareLevelMetadata),
 			TeamGroupID: micro.F([]map[string]micro.PrismObjectDocumentGrantUpdateParamsTeamGroupID{{
 				"foo": micro.PrismObjectDocumentGrantUpdateParamsTeamGroupIDA,
 			}}),

@@ -13,7 +13,7 @@ import (
 	"github.com/micro-so/micro-sdk-go/option"
 )
 
-func TestPrismObjectEventGrantUpdateWithOptionalParams(t *testing.T) {
+func TestPrismObjectMessageGrantUpdateWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -27,19 +27,19 @@ func TestPrismObjectEventGrantUpdateWithOptionalParams(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Prism.Objects.Events.Grant.Update(
+	_, err := client.Prism.Objects.Messages.Grant.Update(
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismObjectEventGrantUpdateParams{
-			ShareLevel: micro.F(micro.PrismObjectEventGrantUpdateParamsShareLevelMetadata),
-			TeamGroupID: micro.F([]map[string]micro.PrismObjectEventGrantUpdateParamsTeamGroupID{{
-				"foo": micro.PrismObjectEventGrantUpdateParamsTeamGroupIDA,
+		micro.PrismObjectMessageGrantUpdateParams{
+			ShareLevel: micro.F(micro.PrismObjectMessageGrantUpdateParamsShareLevelMetadata),
+			TeamGroupID: micro.F([]map[string]micro.PrismObjectMessageGrantUpdateParamsTeamGroupID{{
+				"foo": micro.PrismObjectMessageGrantUpdateParamsTeamGroupIDA,
 			}}),
-			BodyTeamID: micro.F(map[string]micro.PrismObjectEventGrantUpdateParamsTeamID{
-				"foo": micro.PrismObjectEventGrantUpdateParamsTeamIDA,
+			BodyTeamID: micro.F(map[string]micro.PrismObjectMessageGrantUpdateParamsTeamID{
+				"foo": micro.PrismObjectMessageGrantUpdateParamsTeamIDA,
 			}),
-			UserID: micro.F([]map[string]micro.PrismObjectEventGrantUpdateParamsUserID{{
-				"foo": micro.PrismObjectEventGrantUpdateParamsUserIDA,
+			UserID: micro.F([]map[string]micro.PrismObjectMessageGrantUpdateParamsUserID{{
+				"foo": micro.PrismObjectMessageGrantUpdateParamsUserIDA,
 			}}),
 			IdempotencyKey: micro.F("x"),
 		},
@@ -53,7 +53,7 @@ func TestPrismObjectEventGrantUpdateWithOptionalParams(t *testing.T) {
 	}
 }
 
-func TestPrismObjectEventGrantGet(t *testing.T) {
+func TestPrismObjectMessageGrantGet(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
@@ -67,10 +67,10 @@ func TestPrismObjectEventGrantGet(t *testing.T) {
 		option.WithAPIKey("My API Key"),
 		option.WithTeamID("My Team ID"),
 	)
-	_, err := client.Prism.Objects.Events.Grant.Get(
+	_, err := client.Prism.Objects.Messages.Grant.Get(
 		context.TODO(),
 		"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-		micro.PrismObjectEventGrantGetParams{},
+		micro.PrismObjectMessageGrantGetParams{},
 	)
 	if err != nil {
 		var apierr *micro.Error

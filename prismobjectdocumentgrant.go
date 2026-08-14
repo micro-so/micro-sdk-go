@@ -79,21 +79,37 @@ func (r *PrismObjectDocumentGrantService) Get(ctx context.Context, documentID st
 	return res, err
 }
 
+// The grants on a record. For `message`, also carries the entity ids of everyone
+// on the message, resolved from its address headers when the grant was written.
+// The id arrays are read-only and are null when participant resolution was
+// unavailable (for example the mailbox had no Gmail token at the time).
 type PrismObjectDocumentGrantUpdateResponse struct {
-	TeamGroupID []map[string]PrismObjectDocumentGrantUpdateResponseTeamGroupID `json:"team_group_id"`
-	TeamID      map[string]PrismObjectDocumentGrantUpdateResponseTeamID        `json:"team_id"`
-	UserID      []map[string]PrismObjectDocumentGrantUpdateResponseUserID      `json:"user_id"`
-	JSON        prismObjectDocumentGrantUpdateResponseJSON                     `json:"-"`
+	ContactIDs      []string                                                 `json:"contact_ids" api:"nullable" format:"uuid"`
+	GroupID         map[string]PrismObjectDocumentGrantUpdateResponseGroupID `json:"group_id"`
+	IdentityIDs     []string                                                 `json:"identity_ids" api:"nullable" format:"uuid"`
+	OrganizationIDs []string                                                 `json:"organization_ids" api:"nullable" format:"uuid"`
+	// How much of the record the grant exposes. `metadata` shares only the record's
+	// headers and participants; `full` shares its contents. Currently recorded on the
+	// access row and returned on read — it is not yet enforced by the read path.
+	// Applies to `message` grants; ignored for other object types.
+	ShareLevel PrismObjectDocumentGrantUpdateResponseShareLevel        `json:"share_level"`
+	TeamID     map[string]PrismObjectDocumentGrantUpdateResponseTeamID `json:"team_id"`
+	UserID     map[string]PrismObjectDocumentGrantUpdateResponseUserID `json:"user_id"`
+	JSON       prismObjectDocumentGrantUpdateResponseJSON              `json:"-"`
 }
 
 // prismObjectDocumentGrantUpdateResponseJSON contains the JSON metadata for the
 // struct [PrismObjectDocumentGrantUpdateResponse]
 type prismObjectDocumentGrantUpdateResponseJSON struct {
-	TeamGroupID apijson.Field
-	TeamID      apijson.Field
-	UserID      apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ContactIDs      apijson.Field
+	GroupID         apijson.Field
+	IdentityIDs     apijson.Field
+	OrganizationIDs apijson.Field
+	ShareLevel      apijson.Field
+	TeamID          apijson.Field
+	UserID          apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *PrismObjectDocumentGrantUpdateResponse) UnmarshalJSON(data []byte) (err error) {
@@ -104,17 +120,36 @@ func (r prismObjectDocumentGrantUpdateResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-type PrismObjectDocumentGrantUpdateResponseTeamGroupID string
+type PrismObjectDocumentGrantUpdateResponseGroupID string
 
 const (
-	PrismObjectDocumentGrantUpdateResponseTeamGroupIDA PrismObjectDocumentGrantUpdateResponseTeamGroupID = "a"
-	PrismObjectDocumentGrantUpdateResponseTeamGroupIDR PrismObjectDocumentGrantUpdateResponseTeamGroupID = "r"
-	PrismObjectDocumentGrantUpdateResponseTeamGroupIDW PrismObjectDocumentGrantUpdateResponseTeamGroupID = "w"
+	PrismObjectDocumentGrantUpdateResponseGroupIDA PrismObjectDocumentGrantUpdateResponseGroupID = "a"
+	PrismObjectDocumentGrantUpdateResponseGroupIDR PrismObjectDocumentGrantUpdateResponseGroupID = "r"
+	PrismObjectDocumentGrantUpdateResponseGroupIDW PrismObjectDocumentGrantUpdateResponseGroupID = "w"
 )
 
-func (r PrismObjectDocumentGrantUpdateResponseTeamGroupID) IsKnown() bool {
+func (r PrismObjectDocumentGrantUpdateResponseGroupID) IsKnown() bool {
 	switch r {
-	case PrismObjectDocumentGrantUpdateResponseTeamGroupIDA, PrismObjectDocumentGrantUpdateResponseTeamGroupIDR, PrismObjectDocumentGrantUpdateResponseTeamGroupIDW:
+	case PrismObjectDocumentGrantUpdateResponseGroupIDA, PrismObjectDocumentGrantUpdateResponseGroupIDR, PrismObjectDocumentGrantUpdateResponseGroupIDW:
+		return true
+	}
+	return false
+}
+
+// How much of the record the grant exposes. `metadata` shares only the record's
+// headers and participants; `full` shares its contents. Currently recorded on the
+// access row and returned on read — it is not yet enforced by the read path.
+// Applies to `message` grants; ignored for other object types.
+type PrismObjectDocumentGrantUpdateResponseShareLevel string
+
+const (
+	PrismObjectDocumentGrantUpdateResponseShareLevelMetadata PrismObjectDocumentGrantUpdateResponseShareLevel = "metadata"
+	PrismObjectDocumentGrantUpdateResponseShareLevelFull     PrismObjectDocumentGrantUpdateResponseShareLevel = "full"
+)
+
+func (r PrismObjectDocumentGrantUpdateResponseShareLevel) IsKnown() bool {
+	switch r {
+	case PrismObjectDocumentGrantUpdateResponseShareLevelMetadata, PrismObjectDocumentGrantUpdateResponseShareLevelFull:
 		return true
 	}
 	return false
@@ -152,21 +187,37 @@ func (r PrismObjectDocumentGrantUpdateResponseUserID) IsKnown() bool {
 	return false
 }
 
+// The grants on a record. For `message`, also carries the entity ids of everyone
+// on the message, resolved from its address headers when the grant was written.
+// The id arrays are read-only and are null when participant resolution was
+// unavailable (for example the mailbox had no Gmail token at the time).
 type PrismObjectDocumentGrantGetResponse struct {
-	TeamGroupID []map[string]PrismObjectDocumentGrantGetResponseTeamGroupID `json:"team_group_id"`
-	TeamID      map[string]PrismObjectDocumentGrantGetResponseTeamID        `json:"team_id"`
-	UserID      []map[string]PrismObjectDocumentGrantGetResponseUserID      `json:"user_id"`
-	JSON        prismObjectDocumentGrantGetResponseJSON                     `json:"-"`
+	ContactIDs      []string                                              `json:"contact_ids" api:"nullable" format:"uuid"`
+	GroupID         map[string]PrismObjectDocumentGrantGetResponseGroupID `json:"group_id"`
+	IdentityIDs     []string                                              `json:"identity_ids" api:"nullable" format:"uuid"`
+	OrganizationIDs []string                                              `json:"organization_ids" api:"nullable" format:"uuid"`
+	// How much of the record the grant exposes. `metadata` shares only the record's
+	// headers and participants; `full` shares its contents. Currently recorded on the
+	// access row and returned on read — it is not yet enforced by the read path.
+	// Applies to `message` grants; ignored for other object types.
+	ShareLevel PrismObjectDocumentGrantGetResponseShareLevel        `json:"share_level"`
+	TeamID     map[string]PrismObjectDocumentGrantGetResponseTeamID `json:"team_id"`
+	UserID     map[string]PrismObjectDocumentGrantGetResponseUserID `json:"user_id"`
+	JSON       prismObjectDocumentGrantGetResponseJSON              `json:"-"`
 }
 
 // prismObjectDocumentGrantGetResponseJSON contains the JSON metadata for the
 // struct [PrismObjectDocumentGrantGetResponse]
 type prismObjectDocumentGrantGetResponseJSON struct {
-	TeamGroupID apijson.Field
-	TeamID      apijson.Field
-	UserID      apijson.Field
-	raw         string
-	ExtraFields map[string]apijson.Field
+	ContactIDs      apijson.Field
+	GroupID         apijson.Field
+	IdentityIDs     apijson.Field
+	OrganizationIDs apijson.Field
+	ShareLevel      apijson.Field
+	TeamID          apijson.Field
+	UserID          apijson.Field
+	raw             string
+	ExtraFields     map[string]apijson.Field
 }
 
 func (r *PrismObjectDocumentGrantGetResponse) UnmarshalJSON(data []byte) (err error) {
@@ -177,17 +228,36 @@ func (r prismObjectDocumentGrantGetResponseJSON) RawJSON() string {
 	return r.raw
 }
 
-type PrismObjectDocumentGrantGetResponseTeamGroupID string
+type PrismObjectDocumentGrantGetResponseGroupID string
 
 const (
-	PrismObjectDocumentGrantGetResponseTeamGroupIDA PrismObjectDocumentGrantGetResponseTeamGroupID = "a"
-	PrismObjectDocumentGrantGetResponseTeamGroupIDR PrismObjectDocumentGrantGetResponseTeamGroupID = "r"
-	PrismObjectDocumentGrantGetResponseTeamGroupIDW PrismObjectDocumentGrantGetResponseTeamGroupID = "w"
+	PrismObjectDocumentGrantGetResponseGroupIDA PrismObjectDocumentGrantGetResponseGroupID = "a"
+	PrismObjectDocumentGrantGetResponseGroupIDR PrismObjectDocumentGrantGetResponseGroupID = "r"
+	PrismObjectDocumentGrantGetResponseGroupIDW PrismObjectDocumentGrantGetResponseGroupID = "w"
 )
 
-func (r PrismObjectDocumentGrantGetResponseTeamGroupID) IsKnown() bool {
+func (r PrismObjectDocumentGrantGetResponseGroupID) IsKnown() bool {
 	switch r {
-	case PrismObjectDocumentGrantGetResponseTeamGroupIDA, PrismObjectDocumentGrantGetResponseTeamGroupIDR, PrismObjectDocumentGrantGetResponseTeamGroupIDW:
+	case PrismObjectDocumentGrantGetResponseGroupIDA, PrismObjectDocumentGrantGetResponseGroupIDR, PrismObjectDocumentGrantGetResponseGroupIDW:
+		return true
+	}
+	return false
+}
+
+// How much of the record the grant exposes. `metadata` shares only the record's
+// headers and participants; `full` shares its contents. Currently recorded on the
+// access row and returned on read — it is not yet enforced by the read path.
+// Applies to `message` grants; ignored for other object types.
+type PrismObjectDocumentGrantGetResponseShareLevel string
+
+const (
+	PrismObjectDocumentGrantGetResponseShareLevelMetadata PrismObjectDocumentGrantGetResponseShareLevel = "metadata"
+	PrismObjectDocumentGrantGetResponseShareLevelFull     PrismObjectDocumentGrantGetResponseShareLevel = "full"
+)
+
+func (r PrismObjectDocumentGrantGetResponseShareLevel) IsKnown() bool {
+	switch r {
+	case PrismObjectDocumentGrantGetResponseShareLevelMetadata, PrismObjectDocumentGrantGetResponseShareLevelFull:
 		return true
 	}
 	return false
@@ -227,7 +297,12 @@ func (r PrismObjectDocumentGrantGetResponseUserID) IsKnown() bool {
 
 type PrismObjectDocumentGrantUpdateParams struct {
 	// Use [option.WithTeamID] on the client to set a global default for this field.
-	PathTeamID     param.Field[string]                                                       `path:"teamId" api:"required" format:"uuid"`
+	PathTeamID param.Field[string] `path:"teamId" api:"required" format:"uuid"`
+	// How much of the record the grant exposes. `metadata` shares only the record's
+	// headers and participants; `full` shares its contents. Currently recorded on the
+	// access row and returned on read — it is not yet enforced by the read path.
+	// Applies to `message` grants; ignored for other object types.
+	ShareLevel     param.Field[PrismObjectDocumentGrantUpdateParamsShareLevel]               `json:"share_level"`
 	TeamGroupID    param.Field[[]map[string]PrismObjectDocumentGrantUpdateParamsTeamGroupID] `json:"team_group_id"`
 	BodyTeamID     param.Field[map[string]PrismObjectDocumentGrantUpdateParamsTeamID]        `json:"team_id"`
 	UserID         param.Field[[]map[string]PrismObjectDocumentGrantUpdateParamsUserID]      `json:"user_id"`
@@ -236,6 +311,25 @@ type PrismObjectDocumentGrantUpdateParams struct {
 
 func (r PrismObjectDocumentGrantUpdateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r)
+}
+
+// How much of the record the grant exposes. `metadata` shares only the record's
+// headers and participants; `full` shares its contents. Currently recorded on the
+// access row and returned on read — it is not yet enforced by the read path.
+// Applies to `message` grants; ignored for other object types.
+type PrismObjectDocumentGrantUpdateParamsShareLevel string
+
+const (
+	PrismObjectDocumentGrantUpdateParamsShareLevelMetadata PrismObjectDocumentGrantUpdateParamsShareLevel = "metadata"
+	PrismObjectDocumentGrantUpdateParamsShareLevelFull     PrismObjectDocumentGrantUpdateParamsShareLevel = "full"
+)
+
+func (r PrismObjectDocumentGrantUpdateParamsShareLevel) IsKnown() bool {
+	switch r {
+	case PrismObjectDocumentGrantUpdateParamsShareLevelMetadata, PrismObjectDocumentGrantUpdateParamsShareLevelFull:
+		return true
+	}
+	return false
 }
 
 type PrismObjectDocumentGrantUpdateParamsTeamGroupID string

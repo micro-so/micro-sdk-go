@@ -405,6 +405,20 @@ Methods:
 - <code title="put /v2/prism/{teamId}/engagement/{engagementId}/grant">client.Prism.Objects.Engagements.Grant.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEngagementGrantService.Update">Update</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, engagementID <a href="https://pkg.go.dev/builtin#string">string</a>, params <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEngagementGrantUpdateParams">PrismObjectEngagementGrantUpdateParams</a>) (\*<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEngagementGrantUpdateResponse">PrismObjectEngagementGrantUpdateResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 - <code title="get /v2/prism/{teamId}/engagement/{engagementId}/grant">client.Prism.Objects.Engagements.Grant.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEngagementGrantService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, engagementID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEngagementGrantGetParams">PrismObjectEngagementGrantGetParams</a>) (\*<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectEngagementGrantGetResponse">PrismObjectEngagementGrantGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
+### Messages
+
+#### Grant
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectMessageGrantUpdateResponse">PrismObjectMessageGrantUpdateResponse</a>
+- <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectMessageGrantGetResponse">PrismObjectMessageGrantGetResponse</a>
+
+Methods:
+
+- <code title="put /v2/prism/{teamId}/message/{messageId}/grant">client.Prism.Objects.Messages.Grant.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectMessageGrantService.Update">Update</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, messageID <a href="https://pkg.go.dev/builtin#string">string</a>, params <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectMessageGrantUpdateParams">PrismObjectMessageGrantUpdateParams</a>) (\*<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectMessageGrantUpdateResponse">PrismObjectMessageGrantUpdateResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="get /v2/prism/{teamId}/message/{messageId}/grant">client.Prism.Objects.Messages.Grant.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectMessageGrantService.Get">Get</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, messageID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectMessageGrantGetParams">PrismObjectMessageGrantGetParams</a>) (\*<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go">micro</a>.<a href="https://pkg.go.dev/github.com/micro-so/micro-sdk-go#PrismObjectMessageGrantGetResponse">PrismObjectMessageGrantGetResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
 # Views
 
 Response Types:
