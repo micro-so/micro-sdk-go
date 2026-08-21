@@ -133,7 +133,11 @@ func (r *PrismPropertyService) Delete(ctx context.Context, objectType PrismPrope
 	return err
 }
 
-// Get metadata properties
+// Lists property definitions across every object type the engine knows about,
+// including pipeline-owned types that are not queryable or CRUD-capable
+// (`message`, `thread`, `linkedin_thread`, and others). Only the `ObjectType` enum
+// (12 types) can be queried, created, updated, or listed. Contacts point at
+// `message` via `last_email`; that relationship cannot be followed with `/query`.
 func (r *PrismPropertyService) ListAll(ctx context.Context, params PrismPropertyListAllParams, opts ...option.RequestOption) (res *PrismPropertyListAllResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
@@ -476,6 +480,11 @@ func (r PrismPropertyNewParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r.PropertyDefinitionCreate)
 }
 
+// Object types that support CRUD, query, list, and per-type property metadata.
+// `GET /v2/prism/{teamId}/properties` (list-all) also returns definitions for
+// pipeline-owned types that are not in this set — including `message`, `thread`,
+// and `linkedin_thread`. Those types are not queryable. Contacts expose
+// `last_email` as a `ref_message`; you cannot query `message` to follow it.
 type PrismPropertyNewParamsObjectType string
 
 const (
@@ -514,6 +523,11 @@ func (r PrismPropertyUpdateParams) MarshalJSON() (data []byte, err error) {
 	return apijson.MarshalRoot(r.PropertyDefinitionPatch)
 }
 
+// Object types that support CRUD, query, list, and per-type property metadata.
+// `GET /v2/prism/{teamId}/properties` (list-all) also returns definitions for
+// pipeline-owned types that are not in this set — including `message`, `thread`,
+// and `linkedin_thread`. Those types are not queryable. Contacts expose
+// `last_email` as a `ref_message`; you cannot query `message` to follow it.
 type PrismPropertyUpdateParamsObjectType string
 
 const (
@@ -568,6 +582,11 @@ func (r PrismPropertyListParams) URLQuery() (v url.Values) {
 	})
 }
 
+// Object types that support CRUD, query, list, and per-type property metadata.
+// `GET /v2/prism/{teamId}/properties` (list-all) also returns definitions for
+// pipeline-owned types that are not in this set — including `message`, `thread`,
+// and `linkedin_thread`. Those types are not queryable. Contacts expose
+// `last_email` as a `ref_message`; you cannot query `message` to follow it.
 type PrismPropertyListParamsObjectType string
 
 const (
@@ -641,6 +660,11 @@ func (r PrismPropertyDeleteParams) URLQuery() (v url.Values) {
 	})
 }
 
+// Object types that support CRUD, query, list, and per-type property metadata.
+// `GET /v2/prism/{teamId}/properties` (list-all) also returns definitions for
+// pipeline-owned types that are not in this set — including `message`, `thread`,
+// and `linkedin_thread`. Those types are not queryable. Contacts expose
+// `last_email` as a `ref_message`; you cannot query `message` to follow it.
 type PrismPropertyDeleteParamsObjectType string
 
 const (

@@ -37,7 +37,11 @@ func NewPrismObjectIdentityService(opts ...option.RequestOption) (r *PrismObject
 	return
 }
 
-// Create object
+// Creates a record. For `document`, writing `content` (or HTML) stores the
+// property and reads back, but the in-app editor is CRDT-backed and will render a
+// blank page until that document has been opened and saved in the app. Treat
+// API-created docs as data records, not as collaboratively edited pages, unless
+// you only need the stored property values.
 func (r *PrismObjectIdentityService) New(ctx context.Context, params PrismObjectIdentityNewParams, opts ...option.RequestOption) (res *PrismObjectIdentityNewResponse, err error) {
 	if params.IdempotencyKey.Present {
 		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
@@ -202,7 +206,10 @@ func (r *PrismObjectIdentityService) BulkUpdate(ctx context.Context, params Pris
 // Avoids the page-overshoot anti-pattern — clients no longer need to keep paging
 // until `has_more` flips false to discover the total. Currently does not apply
 // query filters; for a filtered total, pass `include_total: true` in a POST
-// `/query` body.
+// `/query` body. Unfiltered counts on high-cardinality types (especially
+// `engagement`) scan the full access-scoped set and can take tens of seconds or
+// time out; prefer a filtered `include_total` query or accept that this endpoint
+// is expensive there.
 func (r *PrismObjectIdentityService) Count(ctx context.Context, params PrismObjectIdentityCountParams, opts ...option.RequestOption) (res *PrismObjectIdentityCountResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
@@ -1027,8 +1034,10 @@ type PrismObjectIdentityQueryResponse struct {
 	// fetches one extra row internally to determine this — clients never need to
 	// overshoot to discover the end.)
 	HasMore bool `json:"has_more" api:"required"`
-	// Opaque cursor pointing at the next page. Pass it back unchanged in the request
-	// body (`cursor`) of the next call. Null when `has_more` is false.
+	// Opaque cursor pointing at the next page. Pass it back unchanged. Do not parse
+	// it. The current encoding is offset-based (page + limit), so it has the same
+	// concurrent-write drift the deprecated `page` parameter has; treat it as a black
+	// box so a future keyset cursor is a drop-in. Null when `has_more` is false.
 	NextCursor string `json:"next_cursor" api:"nullable"`
 	// Only populated when the request set `include_total: true`. Total number of
 	// records matching the query, ignoring pagination. Opt-in because it costs an
