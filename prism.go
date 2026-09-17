@@ -38,7 +38,13 @@ func NewPrismService(opts ...option.RequestOption) (r *PrismService) {
 type PrismObjectPropertiesParam struct {
 	// Properties keyed by property slug. Values can be strings, numbers, booleans,
 	// arrays, or null. For select/multiselect properties, values may be option slugs
-	// or option UUIDs on write; option slugs are returned on read.
+	// or option UUIDs on write; option slugs are returned on read. Identity
+	// email_addresses accepts contact UUIDs or email strings on create/update. Emails
+	// use Micro normalization and resolve to contact links within the write
+	// transaction; creating an identity does not merge other identities. Arrays
+	// replace links; {\_op: 'append'|'remove', values: [...]} changes only the
+	// specified links. Removing an email never creates a contact. Identity companies
+	// contains organization UUIDs, whose read access is checked when adding links.
 	Default param.Field[map[string]interface{}] `json:"default"`
 	List    param.Field[interface{}]            `json:"list"`
 }

@@ -332,6 +332,38 @@ func TestPrismObjectIdentityFindWithOptionalParams(t *testing.T) {
 	}
 }
 
+func TestPrismObjectIdentityFindOrNewWithOptionalParams(t *testing.T) {
+	t.Skip("Mock server tests are disabled")
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := micro.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+		option.WithTeamID("My Team ID"),
+	)
+	_, err := client.Prism.Objects.Identities.FindOrNew(context.TODO(), micro.PrismObjectIdentityFindOrNewParams{
+		Match: micro.F(micro.PrismObjectIdentityFindOrNewParamsMatch{
+			EmailAddress: micro.F("email_address"),
+		}),
+		Defaults: micro.F(map[string]interface{}{
+			"foo": "bar",
+		}),
+		IdempotencyKey: micro.F("x"),
+	})
+	if err != nil {
+		var apierr *micro.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
 func TestPrismObjectIdentityGetWithOptionalParams(t *testing.T) {
 	t.Skip("Mock server tests are disabled")
 	baseURL := "http://localhost:4010"

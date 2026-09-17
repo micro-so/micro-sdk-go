@@ -276,6 +276,31 @@ func (r *PrismObjectIdentityService) Find(ctx context.Context, slug string, valu
 	return res, err
 }
 
+// Matches identity by normalized email_address or organization by canonical
+// lowercase primary_domain. defaults is a flat slug/value object used only on
+// creation; do not include the matching field. Returns 409 for multiple visible
+// matches. Same-key calls through this endpoint serialize; ordinary creates and
+// updates do not participate. Matching is workspace- and caller-access-scoped, not
+// a global uniqueness guarantee.
+func (r *PrismObjectIdentityService) FindOrNew(ctx context.Context, params PrismObjectIdentityFindOrNewParams, opts ...option.RequestOption) (res *PrismObjectIdentityFindOrNewResponse, err error) {
+	if params.IdempotencyKey.Present {
+		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
+	}
+	opts = slices.Concat(r.Options, opts)
+	precfg, err := requestconfig.PreRequestOptions(opts...)
+	if err != nil {
+		return nil, err
+	}
+	requestconfig.UseDefaultParam(&params.TeamID, precfg.TeamID)
+	if params.TeamID.Value == "" {
+		err = errors.New("missing required teamId parameter")
+		return nil, err
+	}
+	path := fmt.Sprintf("v2/prism/%s/identity/find-or-create", params.TeamID)
+	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, params, &res, opts...)
+	return res, err
+}
+
 // Get object
 func (r *PrismObjectIdentityService) Get(ctx context.Context, identityID string, params PrismObjectIdentityGetParams, opts ...option.RequestOption) (res *PrismObjectIdentityGetResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
@@ -1000,6 +1025,51 @@ func (r prismObjectIdentityFindResponseJSON) RawJSON() string {
 	return r.raw
 }
 
+type PrismObjectIdentityFindOrNewResponse struct {
+	Created bool                                       `json:"created" api:"required"`
+	Record  PrismObjectIdentityFindOrNewResponseRecord `json:"record" api:"required"`
+	JSON    prismObjectIdentityFindOrNewResponseJSON   `json:"-"`
+}
+
+// prismObjectIdentityFindOrNewResponseJSON contains the JSON metadata for the
+// struct [PrismObjectIdentityFindOrNewResponse]
+type prismObjectIdentityFindOrNewResponseJSON struct {
+	Created     apijson.Field
+	Record      apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectIdentityFindOrNewResponse) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectIdentityFindOrNewResponseJSON) RawJSON() string {
+	return r.raw
+}
+
+type PrismObjectIdentityFindOrNewResponseRecord struct {
+	ID          string                                         `json:"id" api:"required"`
+	ExtraFields map[string]interface{}                         `json:"-" api:"extrafields"`
+	JSON        prismObjectIdentityFindOrNewResponseRecordJSON `json:"-"`
+}
+
+// prismObjectIdentityFindOrNewResponseRecordJSON contains the JSON metadata for
+// the struct [PrismObjectIdentityFindOrNewResponseRecord]
+type prismObjectIdentityFindOrNewResponseRecordJSON struct {
+	ID          apijson.Field
+	raw         string
+	ExtraFields map[string]apijson.Field
+}
+
+func (r *PrismObjectIdentityFindOrNewResponseRecord) UnmarshalJSON(data []byte) (err error) {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+func (r prismObjectIdentityFindOrNewResponseRecordJSON) RawJSON() string {
+	return r.raw
+}
+
 // Object returned by reads (get/create/patch/restore). id is always present.
 type PrismObjectIdentityGetResponse struct {
 	ID string `json:"id" api:"required" format:"uuid"`
@@ -1336,6 +1406,26 @@ func (r PrismObjectIdentityFindParams) URLQuery() (v url.Values) {
 		ArrayFormat:  apiquery.ArrayQueryFormatComma,
 		NestedFormat: apiquery.NestedQueryFormatBrackets,
 	})
+}
+
+type PrismObjectIdentityFindOrNewParams struct {
+	// Use [option.WithTeamID] on the client to set a global default for this field.
+	TeamID         param.Field[string]                                  `path:"teamId" api:"required" format:"uuid"`
+	Match          param.Field[PrismObjectIdentityFindOrNewParamsMatch] `json:"match" api:"required"`
+	Defaults       param.Field[map[string]interface{}]                  `json:"defaults"`
+	IdempotencyKey param.Field[string]                                  `header:"Idempotency-Key"`
+}
+
+func (r PrismObjectIdentityFindOrNewParams) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
+}
+
+type PrismObjectIdentityFindOrNewParamsMatch struct {
+	EmailAddress param.Field[string] `json:"email_address" api:"required"`
+}
+
+func (r PrismObjectIdentityFindOrNewParamsMatch) MarshalJSON() (data []byte, err error) {
+	return apijson.MarshalRoot(r)
 }
 
 type PrismObjectIdentityGetParams struct {
