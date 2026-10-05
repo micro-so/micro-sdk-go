@@ -244,11 +244,11 @@ which can be used to wrap any `io.Reader` with the appropriate file name and con
 
 ### Retries
 
-Certain errors will be automatically retried 2 times by default, with a short exponential backoff.
-We retry by default all connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,
+Read requests (GET, HEAD, OPTIONS, and both public Prism query POST routes) retry up to 2 times by default with exponential backoff. Writes do not retry automatically, even with an idempotency key: a connection failure or server error may follow a completed side effect.
+For those reads, we retry connection errors, 408 Request Timeout, 409 Conflict, 429 Rate Limit,
 and >=500 Internal errors.
 
-You can use the `WithMaxRetries` option to configure or disable this:
+An explicit `WithMaxRetries` at client or request level overrides these defaults for reads **and writes**. Opt in to write retries only after accounting for uncertain outcomes:
 
 ```go
 // Configure the default for all requests:
