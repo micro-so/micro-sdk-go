@@ -24,8 +24,9 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewPrismPropertyService] method instead.
 type PrismPropertyService struct {
-	Options []option.RequestOption
-	Options *PrismPropertyOptionService
+	// RequestOptions is named separately from the nested property-options service.
+	RequestOptions []option.RequestOption
+	Options        *PrismPropertyOptionService
 }
 
 // NewPrismPropertyService generates a new service that applies the given options
@@ -33,7 +34,7 @@ type PrismPropertyService struct {
 // there is one), and before any request-specific options.
 func NewPrismPropertyService(opts ...option.RequestOption) (r *PrismPropertyService) {
 	r = &PrismPropertyService{}
-	r.Options = opts
+	r.RequestOptions = opts
 	r.Options = NewPrismPropertyOptionService(opts...)
 	return
 }
@@ -52,7 +53,7 @@ func (r *PrismPropertyService) New(ctx context.Context, objectType PrismProperty
 	if params.IdempotencyKey.Present {
 		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
 	}
-	opts = slices.Concat(r.Options, opts)
+	opts = slices.Concat(r.RequestOptions, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
 		return nil, err
@@ -74,7 +75,7 @@ func (r *PrismPropertyService) Update(ctx context.Context, objectType PrismPrope
 	if params.IdempotencyKey.Present {
 		opts = append(opts, option.WithHeader("Idempotency-Key", fmt.Sprintf("%v", params.IdempotencyKey)))
 	}
-	opts = slices.Concat(r.Options, opts)
+	opts = slices.Concat(r.RequestOptions, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
 		return nil, err
@@ -95,7 +96,7 @@ func (r *PrismPropertyService) Update(ctx context.Context, objectType PrismPrope
 
 // Get metadata properties by object type
 func (r *PrismPropertyService) List(ctx context.Context, objectType PrismPropertyListParamsObjectType, params PrismPropertyListParams, opts ...option.RequestOption) (res *PrismPropertyListResponse, err error) {
-	opts = slices.Concat(r.Options, opts)
+	opts = slices.Concat(r.RequestOptions, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
 		return nil, err
@@ -113,7 +114,7 @@ func (r *PrismPropertyService) List(ctx context.Context, objectType PrismPropert
 // Removes the property definition and any of its options. Fails with 409
 // `property_in_use` if records still reference the property.
 func (r *PrismPropertyService) Delete(ctx context.Context, objectType PrismPropertyDeleteParamsObjectType, propertyID string, params PrismPropertyDeleteParams, opts ...option.RequestOption) (err error) {
-	opts = slices.Concat(r.Options, opts)
+	opts = slices.Concat(r.RequestOptions, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "*/*")}, opts...)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
@@ -135,7 +136,7 @@ func (r *PrismPropertyService) Delete(ctx context.Context, objectType PrismPrope
 
 // Get metadata properties
 func (r *PrismPropertyService) ListAll(ctx context.Context, params PrismPropertyListAllParams, opts ...option.RequestOption) (res *PrismPropertyListAllResponse, err error) {
-	opts = slices.Concat(r.Options, opts)
+	opts = slices.Concat(r.RequestOptions, opts)
 	precfg, err := requestconfig.PreRequestOptions(opts...)
 	if err != nil {
 		return nil, err

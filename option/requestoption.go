@@ -93,7 +93,8 @@ func WithMiddleware(middlewares ...Middleware) RequestOption {
 
 // WithMaxRetries returns a RequestOption that sets the maximum number of retries that the client
 // attempts to make. When given 0, the client only makes one request. By
-// default, the client retries two times.
+// default, reads retry twice and writes do not retry. Setting this option
+// explicitly opts in to that retry count for writes too.
 //
 // WithMaxRetries panics when retries is negative.
 func WithMaxRetries(retries int) RequestOption {

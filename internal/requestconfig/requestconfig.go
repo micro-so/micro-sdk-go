@@ -88,6 +88,19 @@ type PreRequestOptionFunc func(*RequestConfig) error
 func (s RequestOptionFunc) Apply(r *RequestConfig) error    { return s(r) }
 func (s PreRequestOptionFunc) Apply(r *RequestConfig) error { return s(r) }
 
+// Default retries are limited to reads. Even keyed writes can have uncertain
+// outcomes after a transport failure or a server error.
+func defaultMaxRetries(req *http.Request) int {
+	if req.Method == http.MethodGet || req.Method == http.MethodHead || req.Method == http.MethodOptions {
+		return 2
+	}
+	parts := strings.Split(strings.TrimPrefix(req.URL.Path, "/"), "/")
+	if req.Method == http.MethodPost && len(parts) == 5 && parts[0] == "v2" && parts[1] == "prism" && parts[2] != "" && parts[3] != "" && parts[4] != "" && (parts[2] == "query" || parts[4] == "query") {
+		return 2
+	}
+	return 0
+}
+
 func NewRequestConfig(ctx context.Context, method string, u string, body interface{}, dst interface{}, opts ...RequestOption) (*RequestConfig, error) {
 	var reader io.Reader
 
@@ -167,7 +180,7 @@ func NewRequestConfig(ctx context.Context, method string, u string, body interfa
 		req.Header.Add(k, v)
 	}
 	cfg := RequestConfig{
-		MaxRetries: 2,
+		MaxRetries: defaultMaxRetries(req),
 		Context:    ctx,
 		Request:    req,
 		HTTPClient: http.DefaultClient,
